@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2018 at 05:50 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Generation Time: Feb 22, 2018 at 05:20 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -47,34 +47,6 @@ CREATE TABLE `detailpictures` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `eventdetail`
---
-
-CREATE TABLE `eventdetail` (
-  `eventid` int(11) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `profilepic` varchar(100) DEFAULT NULL,
-  `location` varchar(100) DEFAULT NULL,
-  `attendeeslimit` int(11) DEFAULT NULL,
-  `preconditionid` int(11) DEFAULT NULL,
-  `codepattern` varchar(20) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL,
-  `feedback` varchar(20) DEFAULT NULL,
-  `cost` int(11) DEFAULT NULL,
-  `createddate` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `eventdetail`
---
-
-INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `codepattern`, `type`, `feedback`, `cost`, `createddate`) VALUES
-(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'reverse', 'Music', '-', 550, '2018-02-18 21:00:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `events`
 --
 
@@ -91,6 +63,33 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`eventcode`, `eventid`, `started`, `finished`) VALUES
 (5152, 1, '2018-02-23 18:00:00', '2018-02-23 21:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_detail`
+--
+
+CREATE TABLE `event_detail` (
+  `eventid` int(11) NOT NULL,
+  `name` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `profilepic` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `location` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `attendeeslimit` int(11) DEFAULT NULL,
+  `preconditionid` int(11) DEFAULT NULL,
+  `type` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
+  `feedback` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `createdtime` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_thai_520_w2;
+
+--
+-- Dumping data for table `event_detail`
+--
+
+INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createdtime`) VALUES
+(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'Music', '-', 550, '2018-02-18 21:00:00');
 
 -- --------------------------------------------------------
 
@@ -167,16 +166,16 @@ ALTER TABLE `detailpictures`
   ADD PRIMARY KEY (`eventid`,`picture`);
 
 --
--- Indexes for table `eventdetail`
---
-ALTER TABLE `eventdetail`
-  ADD PRIMARY KEY (`eventid`);
-
---
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`eventcode`);
+
+--
+-- Indexes for table `event_detail`
+--
+ALTER TABLE `event_detail`
+  ADD PRIMARY KEY (`eventid`);
 
 --
 -- Indexes for table `preconditions`
