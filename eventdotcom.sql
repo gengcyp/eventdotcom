@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2018 at 07:41 AM
+-- Generation Time: Feb 23, 2018 at 07:17 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -81,15 +81,36 @@ CREATE TABLE `event_detail` (
   `type` varchar(10) COLLATE utf8_thai_520_w2 DEFAULT NULL,
   `feedback` varchar(20) COLLATE utf8_thai_520_w2 DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
-  `createdtime` datetime DEFAULT NULL
+  `createdtime` datetime DEFAULT NULL,
+  `latitude` varchar(30) COLLATE utf8_thai_520_w2 DEFAULT NULL,
+  `longitude` varchar(30) COLLATE utf8_thai_520_w2 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_thai_520_w2;
 
 --
 -- Dumping data for table `event_detail`
 --
 
-INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createdtime`) VALUES
-(1, 'Test Event', 'Desc', 'profile-pic', 'KU', 999, 0, 'XXX', 'Feedback', 0, '2018-02-23 13:41:14');
+INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createdtime`, `latitude`, `longitude`) VALUES
+(1, 'Test Event', 'Desc', 'profile-pic', 'KU', 999, 0, 'XXX', 'Feedback', 0, '2018-02-23 13:41:14', NULL, NULL),
+(2, 'd', 'f', 'profile-pic', 'ddd', 2, 0, 'd', '', 0, '2018-02-24 00:48:14', NULL, NULL),
+(3, 'd', 'f', 'profile-pic', 'ddd', 2, 0, 'd', '', 0, '2018-02-24 00:49:38', NULL, NULL),
+(4, 'geng', 'gegn', 'profile-pic', 'ku', 99, 0, '0', '0', 0, '2018-02-24 00:49:53', NULL, NULL),
+(5, 'geng', 'gegn', 'profile-pic', 'ku', 99, 0, '0', '0', 0, '2018-02-24 00:50:46', NULL, NULL),
+(6, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:51:00', NULL, NULL),
+(7, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:57:33', NULL, NULL),
+(8, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:58:46', NULL, NULL),
+(9, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 00:59:02', NULL, NULL),
+(10, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 00:59:26', NULL, NULL),
+(11, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:00:19', NULL, NULL),
+(12, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:01:55', NULL, NULL),
+(13, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:02:07', NULL, NULL),
+(14, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:05:35', NULL, NULL),
+(15, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:05:42', NULL, NULL),
+(16, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:13:16', NULL, NULL),
+(17, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:14:38', NULL, NULL),
+(18, 'event', 'desc', 'profile-pic', 'home', 999, 0, 'kk', 'kk', 0, '2018-02-24 01:14:56', NULL, NULL),
+(19, 'event', 'desc', 'profile-pic', 'home', 999, 0, 'kk', 'kk', 0, '2018-02-24 01:15:23', NULL, NULL),
+(20, 'event2222', 'desc', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 01:15:42', '13.725108639456746', '100.34106376499017');
 
 -- --------------------------------------------------------
 
@@ -203,7 +224,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `event_detail`
 --
 ALTER TABLE `event_detail`
-  MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
