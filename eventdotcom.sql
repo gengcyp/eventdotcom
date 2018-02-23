@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2018 at 05:20 PM
+-- Generation Time: Feb 23, 2018 at 07:41 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -72,14 +72,14 @@ INSERT INTO `events` (`eventcode`, `eventid`, `started`, `finished`) VALUES
 
 CREATE TABLE `event_detail` (
   `eventid` int(11) NOT NULL,
-  `name` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `description` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `profilepic` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
-  `location` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
+  `description` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
+  `profilepic` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
+  `location` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
   `attendeeslimit` int(11) DEFAULT NULL,
   `preconditionid` int(11) DEFAULT NULL,
-  `type` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
-  `feedback` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `type` varchar(10) COLLATE utf8_thai_520_w2 DEFAULT NULL,
+  `feedback` varchar(20) COLLATE utf8_thai_520_w2 DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `createdtime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_thai_520_w2;
@@ -89,7 +89,7 @@ CREATE TABLE `event_detail` (
 --
 
 INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createdtime`) VALUES
-(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'Music', '-', 550, '2018-02-18 21:00:00');
+(1, 'Test Event', 'Desc', 'profile-pic', 'KU', 999, 0, 'XXX', 'Feedback', 0, '2018-02-23 13:41:14');
 
 -- --------------------------------------------------------
 
@@ -194,6 +194,16 @@ ALTER TABLE `reservations`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `event_detail`
+--
+ALTER TABLE `event_detail`
+  MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
