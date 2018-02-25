@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2018 at 07:17 PM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Feb 25, 2018 at 09:15 AM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `attendees` (
   `reservationid` int(11) NOT NULL,
   `checkintime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,37 @@ CREATE TABLE `attendees` (
 CREATE TABLE `detailpictures` (
   `eventid` int(11) NOT NULL,
   `picture` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `eventdetail`
+--
+
+CREATE TABLE `eventdetail` (
+  `eventid` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `profilepic` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `attendeeslimit` int(11) DEFAULT NULL,
+  `preconditionid` int(11) DEFAULT NULL,
+  `codepattern` varchar(20) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `feedback` varchar(20) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `createddate` datetime DEFAULT NULL,
+  `latitude` varchar(20) DEFAULT NULL,
+  `longitude` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `eventdetail`
+--
+
+INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `codepattern`, `type`, `feedback`, `price`, `createddate`, `latitude`, `longitude`) VALUES
+(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'reverse', 'Music', '-', 550, '2018-02-18 21:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -55,62 +85,14 @@ CREATE TABLE `events` (
   `eventid` int(11) DEFAULT NULL,
   `started` datetime DEFAULT NULL,
   `finished` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`eventcode`, `eventid`, `started`, `finished`) VALUES
-(5152, 1, '2018-02-23 18:00:00', '2018-02-23 21:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `event_detail`
---
-
-CREATE TABLE `event_detail` (
-  `eventid` int(11) NOT NULL,
-  `name` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `description` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `profilepic` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `location` varchar(100) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `attendeeslimit` int(11) DEFAULT NULL,
-  `preconditionid` int(11) DEFAULT NULL,
-  `type` varchar(10) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `feedback` varchar(20) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `price` int(11) DEFAULT NULL,
-  `createdtime` datetime DEFAULT NULL,
-  `latitude` varchar(30) COLLATE utf8_thai_520_w2 DEFAULT NULL,
-  `longitude` varchar(30) COLLATE utf8_thai_520_w2 DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_thai_520_w2;
-
---
--- Dumping data for table `event_detail`
---
-
-INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createdtime`, `latitude`, `longitude`) VALUES
-(1, 'Test Event', 'Desc', 'profile-pic', 'KU', 999, 0, 'XXX', 'Feedback', 0, '2018-02-23 13:41:14', NULL, NULL),
-(2, 'd', 'f', 'profile-pic', 'ddd', 2, 0, 'd', '', 0, '2018-02-24 00:48:14', NULL, NULL),
-(3, 'd', 'f', 'profile-pic', 'ddd', 2, 0, 'd', '', 0, '2018-02-24 00:49:38', NULL, NULL),
-(4, 'geng', 'gegn', 'profile-pic', 'ku', 99, 0, '0', '0', 0, '2018-02-24 00:49:53', NULL, NULL),
-(5, 'geng', 'gegn', 'profile-pic', 'ku', 99, 0, '0', '0', 0, '2018-02-24 00:50:46', NULL, NULL),
-(6, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:51:00', NULL, NULL),
-(7, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:57:33', NULL, NULL),
-(8, 'geng', 'geng des', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 00:58:46', NULL, NULL),
-(9, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 00:59:02', NULL, NULL),
-(10, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 00:59:26', NULL, NULL),
-(11, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:00:19', NULL, NULL),
-(12, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:01:55', NULL, NULL),
-(13, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:02:07', NULL, NULL),
-(14, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:05:35', NULL, NULL),
-(15, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:05:42', NULL, NULL),
-(16, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:13:16', NULL, NULL),
-(17, '', '', 'profile-pic', '', 0, 0, '', '', 0, '2018-02-24 01:14:38', NULL, NULL),
-(18, 'event', 'desc', 'profile-pic', 'home', 999, 0, 'kk', 'kk', 0, '2018-02-24 01:14:56', NULL, NULL),
-(19, 'event', 'desc', 'profile-pic', 'home', 999, 0, 'kk', 'kk', 0, '2018-02-24 01:15:23', NULL, NULL),
-(20, 'event2222', 'desc', 'profile-pic', 'ku', 999, 0, '0', '0', 0, '2018-02-24 01:15:42', '13.725108639456746', '100.34106376499017');
+(1, 1, '2018-02-23 18:00:00', '2018-02-23 21:00:00');
 
 -- --------------------------------------------------------
 
@@ -121,7 +103,7 @@ INSERT INTO `event_detail` (`eventid`, `name`, `description`, `profilepic`, `loc
 CREATE TABLE `preconditions` (
   `preconid` int(11) NOT NULL,
   `eventid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -133,16 +115,16 @@ CREATE TABLE `reservations` (
   `reservationid` int(11) NOT NULL,
   `userid` int(11) DEFAULT NULL,
   `eventcode` int(11) DEFAULT NULL,
-  `certificate` varchar(20) DEFAULT NULL,
+  `certificate` tinyint(1) DEFAULT '0',
   `reservetime` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reservations`
 --
 
 INSERT INTO `reservations` (`reservationid`, `userid`, `eventcode`, `certificate`, `reservetime`) VALUES
-(1, 3, 5152, '-', '2018-02-19 20:00:00');
+(1, 3, 5152, 0, '2018-02-19 20:00:00');
 
 -- --------------------------------------------------------
 
@@ -153,22 +135,24 @@ INSERT INTO `reservations` (`reservationid`, `userid`, `eventcode`, `certificate
 CREATE TABLE `users` (
   `userid` int(11) NOT NULL,
   `type` varchar(10) DEFAULT NULL,
-  `fname` varchar(20) DEFAULT NULL,
-  `lname` varchar(20) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
+  `fname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
   `phoneno` varchar(15) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `pwd` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `email` varchar(50) DEFAULT NULL,
+  `pwd` varchar(50) DEFAULT NULL,
+  `uname` varchar(20) DEFAULT NULL,
+  `ustatus` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`) VALUES
-(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o'),
-(2, 'organizer', 'lu', 'bu', 'The mall Ngamwongwan', '024457522', 'org@hotmail.com', 't147t'),
-(3, 'attendant', 'matial', 'art', '5/1354 Prae', '0816523458', 'normal@hotmail.com', 'n328n');
+INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`, `uname`, `ustatus`) VALUES
+(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o', 'admin', 1),
+(2, 'organizer', 'lu', 'bu', 'The mall Ngamwongwan', '024457522', 'org@hotmail.com', 't147t', 'lb', 1),
+(3, 'attendant', 'matial', 'art', '5/1354 Prae', '0816523458', 'normal@hotmail.com', 'n328n', 'ma', 1);
 
 --
 -- Indexes for dumped tables
@@ -187,16 +171,16 @@ ALTER TABLE `detailpictures`
   ADD PRIMARY KEY (`eventid`,`picture`);
 
 --
+-- Indexes for table `eventdetail`
+--
+ALTER TABLE `eventdetail`
+  ADD PRIMARY KEY (`eventid`);
+
+--
 -- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`eventcode`);
-
---
--- Indexes for table `event_detail`
---
-ALTER TABLE `event_detail`
-  ADD PRIMARY KEY (`eventid`);
 
 --
 -- Indexes for table `preconditions`
@@ -221,10 +205,28 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `event_detail`
+-- AUTO_INCREMENT for table `eventdetail`
 --
-ALTER TABLE `event_detail`
-  MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `eventdetail`
+  MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `eventcode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `reservations`
+--
+ALTER TABLE `reservations`
+  MODIFY `reservationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
