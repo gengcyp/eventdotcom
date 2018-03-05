@@ -1,3 +1,7 @@
+<?php
+	session_start();  
+?>
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 
@@ -14,10 +18,15 @@
 	// case sign in button was submit
 	if(isset($_POST['signin'])){ //check if form was submitted
 		// go check email and password from DB
-		$selected = $connection->select('*', 'users', "WHERE users.uname=".'"'.$_POST['uname'].'"'."AND users.pwd=".'"'.$_POST['pwd'].'"');
+		$selected = $connection->select('*', 'users', "WHERE users.uname=".'"'.$_POST['uname'].'"'."AND users.pwd=".'"'.$_POST['pwd'].'"'."AND users.ustatus=1");
 		// echo ;
 		if (sizeof($selected) > 0){
 			$result = $selected[0]['fname'] .' ' . $selected[0]['lname'];
+
+			// set login seession
+			$_SESSION["uid"] = $selected[0]['userid'];
+			// update last activity time stamp
+			$_SESSION['LAST_ACTIVITY'] = time(); 
 		}
 		// foreach($connection->query("SELECT * FROM users WHERE users.email=".'"'.$_POST['uname'].'"'."AND users.pwd=".'"'.$_POST['pwd'].'"' ) as $row) {
 	 //    	$result.= $row['fname'] . ' ' . $row['lname'];
