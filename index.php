@@ -31,9 +31,11 @@
 				$outputShowEvent .= '
 				<li>
 					<div layout="row">
-						<div>
-							
-							<img style="width: 325px; height: 250px;" src="images/story/img-2.jpg" alt="">
+						<div class="container-event">
+							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<div class="middle">
+								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
+  							</div>
 							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
 						</div>
 				';
@@ -42,24 +44,35 @@
 			else if($countStartRow == 3){
 				$countStartRow = 0;
 				$outputShowEvent .= '
-						<div>
-							<img style="width: 325px; height: 250px;" src="images/story/img-2.jpg" alt="">
+						<div class="container-event">
+							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<div class="middle">
+								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
+							</div>
 							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
-						</div>	
+						</div>
 					</div>
 				</li>
 				';
 			}
 			else{
 				$outputShowEvent .= '
-						<div>
-							<img style="width: 325px; height: 250px;" src="images/story/img-2.jpg" alt="">
+						<div class="container-event">
+							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<div class="middle">
+								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
+							</div>
 							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
-						</div>	
+						</div>
 				';			
 			}
 		}
 		return $outputShowEvent;
+	}
+
+	function logout(){
+		$status = 'guest';
+		// refresh
 	}
 
 	function userLogin($status){
@@ -87,6 +100,7 @@
 			}
 			$outputUserLogin .= '
 				</a></li>
+				<button class="btn" type="submit" name="logout">ออกสู่ระบบ</button>
 				<a href="#" class="nino-btn" id="logout">ออกสู่ระบบ</a>
 			';
 		}
