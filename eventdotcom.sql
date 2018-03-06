@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2018 at 09:15 AM
+-- Generation Time: Mar 04, 2018 at 06:32 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -64,15 +64,16 @@ CREATE TABLE `eventdetail` (
   `price` int(11) DEFAULT NULL,
   `createddate` datetime DEFAULT NULL,
   `latitude` varchar(20) DEFAULT NULL,
-  `longitude` varchar(20) DEFAULT NULL
+  `longitude` varchar(20) DEFAULT NULL,
+  `eventown` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `eventdetail`
 --
 
-INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `codepattern`, `type`, `feedback`, `price`, `createddate`, `latitude`, `longitude`) VALUES
-(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'reverse', 'Music', '-', 550, '2018-02-18 21:00:00', NULL, NULL);
+INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `location`, `attendeeslimit`, `preconditionid`, `codepattern`, `type`, `feedback`, `price`, `createddate`, `latitude`, `longitude`, `eventown`) VALUES
+(1, 'JOIN48', 'come to join us at join 48', 'https://affinitynumerology.com/images/NumerologyNumbers48.png', 'paragon', 50, 0, 'reverse', 'Music', '-', 550, '2018-02-18 21:00:00', NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
