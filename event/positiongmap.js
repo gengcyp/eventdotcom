@@ -1,5 +1,4 @@
 var marker;
-
 var point = {lat:13.7454143 ,lng:100.4436804};
 
 function initMap() {
@@ -25,19 +24,14 @@ function toggleBounce() {
 	} else {
 		marker.setAnimation(google.maps.Animation.BOUNCE);
 	}
-	console.log(marker.position.lat()+","+marker.position.lng());
- }
-
-// function setMarker(){
-//     var lati="<?php echo getLat() ?>";
-//     var long="<?php echo getLong() ?>";
-//     var point = {lat: lati, lng: long};
-//     marker.setCenter(point);
-// }
-
-function setFormLatLng(){
-	$("#lat").val(marker.position.lat());
-	$("#lng").val(marker.position.lng());
 }
 
+ function setFormLatLng(){
+ 	$("#lat").val(marker.position.lat());
+ 	$("#lng").val(marker.position.lng());
+ }
 
+function setMarker(lati,long){
+    var point = {lat: lati, lng: long};
+    marker.setCenter(point);
+}

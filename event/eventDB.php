@@ -11,8 +11,7 @@ $dt = date("YmdHis",time());
 include 'DBconnect.php';
 $db = new DBconnect($dbname,$user,$pw);
 
-//use DBconnect.php
-
+//insert event ---------------------------------------------
 if(isset($_POST['insertuser'])){
 	$val = '(
 		"'.$_POST["name"]		.'",
@@ -31,31 +30,39 @@ if(isset($_POST['insertuser'])){
 	echo $result;
 }
 
-// //create connection to db
-// $connection = new PDO(
-//    'mysql:host=localhost:3306;dbname='.$dbname.';charset=utf8mb4',$user,$pw);
+//query event  ---------------------------------------------
+$name ="Not Found";
+if (isset($_GET['id'])){
+	$id = $_GET['id'];
 
-// //insert to event_detail ,call from newevent.php
-// if(isset($_POST['insertuser'])){
-// $insertuser = $connection->prepare(
-//       'INSERT INTO eventdetail(eventid,name,description,profilepic,location,attendeeslimit,type,feedback,createddate,latitude,longitude) 
-//       VALUES (0,	-- id autoinc
-//       :n,:d,"profile-pic",:loc,:lim,:type,:feedback,:dt,:lat,:lng)' 
-//   );
+	//get data from event and event detail
+	$event = $db->select("*",'eventdetail',"WHERE eventid='".$id."'");
 
-// $insertuser->execute(
-// 	[':dt' 	=> $dt,
-// 	':n' 	=> $_POST["name"],
-// 	':d' 	=> $_POST["desc"],
-// 	':loc' 	=> $_POST["location"],
-// 	':lim' 	=> $_POST["limit"],
-// 	':feedback' => $_POST["feedback"],
-// 	':type'	=> $_POST["type"],
-//  ':lat' 	=> $_POST["lat"],
-//  ':lng' 	=> $_POST["lng"]
-// 	]
-// );
-// $results = $insertuser->fetchAll(PDO::FETCH_OBJ);
-// echo "last id : ".$connection->lastInsertId();
-// }
+	if (!empty($event)){
+		$name = $event[0]["name"];
+		$desc = $event[0]["description"];
+		$profilepic = $event[0]["profilepic"];
+		$location = $event[0]["location"];
+		$limit = $event[0]["attendeeslimit"];
+		$type =  $event[0]["type"];
+		$feedback =  $event[0]["feedback"];
+		$price =  $event[0]["price"];
+		$createddate =  $event[0]["createddate"];
+		$lat =  $event[0]["latitude"];
+		$lon = $event[0]["longitude"];
+	}else{
+		pageNotFound();
+	}
+}else {
+	goToHomepage();
+}
+
+function pageNotFound(){
+	echo "page not found";
+}
+function goToHomepage(){
+	header('Location: index.php');
+}
+
+
 ?>

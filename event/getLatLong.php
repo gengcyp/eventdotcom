@@ -7,14 +7,6 @@ if isset($_POST['findlocation']){
 	$lat = $output->results[0]->geometry->location->lat;
 	$long = $output->results[0]->geometry->location->lng;
 }
-
-
-function getLat(){
-	return $lat;
-}
-function getLong(){
-	return $long;
-}
-
-// function 
-?> 
+function getLat(){	return $lat;	}
+function getLong(){	return $long;	}
+?>
