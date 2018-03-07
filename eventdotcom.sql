@@ -3,9 +3,15 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Mar 07, 2018 at 12:33 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
+=======
+-- Generation Time: Mar 07, 2018 at 06:36 PM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.9
+>>>>>>> e03a30097bdd97689e2a6d4e6479238869a5c296
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -145,19 +151,20 @@ CREATE TABLE `users` (
   `address` varchar(200) DEFAULT NULL,
   `phoneno` varchar(15) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `pwd` varchar(50) DEFAULT NULL,
+  `pwd` varchar(1000) DEFAULT NULL,
   `uname` varchar(20) DEFAULT NULL,
-  `ustatus` tinyint(1) DEFAULT NULL
+  `ustatus` tinyint(1) DEFAULT NULL,
+  `confirmcode` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`, `uname`, `ustatus`) VALUES
-(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o', 'admin', 1),
-(2, 'organizer', 'lu', 'bu', 'The mall Ngamwongwan', '024457522', 'org@hotmail.com', 't147t', 'lb', 1),
-(3, 'attendant', 'matial', 'art', '5/1354 Prae', '0816523458', 'normal@hotmail.com', 'n328n', 'ma', 1);
+INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`, `uname`, `ustatus`, `confirmcode`) VALUES
+(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o', 'admin', 1, NULL),
+(2, 'organizer', 'or', 'rg', 'poison', '0132465798', 'org@org.com', '$2y$10$QnOVehZPckFuMhtRbqpqwuszBNeI6ZOwUEP7yUUkCRdQnzlIlf79q', 'org', 1, 1901172764),
+(3, 'attendant', 'at', 'tn', 'address', '0147258369', 'attn@attn.com', '$2y$10$KAefkXfWiuCJBe.bXHoowe0G8LbvNDZlhSZD7koXF5HpfOls9nksa', 'attn', 1, 1279119320);
 
 --
 -- Indexes for dumped tables
