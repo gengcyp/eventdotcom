@@ -15,18 +15,31 @@
 	// $login_statement = $connection->prepare('Select * From users' );
 	$result = "";
 	$selected = "";
+	$status = "NO";
 	// case sign in button was submit
 	if(isset($_POST['signin'])){ //check if form was submitted
 		// go check email and password from DB
-		$selected = $connection->select('*', 'users', "WHERE users.uname=".'"'.$_POST['uname'].'"'."AND users.pwd=".'"'.$_POST['pwd'].'"'."AND users.ustatus=1");
-		// echo ;
+		$selected = $connection->select('*', 'users', "WHERE users.uname=".'"'.$_POST['uname'].'"'."AND users.ustatus=1");
 		if (sizeof($selected) > 0){
-			$result = $selected[0]['fname'] .' ' . $selected[0]['lname'];
+			if (password_verify($_POST['pwd'], $selected[0]['pwd'])){
+				$result = $selected[0]['fname'] .' ' . $selected[0]['lname'];
 
-			// set login seession
-			$_SESSION["uid"] = $selected[0]['userid'];
-			// update last activity time stamp
-			$_SESSION['LAST_ACTIVITY'] = time(); 
+				// set login seession
+				$_SESSION["uid"] = $selected[0]['userid'];
+				// update last activity time stamp
+				$_SESSION['LAST_ACTIVITY'] = time(); 
+
+				// check type of user
+				// case admin
+				if ($selected[0]['type'] == "admin"){
+					$status = "ADMIN";
+				}
+				else {
+					$status = "YES";
+				}				
+			}
+
+
 		}
 		// foreach($connection->query("SELECT * FROM users WHERE users.email=".'"'.$_POST['uname'].'"'."AND users.pwd=".'"'.$_POST['pwd'].'"' ) as $row) {
 	 //    	$result.= $row['fname'] . ' ' . $row['lname'];
@@ -125,6 +138,15 @@
 	</table>
 
 	<script>
+
+		// load page
+		$(document).ready(function(){
+
+			if ("<?php echo $status ;?>" == "YES"){
+				window.location.href = "index.php";
+			}
+		});
+
 		// check empty before send form
 		function checkEmpty(id){
 			let breakout = false;
