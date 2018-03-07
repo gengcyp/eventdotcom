@@ -31,7 +31,11 @@ if(isset($_POST['insertuser'])){
 }
 
 //query event  ---------------------------------------------
+//set initial value
 $name ="Not Found";
+$desc = $profilepic = $location = $type = $feedback  = $createddate = "";
+$lat = $lon = $price = $limit = 0;
+
 if (isset($_GET['id'])){
 	$id = $_GET['id'];
 
@@ -50,10 +54,10 @@ if (isset($_GET['id'])){
 		$createddate =  $event[0]["createddate"];
 		$lat =  $event[0]["latitude"];
 		$lon = $event[0]["longitude"];
-	}else{
+	}else{ // id not found
 		pageNotFound();
 	}
-}else {
+}else { // not set id in path
 	goToHomepage();
 }
 

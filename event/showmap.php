@@ -1,8 +1,12 @@
+<script>
+//get lat/long
 var latitude = parseFloat("<?php echo $lat; ?>"+0);
 var longitude = parseFloat("<?php echo $lon; ?>"+0);
+//show or hide map
 if ((latitude == 0) && (longitude==0)){
   $('#map').hide();
 }
+//init google map
 function initMap() {
   var place = {lat: latitude, lng: longitude};
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -16,3 +20,7 @@ function initMap() {
     map: map
   });
 }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsdxMxOvyYQfWbIiNtJJTRHtoM54ZlW5g&callback=initMap">
+</script>

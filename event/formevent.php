@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="theme_editevent.css" type="text/css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-  <script src="positiongmap.js"></script>
+  <!-- <script src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+
   <style>
       #map {
         height: 400px;
@@ -38,7 +38,8 @@
 
             <div class="form-group"> <label>Location</label>
               <input type="text" class="form-control w-75" id="location" name="location">
-              <a href="#" class="btn btn-outline-primary" id="find">Find on Map</a>
+              <a  class="btn btn-outline-primary" id="find">Find on Map</a>
+              <a  class="btn btn-outline-primary" id="pin">Move Pin</a>
             </div>
 
             <script type="text/javascript">
@@ -50,34 +51,31 @@
   							  if (status == google.maps.GeocoderStatus.OK) {
   							    latitude = results[0].geometry.location.lat();
   							    longitude = results[0].geometry.location.lng();
-  									$("#newLat").text(latitude);
-  									$("#newLong").text(longitude);
-  							    // moveMap();
+  							    setMapCenter(latitude,longitude);
   							  }else {
               			alert("Something got wrong " + status);
             			}
   							});
   							return false;
   						});
-  						// function moveMap(){
-  						// 		setMarker($("#newLat").value(),$("#newLong").value());
-  						// }
+              $("#pin").click(function(){
+                moveMarkerToCenter();
+              });
+
   					</script>
 
             <div id="map"></div>
     		  	<input type="text" name="lat" id="lat" style="display: none">
     		    <input type="text" name="lng" id="lng" style="display: none">
-    				<p id="newLat" style="display:none"></p>
-    				<p id="newLong" style="display:none"></p>
 
             <div class="form-group"> <label>Limit</label>
-              <input type="number" class="form-control w-25" name="limit"> <small class="form-text text-muted"></small> </div>
+              <input type="number" class="form-control w-25" name="limit" id="limit"> <small class="form-text text-muted"></small> </div>
 
             <div class="form-group"> <label>Price</label>
-              <input type="number" class="form-control w-25" name="price"> <small class="form-text text-muted"></small> </div>
+              <input type="number" class="form-control w-25" name="price" id="price"> <small class="form-text text-muted"></small> </div>
 
             <div class="form-group"> <label>Prerequiste Event</label>
-              <?php include 'table_form.php' ?>
+
             </div>
 
             <div class="form-group"> <label>Type</label><br>
@@ -92,7 +90,7 @@
             </div>
 
             <div class="form-group"> <label>Feedback Link</label>
-              <input type="text" class="form-control" name="feedback"> <small class="form-text text-muted"></small> </div>
+              <input type="text" class="form-control feedback" name="feedback"> <small class="form-text text-muted"></small> </div>
 
 
             <button type="submit" class="btn btn-primary" name="insertuser">Submit</button>
@@ -115,9 +113,7 @@
       </div>
     </div>
   </div>
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsdxMxOvyYQfWbIiNtJJTRHtoM54ZlW5g&callback=initMap">
-  </script>
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

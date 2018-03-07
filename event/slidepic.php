@@ -1,13 +1,11 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
-<title>slide pic</title>
+<title>slide pic</title> -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style_slidepic.css">
-<style type="text/css">
 
-</style>
 
-<body>
+<!-- <body> -->
 
 <div class="content display-container">
 <?php
@@ -55,5 +53,5 @@ function showDivs(n) {
 }
 </script>
 
-</body>
-</html>
+<!-- </body> -->
+<!-- </html> -->
