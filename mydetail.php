@@ -1,6 +1,3 @@
-<?php
-	session_start();  
-?>
 <!DOCTYPE html>
 <meta charset="utf-8">
 <html>
@@ -11,6 +8,7 @@
 <body>
 	<?php
 		include 'DBconnect.php';
+		include 'checker.php';
 		// connect DB
 		$connection = new DBconnect(
 					'eventdotcom',
@@ -22,27 +20,39 @@
 		// select detail from data base
 		$selected = "";
 
-		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60)) {
-		    // last request was more than 30 minutes ago
-		    session_unset();     // unset $_SESSION variable for the run-time 
-		    session_destroy();   // destroy session data in storage
+		$myinfo = "";
 
-		    $status = "NO";
+		// check user that had been login 
+		// if someone login get an id
+		if (checkSession()){
+			$user = $_SESSION['uid'];
+			$status = "YES";
+			$myinfo = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
+			$selected = $connection->select('*', 'eventdetail', "WHERE eventdetail.eventown=".'"'.$user.'"');
 		}
-		else {
-
-			$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-			if (isset($_SESSION['uid'])){
-				$user = $_SESSION['uid'];
-				$status = "YES";
-				$selected = $connection->select('*', 'eventdetail', "WHERE eventdetail.eventown=".'"'.$user.'"');
-			}
+		else{
+			$status = "NO";
 		}
-		
-		// now fix uid=2
 		
 
 	?>
+
+	<div id="info">
+		<h3>MY INFO</h3>
+		<div>
+			<label>First Name: </label>
+			<textfield><?php echo $myinfo[0]['fname']; ?></textfield>
+			<label>Last Name: </label>
+			<textbox><?php echo $myinfo[0]['lname']; ?></textbox>
+		</div>
+		<br>
+		<div>
+			<label>E-Mail: </label>
+			<textfield><?php echo $myinfo[0]['email']; ?></textfield>
+			<label>Phone NO: </label>
+			<textbox><?php echo $myinfo[0]['phoneno']; ?></textbox>			
+		</div>
+	</div>
 
 	<div id="myevent">ALL My Events</div>
 
@@ -52,6 +62,7 @@
 			console.log("LLL");
 
 			if ("<?php echo $status ;?>" == "NO") {
+				$('#info').html("");
 				$('#myevent').html("PLEASE LOG IN !");
 				$('#myevent').append("<button> LOG IN </button>");
 			}
