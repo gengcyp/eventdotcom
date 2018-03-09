@@ -18,7 +18,8 @@
 		// status from session that user has been log in or not
 		$status = "NO";
 		// select detail from data base
-		$selected = "";
+		$cevents = "";
+		$hevents = "";
 
 		$myinfo = "";
 
@@ -27,8 +28,12 @@
 		if (checkSession()){
 			$user = $_SESSION['uid'];
 			$status = "YES";
+			// get login user
 			$myinfo = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
-			$selected = $connection->select('*', 'eventdetail', "WHERE eventdetail.eventown=".'"'.$user.'"');
+			// get event that in current duration
+			$cevents = $connection->select('*', 'eventdetail INNER JOIN events ON eventdetail.eventid=events.eventid ', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND events.started>=CURDATE()");
+			// get event that already pass
+			$hevents = $connection->select('*', 'eventdetail INNER JOIN events ON eventdetail.eventid=events.eventid ', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND events.started<CURDATE()");
 		}
 		else{
 			$status = "NO";
@@ -37,7 +42,19 @@
 
 	?>
 
-	<div id="info">
+	<div id='no-log' hidden="true">
+		<h4>PLEASE LOG IN !</h4>
+		<br>
+		<a href="login.php"><button>LOG IN</button></a>
+	</div>
+
+	<div id="myevent" class="tab">
+	  	<button class="tablinks active" onclick="openTab(event, 'info')">My Info</button>
+	  	<button class="tablinks" onclick="openTab(event, 'current')">Current Events</button>
+	  	<button class="tablinks" onclick="openTab(event, 'history')" >History Events</button>
+
+	</div>			
+	<div id="info" class="tabcontent">
 		<h3>MY INFO</h3>
 		<div>
 			<label>First Name: </label>
@@ -53,33 +70,93 @@
 			<textbox><?php echo $myinfo[0]['phoneno']; ?></textbox>			
 		</div>
 	</div>
-
-	<div id="myevent">ALL My Events</div>
+	<div id='current' class="tabcontent" hidden="true"></div>
+	<div id='history' class="tabcontent" hidden="true"></div>
 
 	<script>
 		$(document).ready(function(){
 			// body...
-			console.log("LLL");
 
 			if ("<?php echo $status ;?>" == "NO") {
+				$('#no-log').show();
+				// $('#myevent').html("PLEASE LOG IN !");
+				// $('#myevent').append("<button> LOG IN </button>");
 				$('#info').html("");
-				$('#myevent').html("PLEASE LOG IN !");
-				$('#myevent').append("<button> LOG IN </button>");
+				$('#myevent').hide();
 			}
 			else {
+				// $('#defaultOpen').click();
 				 // get myevents
-				 var myevents = <?php echo json_encode($selected); ?>;
+				 var cevents = <?php echo json_encode($cevents); ?>;
+				 var hevents = <?php echo json_encode($hevents); ?>;
 
 				 // show all myevents
-				 for (var i = 0; i < myevents.length; i++) {
+				 // current events
+				 for (var i = 0; i < cevents.length; i++) {
 
-				 	$("#myevent").append("<div class=events id="+i+">"+ "EventID: " + myevents[i][0]+ ", Name of Event: " + myevents[i][1] + ", Description: " + myevents[i][2] +"</div>");
+				 	$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i][0]+ ", Name of Event: " + cevents[i][1] + ", Description: " + cevents[i][2] +"</div>");
+				 }
+
+				 // pass events
+				 for (var i = 0; i < hevents.length; i++) {
+
+				 	$("#history").append("<div class=h-events id="+i+">"+ "EventID: " + hevents[i][0]+ ", Name of Event: " + hevents[i][1] + ", Description: " + hevents[i][2] +"</div>");
 				 }
 			}
 			
 
 		});
+
+		function openTab(evt, tabbed){
+		    // var i, tabcontent, tablinks;
+		    // tabcontent = document.getElementsByClassName("tabcontent");
+		    $('.tabcontent').each(function(){
+		    	$(this).hide();
+		    });
+
+		    let tablinks = document.getElementsByClassName("tablinks");
+		    for (i = 0; i < tablinks.length; i++) {
+		        tablinks[i].className = tablinks[i].className.replace(" active", "");
+		    }
+		    $('#'+tabbed).css('display', 'block');
+		    // document.getElementById(cityName).style.display = "block";
+		    evt.currentTarget.className += " active";
+		}
 	</script>
 
 </body>
+<style>
+	.h-events{
+		border: 5px solid red;
+	}
+	/* Style the tab */
+	.tab {
+	    overflow: hidden;
+	    border: 1px solid #ccc;
+	    background-color: #f1f1f1;
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+	    background-color: inherit;
+	    float: left;
+	    border: none;
+	    outline: none;
+	    cursor: pointer;
+	    padding: 14px 16px;
+	    transition: 0.3s;
+	    font-size: 17px;
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+	    background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+	    background-color: #ccc;
+	}
+
+</style>
 </html>
