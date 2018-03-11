@@ -32,7 +32,7 @@
 			$cer_eid = $_POST['ceid'];
 
 			// change status of certificate
-			$connection->update("reservations", "certificate=1", "WHERE eventcode='".$cer_eid."'");
+			$connection->update("reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid ", "certificate=1", "WHERE eventcode='".$cer_eid."'");
 
 			if ($connection){
 				echo '<script type="text/javascript">alert("Successful gave certificate to eventid' . $cer_eid . '")</script>';
