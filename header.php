@@ -5,7 +5,7 @@
     
 	$connection = new DBconnect('eventdotcom','root','');
 
-	$$user_type = 'guest';
+	$user_type = 'guest';
 	$me = "";
 	
 	if(checkSession()){
@@ -124,17 +124,6 @@
     <!-- Scroll to top
     ================================================== -->
 	<a href="#" id="nino-scrollToTop">Go to Top</a>
-
-	<!-- javascript -->
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
-	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/jquery.hoverdir.js"></script>
-	<script type="text/javascript" src="js/modernizr.custom.97074.js"></script>
-	<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="js/unslider-min.js"></script>
-	<script type="text/javascript" src="js/template.js"></script>
 
 </body>
 </html>
