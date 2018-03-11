@@ -1,68 +1,91 @@
 <?php
-	$connection = new PDO(
-	'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-	'chanidapa',
-	'1234'
-	);
-
-	$status = 'guest';
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = $_POST["name"];
-		$type = $_POST["type"];
-		$status = $type;
-	}
 	
+	include 'DBconnect.php';
+	
+	$connection = new DBconnect('eventdotcom','root','');
+	include 'search.php';
+
+	$user_type = 'guest';
+	$me = "";
+	
+	include 'checker.php';
+
+	if(checkSession()){
+		$user = $_SESSION['uid'];
+
+		$me = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
+		$user_type = $me[0]["type"];
+	}else{
+		$user_type = 'guest';
+	}
+
 	function showEvent($type_event){
-		$connection = new PDO(
-			'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-			'chanidapa',
-			'1234'
-			);
+		global $connection;
 
 		$countStartRow = 0;
 		$outputShowEvent = '';
 
-		// $instrucQuery = ' select * from events inner join eventdetail on Events.eventid = Eventdetail.eventid where Eventdetail.type = "'. $type_event .'";';
-		// foreach($connection->query($instrucQuery) as $row){
-		foreach($connection->query('SELECT * FROM events') as $row) {
+		// $instrucQuery = $connection->select('*', 'events', 'inner join eventdetail on Events.eventid = Eventdetail.eventid where Eventdetail.type = "'. $type_event .'";');
+		$instrucQuery = $connection->select('*', 'eventdetail', 'where type = "'. $type_event .'";');
+		
+
+		foreach($instrucQuery as $row){
 			$countStartRow += 1;
+			if($row["profilepic"] === "profile-pic"){
+				$pictureShow = "images/story/img-2.jpg";
+			}
+			else{
+				$pictureShow = $row["profilepic"];
+			}
+
 			if($countStartRow == 1){
+				
+				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
+				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
+
 				$outputShowEvent .= '
 				<li>
 					<div layout="row">
 						<div class="container-event">
-							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<img src="' . $pictureShow . '" alt="picevent" class="image">
+						
 							<div class="middle">
-								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
-  							</div>
-							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
+								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
+							</div>
+							<p style="color: black">' . $newformatStart . ' - ' . $newformatFinish . '</p>
 						</div>
 				';
 			}
 			// <img style="width: 325px; height: 250px;" src="'. $row['profilepic'] .'" alt="">
 			else if($countStartRow == 3){
+				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
+				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
+				
 				$countStartRow = 0;
 				$outputShowEvent .= '
 						<div class="container-event">
-							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<img src="' . $pictureShow . '" alt="picevent" class="image">
+						
 							<div class="middle">
-								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
+								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
+							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 					</div>
 				</li>
 				';
 			}
 			else{
+				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
+				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
+				
 				$outputShowEvent .= '
 						<div class="container-event">
-							<img src="images/story/img-2.jpg" alt="picevent" class="image">
+							<img src="' . $pictureShow . '" alt="picevent" class="image">
 							<div class="middle">
-								<button class="btn btn-success" type="submit" name="logout">Buy ticket</button>
+								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $row['started'] . ' - ' . $row['finished'] . '</p>
+							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 				';			
 			}
@@ -70,57 +93,52 @@
 		return $outputShowEvent;
 	}
 
-	function logout(){
-		$status = 'guest';
-		// refresh
-	}
-
-	function userLogin($status){
-		
-		$connection = new PDO(
-			'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-			'chanidapa',
-			'1234'
-			);
+	function userLogin($user_type){
+		global $me;
+		global $connection;
 
 		$outputUserLogin = '';
-		if($status === 'guest'){
+		if($user_type === 'guest'){
 			$outputUserLogin .= '
 				<li><a href="">Guest</a></li>
-				<a href="login.php" class="nino-btn" name="submit">เข้าสู่ระบบ</a>
-				
+				<a href="login.php" class="nino-btn" name="submit">Signin</a>
 			';
 		}
-		else if($status === 'organizer'){
+		else if($user_type === 'organizer'){
 			$outputUserLogin .= '
-				<li><a href="">';
+				<a href="mydetail.php" class="aboutMe">';
 			
-			foreach($connection->query('SELECT * FROM users WHERE type="organizer"') as $row) {
-				$outputUserLogin .= $row['fname'] . " (organizer)";
-			}
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
-				</a></li>
-				<button class="btn" type="submit" name="logout">ออกสู่ระบบ</button>
-				<a href="#" class="nino-btn" id="logout">ออกสู่ระบบ</a>
+				</a>
 			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
-		else if($status === 'attendees'){
+		else if($user_type === 'attendant'){
 			$outputUserLogin .= '
-				<li><a href="">';
+				<a href="mydetail.php">';
 			
-			foreach($connection->query('SELECT * FROM users WHERE type="attendant"') as $row) {
-				$outputUserLogin .= $row['fname'] . " (attendand)";
-			}
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
-				</a></li>
-				<a href="#" class="nino-btn" id="logout">ออกสู่ระบบ</a>
+				</a>
+				<a href="scanqrcode.php">Scan</a>
 			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
+		}
+		else if($user_type === 'admin'){
+			$outputUserLogin .= '
+				<a href="mydetail.php">';
+			
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
+			$outputUserLogin .= '
+				</a>
+			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
 		return $outputUserLogin;
 	}
+	
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -166,7 +184,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand">Eventdotcom</a>
+						<a href="index.php" class="navbar-brand">Eventdotcom</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
@@ -177,17 +195,16 @@
 								<li class="active"><a href="#nino-header">Home <span class="sr-only">(current)</span></a></li>
 								<li><a href="#nino-entertainment">Entertainment</a></li>
 								<li><a href="#nino-music">Music</a></li>
-								
-								<?php echo userLogin($status)?>
+								<?php echo userLogin($user_type)?>
 							</ul>
 							
 							<ul class="nino-iconsGroup nav navbar-nav">
-								<li><div class="search-panel">
+								<!-- <li><div class="search-panel">
 									<form action="" id="nino-header-search">
 										<input type="search" placeholder="Search..." id="masthead-search-search"/>
 									</form>
-								</div></li>
-								<li><a href="#" class="nino-search"><i class="mdi mdi-magnify nino-icon"></i></a></li>
+								</div></li> -->
+								<li><a href="#nino-searching" class="nino-search"><i class="mdi mdi-magnify nino-icon"></i></a></li>
 							</ul>
 
 					</div>
@@ -198,15 +215,35 @@
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
-					<div class="item active">
-						<a href="#" class=""><img src="images/event-head/s2o.jpg"></a>
-					</div>
+					<?php 
+						$countEventHead = 0;
+						$instrucQuery = $connection->select('*', 'eventdetail', ' order by started');								
+						
+						foreach($instrucQuery as $row){
+							if($row["profilepic"] === "profile-pic"){
+								$pictureHeadShow = "images/story/img-2.jpg";
+							}
+							else{
+								$pictureHeadShow = $row["profilepic"];
+							}
+				
+							$countEventHead += 1;
 
-					<?php foreach($connection->query('SELECT * FROM users') as $row) { ?>
-						<div class="item">
-						<a href="#" class=""><img src="images/event-head/<?php echo  $row['userid'] . '.jpg'; ?>"></a>
+							if($countEventHead == 1){
+						?>
+								<div class="item active">
+									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+								</div>	
+					<?php
+							}
+							else if($countEventHead >=2 && $countEventHead < 5){
+					?>
+								<div class="item">
+									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
 								</div>
-					<?php } ?>
+					<?php 	} 
+						}
+					?>
 				</div>
 
 				<!-- Indicators -->
@@ -248,7 +285,7 @@
     	<div class="container">
     		<div class="nino-testimonialSlider">
 				<ul>
-					<?php echo showEvent("entertainment") ?>
+					<?php echo showEvent("entertain") ?>
 				</ul>
 			</div>
     	</div>
@@ -272,108 +309,55 @@
     	</div>
 	</section><!--/#nino-testimonial-music-->
 
-	<!-- Counting
-    ================================================== -->
-    <section id="nino-counting">
-    	<div class="container">
-    		<div layout="row" class="verticalStretch">
-    			<div class="item">
-    				<div class="number">42</div>
-    				<div class="text">Web Design Projects</div>
-    			</div>
-    			<div class="item">
-    				<div class="number">123</div>
-    				<div class="text">happy client</div>
-    			</div>
-    			<div class="item">
-    				<div class="number">15</div>
-    				<div class="text">award winner</div>
-    			</div>
-    			<div class="item">
-    				<div class="number">99</div>
-    				<div class="text">cup of coffee</div>
-    			</div>
-    			<div class="item">
-    				<div class="number">24</div>
-    				<div class="text">members</div>
-    			</div>
-    		</div>
-    	</div>
-    </section><!--/#nino-counting-->
 
-   
-    <!-- Latest Blog
+	<!-- Event others
     ================================================== -->
-    <!-- <section id="nino-latestBlog">
+	<section class="nino-testimonial" id="nino-others">
+		<div class="container">
+			<h2 class="nino-sectionHeading">
+				<span class="nino-subHeading">Mode</span>
+				Others
+			</h2>	
+		</div>
     	<div class="container">
-    		<h2 class="nino-sectionHeading">
-				<span class="nino-subHeading">Our stories</span>
-				Latest Blog
-			</h2>
-			<div class="sectionContent">
-				<div class="row">
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="images/our-blog/img-1.jpg" alt=""></a>
-								<div class="date">
-									<span class="number">15</span>
-									<span class="text">Jan</span>
-								</div>
-							</div>
-							<h3 class="articleTitle"><a href="">Lorem ipsum dolor sit amet</a></h3>
-							<p class="articleDesc">
-								Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-							</p>
-							<div class="articleMeta">
-								<a href="#"><i class="mdi mdi-eye nino-icon"></i> 543</a>
-								<a href="#"><i class="mdi mdi-comment-multiple-outline nino-icon"></i> 15</a>
-							</div>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="images/our-blog/img-2.jpg" alt=""></a>
-								<div class="date">
-									<span class="number">14</span>
-									<span class="text">Jan</span>
-								</div>
-							</div>
-							<h3 class="articleTitle"><a href="">sed do eiusmod tempor</a></h3>
-							<p class="articleDesc">
-								Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-							</p>
-							<div class="articleMeta">
-								<a href="#"><i class="mdi mdi-eye nino-icon"></i> 995</a>
-								<a href="#"><i class="mdi mdi-comment-multiple-outline nino-icon"></i> 42</a>
-							</div>
-						</article>
-					</div>
-					<div class="col-md-4 col-sm-4">
-						<article>
-							<div class="articleThumb">
-								<a href="#"><img src="images/our-blog/img-3.jpg" alt=""></a>
-								<div class="date">
-									<span class="number">12</span>
-									<span class="text">Jan</span>
-								</div>
-							</div>
-							<h3 class="articleTitle"><a href="">incididunt ut labore et dolore</a></h3>
-							<p class="articleDesc">
-								Elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-							</p>
-							<div class="articleMeta">
-								<a href="#"><i class="mdi mdi-eye nino-icon"></i> 1264</a>
-								<a href="#"><i class="mdi mdi-comment-multiple-outline nino-icon"></i> 69</a>
-							</div>
-						</article>
-					</div>
-				</div>
+    		<div class="nino-testimonialSlider">
+				<ul>
+					<?php echo showEvent("others") ?>
+				</ul>
 			</div>
     	</div>
-	</section> -->
-	<!--/#nino-latestBlog-->
+	</section><!--/#nino-testimonial-others-->
+
+	<!-- Searching
+    ================================================== -->
+    <section id="nino-searching">
+    	<div class="container">
+    		<!-- <div layout="row"> -->
+				<form action="" method="post">
+					
+					<div>
+					Type filter : 
+						<input type="radio" name="filter" value="name_event" checked="checked">name event
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="filter" value="name_organizer">organizer
+						<input type="radio" name="filter" value="name_place">place
+						<input type="radio" name="filter" value="date_search">date
+					</div>
+					<div>
+						Search 
+						<input type="text" name="searchtext">
+						<input type="submit" name="search" href="#nino-searching" class="btn btn-danger" value="search">
+						<input type="date">
+					</div>
+					<p>Your search is : <?php echo $searchtext; ?></p>
+				</form>
+
+				<div>
+					<?php echo $results ?>
+				</div>
+    		<!-- </div> -->
+    	</div>
+    </section><!--/#nino-searching-->
 
     <!-- Map
     ================================================== -->
@@ -401,17 +385,10 @@
 	        				<a href="#" >Develop by CodeHere</a>
 	        			</div>
 	        			<p>
-	        				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+	        				Project in Web Technology.
 	        			</p>
 
-	        			<form action="" class="nino-subscribeForm">
-	        				<div class="input-group input-group-lg">
-								<input type="email" class="form-control" placeholder="Your Email" required>
-								<span class="input-group-btn">
-									<button class="btn btn-success" type="submit">Subscribe</button>
-								</span>
-							</div>
-	        			</form>
+						<img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt="">
         			</div>
         		</div>
         		<div class="col-md-4 col-sm-6">
@@ -419,23 +396,23 @@
 	        			<h3 class="nino-colHeading">Team</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">Praewa Jidpakdee</a></h3>
+	        						<h3 class="articleTitle">Praewa Jidpakdee</h3>
 	        						<div class="date">5710400572</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">Chanidapa Nitipittayapakrit</a></h3>
+	        						<h3 class="articleTitle">Chanidapa Nitipittayapakrit</h3>
 	        						<div class="date">5710404306</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">Panward</a></h3>
+	        						<h3 class="articleTitle">Panward Khumdang</h3>
 	        						<div class="date">5710404454</div>
 	        					</div>
 	        				</li>
@@ -444,27 +421,27 @@
         		</div>
         		<div class="col-md-4 col-sm-6">
               <div class="colInfo">
-	        			<h3 class="nino-colHeading">Team</h3>
+	        			<h3 class="nino-colHeading">.</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">เก่ง</a></h3>
-	        						<div class="date">5710404</div>
+	        						<h3 class="articleTitle">Chayapol Poltha</h3>
+	        						<div class="date">5710404314</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">แทน</a></h3>
-	        						<div class="date">5710404</div>
+	        						<h3 class="articleTitle">Chatchawat Pitanpitayarat</h3>
+	        						<div class="date">5710400521</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a>
+	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
-	        						<h3 class="articleTitle"><a href="#">โอ้ต</a></h3>
-	        						<div class="date">57104</div>
+	        						<h3 class="articleTitle">Ekachai Srivanna</h3>
+	        						<div class="date">5710451606</div>
 	        					</div>
 	        				</li>
 	        			</ul>
@@ -480,7 +457,8 @@
     <form action="" id="nino-searchForm">
     	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
     	<i class="mdi mdi-close nino-close"></i>
-    </form><!--/#nino-searchForm-->
+	</form>
+	<!--/#nino-searchForm-->
 
     <!-- Scroll to top
     ================================================== -->
