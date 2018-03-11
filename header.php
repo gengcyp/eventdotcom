@@ -22,8 +22,13 @@
 		global $connection;
 
 		$outputUserLogin = '';
-
-		if($user_type === 'organizer'){
+		if($user_type === 'guest'){
+			$outputUserLogin .= '
+				<li><a href="">Guest</a></li>
+				<a href="login.php" class="nino-btn" name="submit">Signin</a>
+			';
+		}
+		else if($user_type === 'organizer'){
 			$outputUserLogin .= '
 				<a href="mydetail.php" class="aboutMe">';
 			
