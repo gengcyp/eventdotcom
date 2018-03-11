@@ -1,63 +1,62 @@
 <?php
-	$connection = new PDO(
-	'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-	'chanidapa',
-	'1234'
-	);
+	
+	include 'DBconnect.php';
+    include 'checker.php';
+    
+	$connection = new DBconnect('eventdotcom','root','');
 
 	$status = 'guest';
+	$me = "";
+	
+	if(checkSession()){
+		$user = $_SESSION['uid'];
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = $_POST["name"];
-		$type = $_POST["type"];
-		$status = $type;
+		$me = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
+		$status = $me[0]["type"];
+	}else{
+		$status = 'guest';
 	}
 
 	function userLogin($status){
-		
-		$connection = new PDO(
-			'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-			'chanidapa',
-			'1234'
-			);
+		global $me;
+		global $connection;
 
 		$outputUserLogin = '';
-		if($status === 'guest'){
+        if($status === 'organizer'){
 			$outputUserLogin .= '
-				<li><a href="">Guest</a></li>
-				<a href="login.php" class="nino-btn" name="submit">เข้าสู่ระบบ</a>
-				
-			';
-		}
-		else if($status === 'organizer'){
-			$outputUserLogin .= '
-				<li><a href="">';
+				<a href="mydetail.php" class="aboutMe">';
 			
-			foreach($connection->query('SELECT * FROM users WHERE type="organizer"') as $row) {
-				$outputUserLogin .= $row['fname'] . " (organizer)";
-			}
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
-				</a></li>
-				<a href="#" class="nino-btn" id="logout">ออกสู่ระบบ</a>
+				</a>
 			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
-		else if($status === 'attendees'){
+		else if($status === 'attendant'){
 			$outputUserLogin .= '
-				<li><a href="">';
+				<a href="mydetail.php">';
 			
-			foreach($connection->query('SELECT * FROM users WHERE type="attendant"') as $row) {
-				$outputUserLogin .= $row['fname'] . " (attendand)";
-			}
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
-				</a></li>
-				<a href="#" class="nino-btn" id="logout">ออกสู่ระบบ</a>
+				</a>
+				<a href="scanqrcode.php">Scan</a>
 			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
+		}
+		else if($status === 'admin'){
+			$outputUserLogin .= '
+				<a href="mydetail.php">';
+			
+			$outputUserLogin .= $me[0]['fname'] . " / About me";
+			$outputUserLogin .= '
+				</a>
+			';
+			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
 		return $outputUserLogin;
 	}
+	
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -103,52 +102,23 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand">Eventdotcom</a>
+						<a href="index.php" class="navbar-brand">Eventdotcom</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="nino-menuItem pull-right">
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
-						
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="#nino-header">Home <span class="sr-only">(current)</span></a></li>
-								<li><a href="#nino-entertainment">Entertainment</a></li>
-								<li><a href="#nino-music">Music</a></li>
-								
+								<a href="index.php">Home <span class="sr-only">(current)</span></a>
 								<?php echo userLogin($status)?>
 							</ul>
 							
-							<ul class="nino-iconsGroup nav navbar-nav">
-								<li><a href="#" class="nino-search"><i class="mdi mdi-magnify nino-icon"></i></a></li>
-							</ul>
-
+                        </div>
 					</div>
 				</div><!-- /.container-fluid -->
 			</nav>
-
 		</div>
 	</header><!--/#header-->
-
-	<!-- content
-    ================================================== -->
-	<section class="content">
-		
-	</section><!--/content-->
-   
-    <!-- Footer
-    ================================================== -->
-    <footer id="footer">
-        <div class="container">
-			<div class="nino-copyright">Copyright &copy; 2016 <a target="_blank" href="http://www.ninodezign.com/" title="Ninodezign.com - Top quality open source resources for web developer and web designer">Ninodezign.com</a>. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
-        </div>
-    </footer><!--/#footer-->
-
-    <!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-    </form><!--/#nino-searchForm-->
 
     <!-- Scroll to top
     ================================================== -->
