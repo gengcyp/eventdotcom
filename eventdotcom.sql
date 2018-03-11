@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2018 at 10:20 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Mar 11, 2018 at 11:43 AM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -74,7 +74,7 @@ CREATE TABLE `eventdetail` (
 --
 
 INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createddate`, `location`, `latitude`, `longitude`, `eventown`, `started`, `finished`) VALUES
-(1, 'JOIN48', 'come to join us at join 48', 'profile-pic', 50, 0, 'Music', '-', 550, '2018-02-18 21:00:00', 'paragon', '13.722735858000464', '100.55869352255854', 2, '2018-03-04 22:00:00', '0000-00-00 00:00:00'),
+(1, 'JOIN48', 'come to join us at join 48', 'profile-pic', 50, 0, 'Music', '-', 550, '2018-02-18 21:00:00', 'paragon', '13.722735858000464', '100.55869352255854', 2, '2018-03-04 22:00:00', '2018-03-04 23:00:00'),
 (3, 'Thailand Coffee Fest 2018', 'Thailand Coffee Fest 2018 A Journey of Coffee จากต้นจนจิบ เตรียมพบกับมหกรรมของคนรักกาแฟที่ยิ่งใหญ่', 'profile-pic', 999, NULL, '', '', NULL, '2018-03-07 18:21:14', 'Queen Sirikit National Convention Center', '13.722735858000464', '100.55869352255854', 2, NULL, NULL),
 (4, 'Thailand’s Digital Transformation Forum', 'รายละเอียดงาน\r\n\r\nวันที่: 15 มีนาคม 2561 เวลา 13.00 - 16.30 น.\r\n\r\nสถานที่: หอประชุมศาสตราจารย์สังเวีย', 'profile-pic', 0, NULL, '', '', NULL, '2018-03-07 18:24:15', 'ตลาดหลักทรัพย์แห่งประเทศไทย', '13.763922283650539', '100.56787740622553', 2, NULL, NULL),
 (5, 'KILORUN 2018', 'What is KILORUN?\r\n        When running doesn’t measure just Kilometre anymore, but also Kilogram. KILORUN, the new running festival, the only one that you can enjoy running, eating and travelling all in one.  Apart from having good health and joy, everyone can enjoy the best selected local dishes along with the unique route of the iconic city. As well as sharing race experiences with friends and families, no matter who you are or where you are from.\r\nキロランとは？\r\n「走る・食べる・観光する」を一度に楽しむことができ、キロメートル（距離）だけでなくキログラム（体重）で記録測定する、まったく新しいランニングイベントです。健康に良いだけでなく、観光スポットを通るユニークなランニングルートを走って、その土地の文化に触れながらご当地グルメも味わえます。年齢や性別、国境を越えてみんなで美味しい・楽しいをシェアしましょう！', 'profile-pic', 0, NULL, '', '', NULL, '2018-03-07 18:26:21', 'ลานคนเมือง', '13.747415233639748', '100.50410520468745', 2, NULL, NULL),
@@ -83,7 +83,7 @@ INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `atte
 (8, 'Test1', 'd', 'profile-pic', 999, NULL, '', '', NULL, '2018-03-10 16:39:36', 'l', '13.761350082413264', '100.50658106242679', NULL, NULL, NULL),
 (9, 'Kaset Fair 2561', 'kasetfair 61', 'profile-pic', 100000, 0, 'Other', 'test', 0, '2018-03-10 20:37:48', 'มหาวิทยาลัยเกษตรศาสตร์ บางเขน', '13.84694496369389', '100.56952558675539', NULL, '2018-01-26 12:00:00', '2018-02-03 22:00:00'),
 (10, 'วันเด็ก', '', 'profile-pic', 0, 0, 'Music', '', 0, '2018-03-10 20:38:32', 'สนามหลวง', '13.754972426450044', '100.49306272899173', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(11, 'Test name', 't desc', 'profile-pic', 60, 1, 'Entertainm', 'dddddfffddffff', 4000, '2018-03-10 21:28:26', 'taiwan', '24.983891633555285', '121.24980521509087', NULL, '2018-03-11 11:11:00', '2018-03-22 22:22:00'),
+(11, 'Test name', 't desc', 'profile-pic', 60, 1, 'Entertainm', 'dddddfffddffff', 4000, '2018-03-10 21:28:26', 'taiwan', '24.983891633555285', '121.24980521509087', 2, '2018-03-11 11:11:00', '2018-03-22 22:22:00'),
 (12, '11111', '', 'profile-pic', 0, 0, 'Other', '', 0, '2018-03-10 21:33:17', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (13, '121212', '', 'profile-pic', 0, 0, 'Entertainm', '', 0, '2018-03-10 21:34:32', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (14, '11', '', 'profile-pic', 0, 0, 'Music', '', 0, '2018-03-10 21:46:40', '', '', '', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -108,15 +108,16 @@ CREATE TABLE `reservations` (
   `userid` int(11) DEFAULT NULL,
   `eventcode` int(11) DEFAULT NULL,
   `certificate` tinyint(1) DEFAULT '0',
-  `reservetime` datetime DEFAULT NULL
+  `reservetime` datetime DEFAULT NULL,
+  `reservestatus` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`reservationid`, `userid`, `eventcode`, `certificate`, `reservetime`) VALUES
-(1, 3, 5152, 0, '2018-02-19 20:00:00');
+INSERT INTO `reservations` (`reservationid`, `userid`, `eventcode`, `certificate`, `reservetime`, `reservestatus`) VALUES
+(1, 3, 1, 0, '2018-02-19 20:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -134,17 +135,18 @@ CREATE TABLE `users` (
   `email` varchar(50) DEFAULT NULL,
   `pwd` varchar(1000) DEFAULT NULL,
   `uname` varchar(20) DEFAULT NULL,
-  `ustatus` tinyint(1) DEFAULT NULL
+  `ustatus` tinyint(1) DEFAULT NULL,
+  `confirmcode` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`, `uname`, `ustatus`) VALUES
-(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o', 'admin', 1),
-(2, 'organizer', 'lu', 'bu', 'The mall Ngamwongwan', '024457522', 'org@hotmail.com', '$2y$10$QnOVehZPckFuMhtRbqpqwuszBNeI6ZOwUEP7yUUkCRdQnzlIlf79q', 'lb', 1),
-(3, 'attendant', 'matial', 'art', '5/1354 Prae', '0816523458', 'normal@hotmail.com', '$2y$10$KAefkXfWiuCJBe.bXHoowe0G8LbvNDZlhSZD7koXF5HpfOls9nksa', 'ma', 1);
+INSERT INTO `users` (`userid`, `type`, `fname`, `lname`, `address`, `phoneno`, `email`, `pwd`, `uname`, `ustatus`, `confirmcode`) VALUES
+(1, 'admin', 'cs', 'ku', 'kasetsart', '025555555', 'eve@hotmail.com', 'o123o', 'admin', 1, 0),
+(2, 'organizer', 'or', 'rg', 'poison', '0132756984', 'org@org.com', '$2y$10$0/5lZQFtU2/3/ENMAdCis.IdWcfzVuKepDzV8BpLWBG9Q3Lp3S60i', 'org', 1, 2131441722),
+(3, 'attendant', 'at', 'tn', 'across', '0174369852', 'attn@attn.com', '$2y$10$B99cwUImNPFpBeuZmf9ELOBVyVbgyn3GzfmQFWocq26hSrwvU7ENG', 'attn', 1, 976956237);
 
 --
 -- Indexes for dumped tables
