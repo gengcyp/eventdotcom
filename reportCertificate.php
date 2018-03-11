@@ -11,15 +11,19 @@
             <div class="center">
                 <h1>
         ';
-        $content .= $name_attendant;
+        $content .= ucwords($name_attendant);
         $content .= '
             </h1><br/>
-            <p>HAS SUCCESSFUL </p>
+            <p>HAS SUCCESSFUL IN EVENT 
+        ';
+        $content .= strtoupper($name_event);
+        $content .= '
+            </p>
             <br><br><br>
             
             <p class="footer">
         ';
-        $content .= $name_organizer;
+        $content .= ucwords($name_organizer);
         $content .= '
             </p>
         ';
@@ -29,10 +33,9 @@
     }
     if(isset($_POST["create_pdf"]))
     {
-        $id = $_POST["id"];
-        $name = "Praewa Jidpakdee";
-        $date = "2017-03-04";
-        $name_footer = "Johnson";
+        $name_attendant = $_POST["name_attendant"];
+        $name_event = $_POST["name_event"];
+        $name_organizer = $_POST["name_organizer"];
 
         require_once('tcpdf/tcpdf.php');
         $obj_pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -72,30 +75,9 @@
             }
         </style>';
 
-        $content .= write_data($name, $date, $name_footer);
+        $content .= write_data($name_attendant, $name_event, $name_organizer);
         $obj_pdf->writeHTML($content);
         ob_end_clean();
         $obj_pdf->Output('reportCertificate.pdf', 'I');
     }
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Report</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    </head>
-    <body>
-        <br /><br />
-        <div class="container" style="width:700px;">
-            <h3 align="center">Report</h3><br/>
-            <div class="table-responsive">
-                  
-                <form method="post">
-                    <input type="text" name="id" placeholder="id"/>
-                    <!-- <input type="text" name=""/> -->
-                    <input type="submit" name="create_pdf" class="btn btn-danger" value="Create PDF" />
-                </form>
-            </div>
-        </div>
-    </body>
-</html>
