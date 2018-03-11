@@ -2,7 +2,6 @@
 include 'formevent.php';
 include 'positiongmap.php';
 ?>
-<!-- <script src="positiongmap.js"></script> -->
 
 <script>
 //check session
@@ -11,10 +10,12 @@ include 'positiongmap.php';
 //   header('Location: event.php?id='+<?php //echo $id ?>);
 // }
 
-//set header
+//show button update event
+	$("#editevent").show();
+
+//show title
   $("#title").text("Edit Event");
 
-  // setMapMarker(0,0);
   //set form
   $("#name").val("<?php echo $name ?>");
   $("#desc").val("<?php echo $desc ?>");
@@ -22,11 +23,23 @@ include 'positiongmap.php';
   $("#lat").val("<?php echo $lat ?>");
   $("#lng").val("<?php echo $lon ?>");
   $("#limit").val("<?php echo $limit ?>");
-  $("#price").val("<?php echo $name ?>");
-  $("#feedback").val("<?php echo $price ?>");
-//Type
-//pre req table
-//events table
+	$("#precon").val("<?php echo $precon ?>");
+  $("#price").val("<?php echo $price ?>");
+  $("#feedback").val("<?php echo $feedback ?>");
+	document.getElementById("type").value = "<?php echo $type ?>";
+
+//set input Time
+	var st = new Date("<?php echo $started ?>");
+	var fn = new Date("<?php echo $finished ?>");
+	var ds = st.toISOString().slice(0,10);
+	var ts = st.toTimeString().split(' ')[0];
+	var df = fn.toISOString().slice(0,10);
+	var tf = fn.toTimeString().split(' ')[0];
+
+  $("#ts").val(ts);
+	$("#ds").val(ds);
+	$("#tf").val(tf);
+	$("#df").val(df);
 //pic
 
 </script>

@@ -15,12 +15,10 @@
         height: 400px;
         width: 100%;
        }
-       /* input {
-        width: 100%;
-       } */
     </style>
 </head>
 <body>
+  <?php include 'header.php' ?>
   <div class="py-5">
     <div class="container">
       <h1 style="text-align: center" id="title"></h1>
@@ -53,15 +51,16 @@
   							    longitude = results[0].geometry.location.lng();
   							    setMapCenter(latitude,longitude);
   							  }else {
-              			alert("Something got wrong " + status);
+              			alert("[google maps]Something got wrong " + status);
             			}
   							});
   							return false;
   						});
               $("#pin").click(function(){
-                moveMarkerToCenter();
+                var latlong = moveMarkerToCenter();
+                $("#lat").val(latlong[0]);
+                $("#lng").val(latlong[1]);
               });
-
   					</script>
 
             <div id="map"></div>
@@ -75,25 +74,39 @@
               <input type="number" class="form-control w-25" name="price" id="price"> <small class="form-text text-muted"></small> </div>
 
             <div class="form-group"> <label>Prerequiste Event</label>
+              <input type="number" class="form-control w-25" name="precon" id="precon"> <small class="form-text text-muted"></small>
+              <p>
+                <!-- <a  class="btn btn-outline-primary" id="check" name="check">Check</a> -->
+                <!-- <button type="submit" class="btn btn-outline-primary" name="check" id="check">Find</button> -->
+                <script type="text/javascript">
+
+                </script>
+              </p>
+
+            </div>
+
+            <div class="form-group"> <label>Start</label>
+              <input type="date" class="form-control w-50" name="ds" id="ds"><input type="time" class="form-control w-50" name="ts" id="ts">
+            <div class="form-group"> <label>End</label>
+              <input type="date" class="form-control w-50" name="df" id="df"><input type="time" class="form-control w-50" name="tf" id="tf"> <small class="form-text text-muted"></small>
 
             </div>
 
             <div class="form-group"> <label>Type</label><br>
               <div class="btn-group">
-                <button class="btn btn-outline-primary dropdown-toggle" name="type" data-toggle="dropdown"> Choose from choice</button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Separated link</a>
-                </div>
+                <select class="btn btn-outline-primary dropdown-toggle" name="type" id="type">
+                  <option class="dropdown-item" value="Music">Music</option>
+                  <option class="dropdown-item" value="Entertainm">Entertainment</option>
+                  <option class="dropdown-item" value="Other">Other</option>
+                </select>
               </div>
             </div>
 
             <div class="form-group"> <label>Feedback Link</label>
-              <input type="text" class="form-control feedback" name="feedback"> <small class="form-text text-muted"></small> </div>
+              <input type="text" class="form-control feedback" name="feedback" id="feedback"> <small class="form-text text-muted"></small> </div>
 
-
-            <button type="submit" class="btn btn-primary" name="insertuser">Submit</button>
+            <button type="submit" class="btn btn-primary" name="insert" id="newevent" style="display:none">Save</button>
+            <button type="submit" class="btn btn-primary" name="edit" id="editevent" style="display:none">Save</button>
           </form>
         </div>
       </div>
@@ -120,9 +133,9 @@
   <!-- <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:180px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo&nbsp;&nbsp;
     <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
   </pingendo> -->
-  <?php
-  include 'eventDB.php';
-  ?>
+  <?php //include 'eventDB.php'; ?>
+  <script type="text/javascript">
+  </script>
 </body>
 
 </html>

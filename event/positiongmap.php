@@ -45,6 +45,7 @@ function toggleBounce() {
  }
  function moveMarkerToCenter(){
    marker.setPosition( new google.maps.LatLng( map.getCenter().lat(), map.getCenter().lng() ) );
+   return new Array(map.getCenter().lat(), map.getCenter().lng());
  }
 
 
