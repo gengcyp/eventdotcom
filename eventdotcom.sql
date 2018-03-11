@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2018 at 11:43 AM
+-- Generation Time: Mar 11, 2018 at 08:51 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -52,7 +52,7 @@ CREATE TABLE `detailpictures` (
 
 CREATE TABLE `eventdetail` (
   `eventid` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `eventname` varchar(100) DEFAULT NULL,
   `description` varchar(5000) DEFAULT NULL,
   `profilepic` varchar(100) DEFAULT NULL,
   `attendeeslimit` int(11) DEFAULT NULL COMMENT 'Max Attendees Limit',
@@ -73,7 +73,7 @@ CREATE TABLE `eventdetail` (
 -- Dumping data for table `eventdetail`
 --
 
-INSERT INTO `eventdetail` (`eventid`, `name`, `description`, `profilepic`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createddate`, `location`, `latitude`, `longitude`, `eventown`, `started`, `finished`) VALUES
+INSERT INTO `eventdetail` (`eventid`, `eventname`, `description`, `profilepic`, `attendeeslimit`, `preconditionid`, `type`, `feedback`, `price`, `createddate`, `location`, `latitude`, `longitude`, `eventown`, `started`, `finished`) VALUES
 (1, 'JOIN48', 'come to join us at join 48', 'profile-pic', 50, 0, 'Music', '-', 550, '2018-02-18 21:00:00', 'paragon', '13.722735858000464', '100.55869352255854', 2, '2018-03-04 22:00:00', '2018-03-04 23:00:00'),
 (3, 'Thailand Coffee Fest 2018', 'Thailand Coffee Fest 2018 A Journey of Coffee จากต้นจนจิบ เตรียมพบกับมหกรรมของคนรักกาแฟที่ยิ่งใหญ่', 'profile-pic', 999, NULL, '', '', NULL, '2018-03-07 18:21:14', 'Queen Sirikit National Convention Center', '13.722735858000464', '100.55869352255854', 2, NULL, NULL),
 (4, 'Thailand’s Digital Transformation Forum', 'รายละเอียดงาน\r\n\r\nวันที่: 15 มีนาคม 2561 เวลา 13.00 - 16.30 น.\r\n\r\nสถานที่: หอประชุมศาสตราจารย์สังเวีย', 'profile-pic', 0, NULL, '', '', NULL, '2018-03-07 18:24:15', 'ตลาดหลักทรัพย์แห่งประเทศไทย', '13.763922283650539', '100.56787740622553', 2, NULL, NULL),

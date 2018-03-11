@@ -70,7 +70,7 @@
 							<br><br><br><br><br><br><br><br><br><br><br>
 							<div align="center">Username: <input type="text" name="uname"></div>
 							<br>
-							<div align="center">Password: <input type="text" name="pwd"></div>
+							<div align="center">Password: <input type="password" name="pwd"></div>
 							
 							<br>
 							<?php echo $result; ?>
@@ -98,10 +98,10 @@
 								</tr>
 								<tr>
 									<td>
-										Password: <input type="text" name="pwd">	
+										Password: <input type="password" name="pwd">	
 									</td>
 									<td>
-										Confirm Password: <input type="text" name="cpwd">
+										Confirm Password: <input type="password" name="cpwd">
 									</td>
 								</tr>
 								<tr>
