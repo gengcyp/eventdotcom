@@ -5,24 +5,25 @@
     
 	$connection = new DBconnect('eventdotcom','root','');
 
-	$status = 'guest';
+	$$user_type = 'guest';
 	$me = "";
 	
 	if(checkSession()){
 		$user = $_SESSION['uid'];
 
 		$me = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
-		$status = $me[0]["type"];
+		$user_type = $me[0]["type"];
 	}else{
-		$status = 'guest';
+		$user_type = 'guest';
 	}
 
-	function userLogin($status){
+	function userLogin($user_type){
 		global $me;
 		global $connection;
 
 		$outputUserLogin = '';
-        if($status === 'organizer'){
+
+		if($user_type === 'organizer'){
 			$outputUserLogin .= '
 				<a href="mydetail.php" class="aboutMe">';
 			
@@ -32,7 +33,7 @@
 			';
 			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
-		else if($status === 'attendant'){
+		else if($user_type === 'attendant'){
 			$outputUserLogin .= '
 				<a href="mydetail.php">';
 			
@@ -43,7 +44,7 @@
 			';
 			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
-		else if($status === 'admin'){
+		else if($user_type === 'admin'){
 			$outputUserLogin .= '
 				<a href="mydetail.php">';
 			
@@ -110,7 +111,7 @@
 						<div class="collapse navbar-collapse pull-left" id="nino-navbar-collapse">
 							<ul class="nav navbar-nav">
 								<a href="index.php">Home <span class="sr-only">(current)</span></a>
-								<?php echo userLogin($status)?>
+								<?php echo userLogin($user_type)?>
 							</ul>
 							
                         </div>
