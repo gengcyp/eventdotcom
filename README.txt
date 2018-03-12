@@ -3,7 +3,7 @@ This Web page is contain and manage event
 Instruction
 
 **Please chenge user & password at the database connect in filename 'Header.php' 
-**Admin of this webpage username is admin, password is admin12
+**Admin of this webpage username is admin, password is org12
 
 main page is 'index.php'
 
