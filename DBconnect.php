@@ -38,6 +38,13 @@
 	 		return $affectedRows;
 	 	}
 
+		function insertGetLast($table, $column, $values){
+		    $affectedRows = $this->connection->exec(
+		         'INSERT INTO '. $table.' '. $column. ' VALUES '. $values );
+		  	$lastid = $this->connection->lastInsertId();
+		    return $lastid;
+		}
+
 	 	// delete
 	 	// form is (delete from which table, condition)
 	 	function delete($table, $condition){
