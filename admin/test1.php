@@ -30,17 +30,20 @@
     $result = $connection->select('*','users','');
     $delete = "";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if(isset($_POST["submit"])){
-          echo "<script type='text/javascript'>alert('Success.');</script>";
-          echo $_POST['id'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        if(isset($_POST["del"])){
+         
           $uid = $_POST['id'];
           $delete=$connection->delete('users','WHERE users.userid='.'"'.$uid.'"');
-          echo $delete;
+           header( "Location: test1.php" );
+          // echo"<script type='text/javascript'> location.reload(true);</script>";
+          // echo "<script type='text/javascript'>alert('Success.');</script>";
+
         }
+
+
       }
-    
-    echo "<script type='text/javascript'>alert($delete);</script>";  
+     
     ?>
 
   </head>
@@ -52,14 +55,7 @@
   function deleteRow(r) {
     var i = r.parentNode.parentNode.rowIndex;
     x = document.getElementById("myTable").rows[i].cells[0];
-    // alert(x.innerHTML);
-
     document.getElementById("myTable").deleteRow(i);
-    }
-
-    function getuid(){
-      alert(x.innerHTML);
-      return x.innerHTML;
     }
   </script>
 
@@ -240,7 +236,7 @@
                           <span>Users</span>
                       </a>
                       <ul class="sub">
-                          <li class="active"><a  href="userManage.php">User Management <?php echo $delete; ?></a></li>
+                          <li class="active"><a  href="userManage.php">User Management</a></li>
                           <li><a  href="addUser.php">Create User</a></li>
                       </ul>
                   </li>
@@ -283,9 +279,8 @@
 	                  	  	  <hr>
                               <!-- <thead> -->
 
-                               <form method = "POST" 
-                                  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                                  <table class="table table-striped table-advance table-hover" id = "myTable">
+                         
+                              <table class="table table-striped table-advance table-hover" id = "myTable">
                                   <tr>
                                       <th> ID</th>
                                       <th><i class="fa fa-bullhorn"></i> Firstname</th>
@@ -297,28 +292,31 @@
                                   <!-- </thead> -->
                                   <tbody>
                                    
-                                    <?php
-                                      foreach ($result as $row) {
-                                        # php code...
-                                        echo"<tr>
-                                            <td id = 'uid' name='uid'><input hidden=true name='id' value=".$row['userid'].">".$row['userid']."</td>
-                                            <td>" .$row['fname']."</td><td>".$row['lname']."</td>
-                                            <td>".$row['phoneno']."</td><td>".$row['type']."</td>".
-                                            '<td>
-                                       
-                                              <button class="btn btn-primary btn-xs"><i class="fa fa-pencil" ></i>
-                                              </button>
-                                            
-                                              <button class="btn btn-danger btn-xs" type="submit" name="submit" onclick="deleteRow(this)" ><i class="fa fa-trash-o "></i>
-                                              </button>
-                                          
-                                      </td></tr>';
-                                      }
-                                  ?>
+                                    <?php foreach ($result as $row) {  ?>
+                                    <form method ="POST" >
+                                        <tr>
+                                          <td>
+                                            <input hidden=true name='id' value="<?php echo $row['userid']?>"> <?php echo $row['userid'] ?> 
+                                          </td>
+                                          <td><?php echo $row['fname'] ?></td>
+                                          <td><?php echo $row['lname'] ?></td>
+                                          <td><?php echo $row['phoneno'] ?></td>
+                                          <td><?php echo $row['type'] ?></td>
+
+                                          <td>
+                                            <button class="btn btn-primary btn-xs" type="submit" name="edit" formaction ="editUser.php"><i class="fa fa-pencil" ></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" type="submit" name="del" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" ><i class="fa fa-trash-o "></i>
+                                            </button>
+                                          </td>
+                                      </tr>
+                                </form>
+                                    <?php  } ?>
+                                 
                               
-                              </tbody>
-                            </table>
-                          </form>
+                                  </tbody>
+                              </table>
+                          
                       </div><!-- /content-panel -->
                   </div><!-- /col-md-12 -->
               </div><!-- /row -->
