@@ -3,6 +3,25 @@
   <?php include 'header.php';
         include 'eventDB.php';
         ?>
+<script type="text/javascript">
+
+//check session
+if ("<?php echo $page ?>" == "newevent.php"){
+  if (!"<?php echo $user_type ?>"=="organizer"){
+    window.location.href = "index.php";
+  }
+}else if ("<?php echo $page ?>"  == "editevent.php"){
+  <?php
+  if (in_array("uid",$_SESSION)){
+    $uid = $_SESSION['uid'];
+  }else{
+    $uid = 0;
+  } ?>
+  if (!"<?php echo $uid; ?>"=="<?php echo $own; ?>"){   //no permission to edit this event
+    window.location.href = "event.php?id="+"<?php echo $id ?>";
+  }
+}
+</script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +29,6 @@
   <link rel="stylesheet" href="theme_editevent.css" type="text/css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- <script src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
 
   <style>
       #map {
@@ -135,7 +153,6 @@
   <!-- <pingendo onclick="window.open('https://pingendo.com/', '_blank')" style="cursor:pointer;position: fixed;bottom: 10px;right:10px;padding:4px;background-color: #00b0eb;border-radius: 8px; width:180px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-size:14px;color:white">Made with Pingendo&nbsp;&nbsp;
     <img src="https://pingendo.com/site-assets/Pingendo_logo_big.png" class="d-block" alt="Pingendo logo" height="16">
   </pingendo> -->
-  <?php //include 'eventDB.php'; ?>
   <script type="text/javascript">
   </script>
 </body>

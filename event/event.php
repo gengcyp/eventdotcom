@@ -9,7 +9,7 @@ include 'showmap.php';
 	//session
 	//check this user is event owner
 	<?php
-	if ($_SESSION!=NULL){
+	if (in_array("uid",$_SESSION)){
 		$uid = $_SESSION['uid'];
 	}else{
 		$uid = 0;
@@ -24,13 +24,10 @@ include 'showmap.php';
 	var r = "<?php findReserveUser($db,$id,$uid); ?>";
 
 	if ("<?php echo $user_type ?>"=="organizer"){//organizer user
-		console.log("organ");
 		//***hide reserve button
 	}else	if (r == "reserve"){		//this user is reserved
-		console.log("reserve");
 		//***hide reserve button
-	}else if (r=="not"){
-		console.log("not");
+	}else if (r=="not"){				//this user isn't reserved
 		//***show reserve button
 	}
 
@@ -51,7 +48,10 @@ include 'showmap.php';
 	<img id=profile height="300" width="300" src="<?php echo $profilepic ?>"></img>
 	<h1 id=name style="text-align:center"> <?php echo $name; ?></h1>
 	<img id=profilepic> </img>
-	<?php include 'slidepic.php' ?>
+	<?php
+		$pic = loadSlidePic($db,$id);
+		$caption = array();
+		include 'slidepic.php' ?>
 	<p id=location style="text-align:center">
 		<img src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/location-alt-24.png"></img>
 		<?php echo $location; ?>
@@ -61,7 +61,7 @@ include 'showmap.php';
 	<p id=desc> <?php echo $desc; ?></p>
 	<p id=price> Price <?php echo $price; ?> Baht</p>
 	<p id=limit> Limit <?php echo $limit; ?></p>
-	<p id=precon> Precondition Event <br><?php echo $showprecon; ?> </p>
+	<p id=precon> Precondition Event <br><?php //echo $showprecon; ?> </p>
 	<p id=feedback style="display:none"> </p>
 
 </body>

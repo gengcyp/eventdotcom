@@ -9,25 +9,21 @@
 
 <div class="content display-container">
 <?php
-$pic = array('https://www.w3schools.com/w3css/img_lights.jpg',
-    'https://www.w3schools.com/w3css/img_mountains.jpg',
-    'https://www.w3schools.com/w3css/img_forest.jpg',
-    'https://www.w3schools.com/w3css/img_mountains.jpg',
-    'https://www.w3schools.com/w3css/img_fjords.jpg');
-$caption = array('Trolltunga, Norway',
-    'Beautiful Mountains',
-    'The Rain Forest',
-    'Mountains!',
-    'dddd');
-for ($i=0;$i < count($pic);$i++){
-  echo '<div class="display-container mySlides">';
-  echo '<img src='.$pic[$i].' style="width:100%">';
-  // echo '<div class="large container padding-16 black">
-  //   '.$caption[$i].'</div>';
-  echo '</div>';
-}
-?>
 
+if (count($pic)>0){
+  for ($i=0;$i < count($pic);$i++){
+    echo '<div class="display-container mySlides">';
+    echo '<img src='.$pic[$i][0].' style="width:100%">';
+    // echo '<div class="large container padding-16 black">
+    //   '.$caption[$i].'</div>';
+    echo '</div>';
+  }
+  // echo '<button class="button display-left black" onclick="plusDivs(-1)">&#10094;</button>';
+  // echo '<button class="button display-right black" onclick="plusDivs(1)">&#10095;</button>'
+}
+
+?>
+<!-- ***hide if not found pic -->
 <button class="button display-left black" onclick="plusDivs(-1)">&#10094;</button>
 <button class="button display-right black" onclick="plusDivs(1)">&#10095;</button>
 

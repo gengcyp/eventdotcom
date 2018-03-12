@@ -36,7 +36,7 @@ if(isset($_POST['insert'])){
 		'.$dt.',
 		"'.$_SESSION['uid']	.'"
 		)';
-		$result = $db->insert('eventdetail','(name,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
+		$result = $db->insert('eventdetail','(eventname,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
 
 		echo "insert<br>";
 }
@@ -79,7 +79,7 @@ if (isset($_GET['id'])){
 	$event = $db->select("*",'eventdetail',"WHERE eventid=".$id);
 
 	if (!empty($event)){
-		$name = $event[0]["name"];
+		$name = $event[0]["eventname"];
 		$desc = $event[0]["description"];
 		$profilepic = $event[0]["profilepic"];
 		$location = $event[0]["location"];
@@ -107,10 +107,15 @@ function goToHomepage(){
 }
 function findReserveUser($db,$eid,$uid){
 		$event = $db->select("*",'reservations',"WHERE eventcode=".$eid." AND userid=".$uid);
+		//use in event.php to show button reserve
 		if ($event != NULL){
 			echo "reserve";
 		}else{
 			echo "not";
 		}
+}
+function loadSlidePic($db,$eid){
+	$pic = $db->select('picture','detailpictures','WHERE eventid='.$eid);
+	return $pic;
 }
 ?>
