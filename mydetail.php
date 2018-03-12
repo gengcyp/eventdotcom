@@ -30,7 +30,7 @@
 		if (isset($_POST['subcer'])){
 			// give certificate to everyone that in this event
 			// get event id
-			$cer_eid = $_POST['ceid'];
+			$cer_eid = $_POST['eid'];
 
 			// change status of certificate
 			$connection->update("reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid ", "certificate=1", "WHERE eventcode='".$cer_eid."'");
@@ -168,7 +168,7 @@
 
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
 
-					 	$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button>\<button action='' type='submit' name='subcer' id='cer'>Certificate</button></form></td></tr>");
+					 	$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button><button action='' type='submit' name='subcer' id='cer'>Certificate</button></form></td></tr>");
 					 	// case already gave certificate
 				 		if (hevents[i]['certificate'] == 1){
 				 			$('#cer').attr('disabled', 'disabled');
