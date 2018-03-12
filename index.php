@@ -127,7 +127,6 @@
 			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
 				</a>
-				<a href="scanqrcode.php">Scan</a>
 			';
 			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
