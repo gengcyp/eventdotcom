@@ -36,23 +36,24 @@ if(isset($_POST['insert'])){
 		'.$dt.',
 		"'.$_SESSION['uid']	.'"
 		)';
-		$result = $db->insert('eventdetail','(eventname,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
 
-		echo "insert<br>";
+		$lastid = $db->insertGetLast('eventdetail','(eventname,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
+
+		// echo $lastid;
 }
 //edit event ---------------------------------------------
 //check button submit in editevent.php
 if(isset($_POST['edit'])){
 	$val = '
-		name=	"'.$_POST["name"]		.'",
+		eventname=	"'.$_POST["name"]		.'",
 		description= "'.$_POST["desc"]		.'",
 		profilepic= "profile-pic",
 		location= "'.$_POST["location"]	.'",
 		latitude= "'.$_POST["lat"]		.'",
 		longitude= "'.$_POST["lng"]		.'",
-		attendeeslimit ="'.$_POST["limit"]		.'",
-		price= "'.$_POST["price"]		.'",
-		preconditionid= "'.$_POST["precon"]		.'",
+		attendeeslimit ='.$_POST["limit"]		.',
+		price= '.$_POST["price"]		.',
+		preconditionid= '.$_POST["precon"]		.',
 		started= "'.$_POST["ds"]	." ".$_POST["ts"]		.'",
 		finished= "'.$_POST["df"]	." ".$_POST["tf"]		.'",
 		type= "'.$_POST["type"]		.'",
@@ -61,15 +62,10 @@ if(isset($_POST['edit'])){
 		$result = $db->update('eventdetail',$val,"WHERE eventid=".$_GET['id']);
 
 
-		echo "edit";
 }
 
 
 //show event  ---------------------------------------------
-//set initial value
-$name ="Not Found";
-$desc = $profilepic = $location = $type = $feedback  = $createddate = "";
-$lat = $lon = $price = $limit = 0;
 
 //get id from method get
 if (isset($_GET['id'])){
@@ -117,5 +113,10 @@ function findReserveUser($db,$eid,$uid){
 function loadSlidePic($db,$eid){
 	$pic = $db->select('picture','detailpictures','WHERE eventid='.$eid);
 	return $pic;
+}
+function uploadAlbum($db,$eid,$pathpic){
+	$db->insertGetLast('detailpictures',
+	'(eventid,picture)',
+	'('.$eid.',"'.$pathpic.'")');
 }
 ?>

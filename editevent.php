@@ -4,6 +4,20 @@ include 'positiongmap.php';
 ?>
 
 <script>
+<?php
+// if (in_array("uid",$_SESSION)){
+	$uid = $_SESSION['uid'];
+// }else{
+// 	$uid = 0;
+// }
+
+ ?>
+// <p><?php //echo ($_SESSION['uid']); ?></p>
+if ("<?php echo $uid; ?>"=="<?php echo $own; ?>"){   //no permission to edit this event
+
+}else{
+	window.location.href = "event.php?id="+"<?php echo $id ?>";
+}
 //show button update event
 	$("#editevent").show();
 
