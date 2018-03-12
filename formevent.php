@@ -32,12 +32,12 @@
               <input type="text" class="form-control form-control-lg" id="name" name="name" required="required"> <small class="form-text text-muted"></small> </div>
 
             <div class="form-group"> <label>Descritption</label>
-              <textarea name="desc"  id="desc"  rows="5" class="form-control"></textarea>
+              <textarea name="desc"  id="desc"  rows="5" class="form-control" required="required"></textarea>
               <!-- <input type="text" class="form-control" id="desc" name="desc">  -->
               <small class="form-text text-muted"></small> </div>
 
             <div class="form-group"> <label>Location</label>
-              <input type="text" class="form-control w-75" id="location" name="location">
+              <input type="text" class="form-control w-75" id="location" name="location" required="required">
               <a  class="btn btn-outline-primary" id="find">Find on Map</a>
               <a  class="btn btn-outline-primary" id="pin">Move Pin</a>
             </div>
@@ -88,9 +88,9 @@
             </div>
 
             <div class="form-group"> <label>Start</label>
-              <input type="date" class="form-control w-50" name="ds" id="ds"><input type="time" class="form-control w-50" name="ts" id="ts">
+              <input type="date" class="form-control w-50" name="ds" id="ds" required="required"><input type="time" class="form-control w-50" name="ts" id="ts" required="required">
             <div class="form-group"> <label>End</label>
-              <input type="date" class="form-control w-50" name="df" id="df"><input type="time" class="form-control w-50" name="tf" id="tf"> <small class="form-text text-muted"></small>
+              <input type="date" class="form-control w-50" name="df" id="df" required="required"><input type="time" class="form-control w-50" name="tf" id="tf" required="required"> <small class="form-text text-muted"></small>
 
             </div>
 

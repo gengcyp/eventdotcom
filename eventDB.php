@@ -83,7 +83,12 @@ if (isset($_GET['id'])){
 		$lon = $event[0]["longitude"];
 		$limit = $event[0]["attendeeslimit"];
 		$price =  $event[0]["price"];
-		$precon = $event[0]["preconditionid"];//
+		$preconid = $event[0]["preconditionid"];//
+		if ($preconid==0 || $preconid==NULL){
+			$precon="";
+		}else{
+			$precon = $db->select('name','eventdetail','WHERE eventid='.$preconid)[0]['name'];
+		}
 		$started = $event[0]["started"];//
 		$finished= $event[0]["finished"];//
 		$type =  $event[0]["type"];
