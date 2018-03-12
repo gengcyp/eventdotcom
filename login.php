@@ -181,7 +181,7 @@
 				window.location.href = "index.php";
 			}
 			else if ("<?php echo $status ;?>" == "ADMIN"){
-				window.location.href = "admin/UserManage.php";
+				window.location.href = "UserManage.php";
 			}
 		});
 

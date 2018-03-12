@@ -83,6 +83,6 @@ include 'positiongmap.php';
 	}?>
 	<a  class="btn btn-outline-primary" id="edit" style="display:none" link="editevent.php?id=<?php echo $_GET['id'] ?>">Edit</a>
 	<a  class="btn btn-outline-primary" id="reserve" style="display:none">Reserve</a>
-
+	<a href="comment.php"><button>go to webboard</button></a>
 </body>
 </html>
