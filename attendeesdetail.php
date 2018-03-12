@@ -21,7 +21,7 @@
 				// check user that login is the owner
 				if ($user == $eid){
 					// get data of attendees
-					$attn = $connection->select('*','FROM reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', 'WHERE reservations.eventcode="'.$eid.'"');						
+					$attn = $connection->select('*','FROM reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', 'WHERE reservations.eventcode="'.$eid.'"');					
 				}
 			
 			}
@@ -49,15 +49,16 @@
 				 for (var i = 0; i < cevents.length; i++) {
 				 	// header
 				 	if (i==0){
-				 		$('#users').append('<tr><td>UserID</td><td>Name Of User</td><td>Phone No.</td></tr>');
+				 		$('#users').append('<tr><td>UserID</td><td>Name Of User</td><td>Phone No.</td><td>Reserve Time</td></tr>');
 				 	}
 
 				 	// show all attendees
-				 	$("#users").append("<tr><td>"+ "</td><td>" + attns[i]['userid']+ "</td><td>" + attns[i]['fname'] + "  " + attns[i]['lname'] + "</td><td>" + attns[i]['phoneno']+"</td></tr>");
+				 	$("#users").append("<tr><td>"+ "</td><td>" + attns[i]['userid']+ "</td><td>" + attns[i]['fname'] + "  " + attns[i]['lname'] + "</td><td>" + attns[i]['phoneno']+"</td><td>" + attns[i]['reservetime']+"</td></tr>");
 				 	
 				 }
 			}
 		});
+
 	</script>
 </body>
 <style>
