@@ -7,13 +7,14 @@
 </head>
 <body>
 	<?php
-		include 'DBconnect.php';
-		include 'checker.php';
+		// include 'DBconnect.php';
+		// include 'checker.php';
+		include 'header.php';
 		include 'reportCertificate.php';
 		// connect DB
-		$connection = new DBconnect(
-					'eventdotcom',
-					 'tk', 'Working24'); 
+		// $connection = new DBconnect(
+		// 			'eventdotcom',
+		// 			 'tk', 'Working24'); 
 
 		// select my event from db
 		// status from session that user has been log in or not
@@ -96,8 +97,12 @@
 			<textbox><?php echo $myinfo[0]['phoneno']; ?></textbox>			
 		</div>
 	</div>
-	<div id='current' class="tabcontent" hidden="true"></div>
-	<div id='history' class="tabcontent" hidden="true"></div>
+	<div id='current' class="tabcontent" hidden="true">
+		<table id='allCEvents'></table>
+	</div>
+	<div id='history' class="tabcontent" hidden="true">
+		<table id='allHEvents'></table>
+	</div>
 
 	<script>
 		$(document).ready(function(){
@@ -122,27 +127,45 @@
 
 				 	// case eventowner
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
-				 		$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i]['eventid']+ ", Name of Event: " + cevents[i]['eventname'] + ", Description: " + cevents[i]['description'] +"&nbsp;&nbsp;<a href='editevent.php?id="+cevents[i]['eventid']+"'><button>Edit</button></a></div>");
+				 		// header
+				 		if (i==0){
+				 			$('#allCEvents').append('<tr><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
+				 		}
+				 		$("#allCEvents").append("<tr><td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='editevent.php?id="+cevents[i]['eventid']+"'><button>Edit</button></a></td></tr>");
 				 	}
 				 	// case attendant user
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
-				 		$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i]['eventid']+ ", Name of Event: " + cevents[i]['eventname'] + ", Description: " + cevents[i]['description'] +"&nbsp;&nbsp;<a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></div>");
-				 	}
+
+				 		if (i==0){
+				 			$('#allCEvents').append('<tr><td>MyCode</td><td>EventID</td><td>Name Of Event</td><td>Description</td><td>Payment</td></tr>');
+				 		}
+
+				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid'>Upload Payment</button></a></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
+				 		if (cevents[i]['reservationstatus'] == 1){
+				 			$('#paid').attr('disabled', 'disabled');
+				 		} 
+					}
 				 	
 				 }
 
 				 // pass events
 				 for (var i = 0; i < hevents.length; i++) {
+				 	// header
+				 	if (i==0){
+				 		$('#allHEvents').append('<tr><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
+				 	}
 
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
-					 	$("#history").append("<form method='post' action=''><div class=h-events id="+i+">"+ "EventID: " + hevents[i]['eventid']+ ", Name of Event: " + hevents[i]['eventname'] + ", Description: " + hevents[i]['description'] +"&nbsp;&nbsp; <input hidden='true' type='text' name='ceid' value='" + hevents[i]['eventid'] + "'><button type='submit' name='subcer' id='cer'>Certificate</button></div></form>");
+
+					 	$("#allHEvents").append("<tr><form method='post' ><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button></td><td><button action='' type='submit' name='subcer' id='cer'>Certificate</button></td></form></tr>");
 					 	// case already gave certificate
 				 		if (hevents[i]['certificate'] == 1){
 				 			$('#cer').attr('disabled', 'disabled');
 				 		}
 					 }
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
-				 		$("#history").append("<form method='post' action=''><div class=c-events id="+i+">"+ "EventID: " + hevents[i]['eventid']+ ", Name of Event: " + hevents[i]['eventname'] + ", Description: " + hevents[i]['description'] +"&nbsp;&nbsp; <input hidden='true' type='text' name='name_attendant' value=" + '<?php echo $myinfo[0]["fname"]. "  " . $myinfo[0]["lname"];?>' + "><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'><button type='submit' name='create_pdf' id='cer'>Get Certificate</button></div></form>");
+				 		$atname = '<?php echo $myinfo[0]["fname"]. "  " . $myinfo[0]["lname"];?>';
+				 		$("#allHEvents").append("<tr><form method='post' action=''><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><input hidden='true' type='text' name='name_attendant' value='" + $atname + "'><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'></td><td><button type='submit' name='create_pdf' id='cer'>Get Certificate</button></td></form></tr>");
 
 				 		if (hevents[i]['certificate'] == 0){
 				 			$('#cer').attr('disabled', 'disabled');
@@ -150,7 +173,6 @@
 				 	}
 				 }
 			}
-			
 
 		});
 
@@ -173,8 +195,8 @@
 
 </body>
 <style>
-	.h-events{
-		border: 5px solid red;
+	td{
+		width: 250px;
 	}
 	/* Style the tab */
 	.tab {
@@ -203,6 +225,39 @@
 	/* Create an active/current tablink class */
 	.tab button.active {
 	    background-color: #ccc;
+	}
+
+	/* #allCEvents, #allHEvents{
+		margin-top: 20px;
+		border: 2px solid #f7eac4;
+	} */
+
+
+	#allCEvents , #allHEvents{
+		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	#allCEvents td, #allCEvents th, #allHEvents td, #allHEvents th {
+		border: 1px solid #ddd;
+		padding: 8px;
+	}
+
+	#allCEvents tr:nth-child(even), #allHEvents tr:nth-child(even){
+		background-color: #f2f2f2;
+	}
+
+	#allCEvents tr:hover, #allHEvents tr:hover {
+		background-color: #ddd;
+		}
+
+	#allCEvents th, #allHEvents th{
+		padding-top: 12px;
+		padding-bottom: 12px;
+		text-align: left;
+		background-color: #4CAF50;
+		color: white;
 	}
 
 </style>

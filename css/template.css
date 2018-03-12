@@ -155,7 +155,7 @@ img.img-full-width {
 	display: inline-block;
 	color: #fff;
 	text-transform: uppercase;
-	padding: 10px 20px;
+	/* padding: 10px 20px; */
 	text-align: center;
 	border: 2px solid #fff;
 	font-size: 12px;
@@ -264,6 +264,9 @@ img.img-full-width {
 	text-align: center;
 	color: #fff;
 }
+#nino-slider .carousel-inner > .item a img{
+	margin: 0 auto;
+}
 #nino-slider .carousel-indicators {
 	width: 100%;
 	left: 0;
@@ -322,13 +325,26 @@ img.img-full-width {
 	font-weight: 700;
 	font-size: 20px;
 }
+#nino-navbar .navbar-nav > a{
+	color: #fff;
+	font-weight: 500;
+	text-transform: uppercase;
+	padding: 15px 5px 5px;
+	margin: 0 12px;
+}
 #nino-navbar .navbar-nav > li > a {
 	color: #fff;
 	font-weight: 500;
 	text-transform: uppercase;
 	border-bottom: 3px solid transparent;
 	padding: 15px 5px 5px;
+	padding-bottom: 5px;
 	margin: 0 12px;
+}
+#nino-navbar .navbar-nav > li > a:hover{
+	color: #fce38a;
+	border-color: #fce38a;
+	background: none;
 }
 #nino-navbar .navbar-nav > li > a:hover,
 #nino-navbar .navbar-nav > .active > a,
@@ -477,7 +493,27 @@ section {
 	line-height: 100%;
 	margin-bottom: 10px;
 }
-
+/* =============== SECTION SEARCHING =============== */
+#nino-searching {
+	padding: 60px;
+	background: #95e1d3;
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+#nino-searching input[type="text"]{
+	margin: 3px;
+	padding: 3px 10px 3px 10px;
+	color: rgb(80, 80, 80);
+}
+#nino-searching input[type="date"]{
+	width: 100%;
+}
+#nino-searching img{
+	height: 40%;
+	width: 40%;	
+}
 
 /* =============== SECTION TESTIMONIAL =============== */
 .nino-testimonial {
@@ -498,19 +534,7 @@ section {
 .nino-testimonialSlider {
 	margin: 0 80px;
 }
-/* .nino-testimonialSlider .nino-avatar {
-	width: 190px;
-	margin-right: 35px;
-} */
-/* .nino-testimonialSlider .nino-symbol {
-	margin: 0 35px 0 5px;
-} */
-/* .nino-testimonialSlider .nino-symbol .nino-icon {
-	padding: 16px;
-	border: 2px solid #95e1d3;
-	font-size: 65px;
-	color: #95e1d3;
-} */
+
 .nino-testimonialSlider .quote {
 	font-size: 18px;
 	font-weight: 300;
@@ -520,77 +544,6 @@ section {
 .nino-testimonialSlider p{
 	text-align: center;
 }
-/* .nino-testimonialSlider .name {
-    font-family: 'Kaushan Script', cursive;
-    font-size: 18px;
-    position: relative;
-    padding-left: 50px;
-}
-.nino-testimonialSlider .name:after {
-	content: "";
-	position: absolute;
-	left: 0;
-	top: 50%;
-	width: 40px;
-	height: 2px;
-	background: #f38181;
-	-webkit-transform: translateY(-50%);
-	   -moz-transform: translateY(-50%);
-		 -o-transform: translateY(-50%);
-		-ms-transform: translateY(-50%);
-			transform: translateY(-50%);
-} */
-
-/* =============== SECTION LATEST BLOG =============== */
-/* #nino-latestBlog article .articleThumb {
-	position: relative;
-	margin-bottom: 20px;
-}
-#nino-latestBlog article .date {
-	position: absolute;
-	background: #95e1d3;
-	left: -10px;
-	bottom: 10px;
-	padding: 10px 15px;
-	color: #fff;
-	text-align: center;
-}
-#nino-latestBlog article .date .number {
-	display: block;
-	font-size: 28px;
-	line-height: 100%;
-	font-weight: 700;
-	font-family: 'Montserrat', sans-serif;
-}
-#nino-latestBlog article .date .text {
-	display: block;
-	font-weight: 300;
-	font-style: italic;
-}
-#nino-latestBlog article .articleTitle {
-	font-size: 14px;
-}
-#nino-latestBlog article .articleMeta {
-	border-top: 1px solid #e5e5e5;
-	margin-top: 15px;
-	padding-top: 15px;
-}
-#nino-latestBlog article .articleMeta a {
-	color: #999;
-	display: inline-block;
-	margin-right: 15px;
-	font-style: italic;
-	font-weight: 300;
-}
-#nino-latestBlog article .articleMeta a:hover {
-	color: #000;
-}
-#nino-latestBlog article .articleMeta .nino-icon {
-	color: #95e1d3;
-	font-size: 17px;
-	position: relative;
-	top: 2px;
-} */
 /* =============== SECTION MAP =============== */
 #nino-map {
 	padding: 40px 0;
@@ -858,21 +811,6 @@ div.pp_default .pp_social {
 	#nino-counting .number {
 		font-size: 50px;
 	}
-	
-	/* =============== SECTION LATEST BLOG =============== */
-	/* #nino-latestBlog article .articleTitle {
-		font-size: 11px;
-	}
-	#nino-latestBlog article .date {
-		padding: 8px 12px;
-	}
-	#nino-latestBlog article .date .number {
-		font-size: 18px;
-	}
-	#nino-latestBlog article .date .text {
-		font-size: 11px;
-	} */
-
 }
 
 @media (max-width: 768px) {
@@ -897,19 +835,6 @@ div.pp_default .pp_social {
 	#nino-slider .nino-sectionHeading .nino-subHeading {
 	    font-size: 35px;
 	}
-	
-
-	
-	/* =============== SECTION LATEST BLOG =============== */
-	/* #nino-latestBlog {
-		text-align: center;
-	}
-	#nino-latestBlog article {
-		display: inline-block;
-		max-width: 380px;
-		margin-bottom: 30px;
-		text-align: left;
-	} */
 }
 
 @media (max-width: 767px) {
@@ -1087,10 +1012,24 @@ div.pp_default .pp_social {
   -webkit-transform: scale(1.05);
   transform: scale(1.05);
   z-index: 4;
-  /* position: absolute; */
   box-shadow: 5px 10px 18px #888888;
 }
 
 .container-event:hover .middle {
   opacity: 1;
 }
+
+#google_translate_element{
+	position: relative;
+	left: 100px;
+}
+
+.container-event .nameEvent{
+	text-align: center;
+	font-size: 20px;
+}
+.container-event p{
+	text-align: center;
+	color: black;
+}
+

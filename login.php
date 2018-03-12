@@ -1,17 +1,14 @@
-<?php
-	session_start();  
-?>
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 
 <!-- check login -->
 <?php  
-	include 'DBconnect.php';
+	// include 'DBconnect.php';
+	include 'header.php';
 	// connect to DB
-	$connection = new DBconnect(
-		'eventdotcom',
-		 'tk', 'Working24');
+	// $connection = new DBconnect(
+	// 	'eventdotcom',
+	// 	 'tk', 'Working24');
 	// $login_statement = $connection->prepare('Select * From users' );
 	$result = "";
 	$selected = "";
@@ -120,6 +117,17 @@
 								</tr>
 								<tr>
 									<td>
+										<label>Gender: </label><br>
+										<input type="radio" name="gender" value="male">Male
+										<input type="radio" name="gender" value="female">Female
+									</td>
+									<td>
+										<label>Birthday</label>
+										<input type="date" name="bday">
+									</td>
+								</tr>
+								<tr>
+									<td>
 										Address: <input type="text" name="address">
 									</td>
 								</tr>
@@ -171,6 +179,9 @@
 
 			if ("<?php echo $status ;?>" == "YES"){
 				window.location.href = "index.php";
+			}
+			else if ("<?php echo $status ;?>" == "ADMIN"){
+				window.location.href = "admin/UserManage.php";
 			}
 		});
 

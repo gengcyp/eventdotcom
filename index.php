@@ -25,12 +25,11 @@
 		$countStartRow = 0;
 		$outputShowEvent = '';
 
-		// $instrucQuery = $connection->select('*', 'events', 'inner join eventdetail on Events.eventid = Eventdetail.eventid where Eventdetail.type = "'. $type_event .'";');
-		$instrucQuery = $connection->select('*', 'eventdetail', 'where type = "'. $type_event .'";');
+		$instrucQuery = $connection->select('*', 'eventdetail', 'where type = "'. $type_event .'" AND Eventdetail.started>=CURDATE()');
 		
-
 		foreach($instrucQuery as $row){
 			$countStartRow += 1;
+
 			if($row["profilepic"] === "profile-pic"){
 				$pictureShow = "images/story/img-2.jpg";
 			}
@@ -39,9 +38,14 @@
 			}
 
 			if($countStartRow == 1){
-				
-				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
-				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
+
+				$s_date = (string)$row['started'];
+				$start_date = date_create($s_date);
+        		$newformatStart = date_format($start_date,"M d,Y h:i a");
+
+				$f_date = (string)$row['finished'];
+				$finish_date = date_create($f_date);
+        		$newformatFinish = date_format($finish_date,"M d,Y h:i a");
 
 				$outputShowEvent .= '
 				<li>
@@ -52,11 +56,11 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $newformatStart . ' - ' . $newformatFinish . '</p>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
+							<p>' . $newformatStart . ' - ' . $newformatFinish . '</p>
 						</div>
 				';
 			}
-			// <img style="width: 325px; height: 250px;" src="'. $row['profilepic'] .'" alt="">
 			else if($countStartRow == 3){
 				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
 				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
@@ -69,7 +73,8 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
+							<p>' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 					</div>
 				</li>
@@ -85,6 +90,7 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
 							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 				';			
@@ -121,7 +127,6 @@
 			$outputUserLogin .= $me[0]['fname'] . " / About me";
 			$outputUserLogin .= '
 				</a>
-				<a href="scanqrcode.php">Scan</a>
 			';
 			$outputUserLogin .= '<a href="logout.php" class="nino-btn">SignOut</a>';
 		}
@@ -165,7 +170,7 @@
 	<link rel="stylesheet" type="text/css" href="css/unslider.css" />
 	<link rel="stylesheet" type="text/css" href="css/template.css" />
 
-</head>
+</head> 
 
 <body data-target="#nino-navbar" data-spy="scroll">
 
@@ -199,11 +204,6 @@
 							</ul>
 							
 							<ul class="nino-iconsGroup nav navbar-nav">
-								<!-- <li><div class="search-panel">
-									<form action="" id="nino-header-search">
-										<input type="search" placeholder="Search..." id="masthead-search-search"/>
-									</form>
-								</div></li> -->
 								<li><a href="#nino-searching" class="nino-search"><i class="mdi mdi-magnify nino-icon"></i></a></li>
 							</ul>
 
@@ -211,37 +211,47 @@
 				</div><!-- /.container-fluid -->
 			</nav>
 
+			<div id="google_translate_element"> 
+			</div> 
+			<script type="text/javascript"> 
+				function googleTranslateElementInit() { 
+				new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); 
+			} 
+			</script> 
+			<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 			<section id="nino-slider" class="carousel slide container" data-ride="carousel">
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
 					<?php 
 						$countEventHead = 0;
-						$instrucQuery = $connection->select('*', 'eventdetail', ' order by started');								
-						
-						foreach($instrucQuery as $row){
-							if($row["profilepic"] === "profile-pic"){
-								$pictureHeadShow = "images/story/img-2.jpg";
-							}
-							else{
-								$pictureHeadShow = $row["profilepic"];
-							}
-				
-							$countEventHead += 1;
+						$instrucQuery = $connection->select('*', 'eventdetail', ' order by started AND Eventdetail.started>=CURDATE()');								
 
-							if($countEventHead == 1){
+						foreach($instrucQuery as $row){
+
+								if($row["profilepic"] === "profile-pic"){
+									$pictureHeadShow = "images/story/img-2.jpg";
+								}
+								else{
+									$pictureHeadShow = $row["profilepic"];
+								}
+					
+								$countEventHead += 1;
+
+								if($countEventHead == 1){
+							?>
+									<div class="item active">
+										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+									</div>	
+						<?php
+								}
+								else if($countEventHead >=2 && $countEventHead < 5){
 						?>
-								<div class="item active">
-									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
-								</div>	
-					<?php
-							}
-							else if($countEventHead >=2 && $countEventHead < 5){
-					?>
-								<div class="item">
-									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
-								</div>
-					<?php 	} 
+									<div class="item">
+										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+									</div>
+						<?php 	} 
 						}
 					?>
 				</div>
@@ -332,30 +342,31 @@
     ================================================== -->
     <section id="nino-searching">
     	<div class="container">
-    		<!-- <div layout="row"> -->
 				<form action="" method="post">
-					
 					<div>
-					Type filter : 
-						<input type="radio" name="filter" value="name_event" checked="checked">name event
+						Type filter : 
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="radio" name="filter" value="name_organizer">organizer
-						<input type="radio" name="filter" value="name_place">place
-						<input type="radio" name="filter" value="date_search">date
+						<input type="radio" name="filter" value="name_event" <?php if (isset($filter) && $filter=="name_event") echo "checked";?>>&nbsp;name event
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="filter" value="name_organizer" <?php if (isset($filter) && $filter=="name_organizer") echo "checked";?>>&nbsp;organizer
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="filter" value="name_place" <?php if (isset($filter) && $filter=="name_place") echo "checked";?>>&nbsp;place
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- <input type="radio" name="filter" value="date_search" >&nbsp;date -->
 					</div>
 					<div>
 						Search 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="text" name="searchtext">
 						<input type="submit" name="search" href="#nino-searching" class="btn btn-danger" value="search">
-						<input type="date">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 					<p>Your search is : <?php echo $searchtext; ?></p>
 				</form>
 
 				<div>
-					<?php echo $results ?>
+					<?php echo $results ; ?>
 				</div>
-    		<!-- </div> -->
     	</div>
     </section><!--/#nino-searching-->
 
@@ -383,12 +394,20 @@
         			<div class="colInfo">
 	        			<div class="footerLogo">
 	        				<a href="#" >Develop by CodeHere</a>
-	        			</div>
+	        			</div>.
 	        			<p>
 	        				Project in Web Technology.
 	        			</p>
 
-						<img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt="">
+						<div class="scanqrcode">
+							<?php 
+								if($user_type === 'organizer'){
+							?>
+									<a href="scanqrcode.php"><img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt=""></a>
+							<?php
+								}
+							?>
+						</div>
         			</div>
         		</div>
         		<div class="col-md-4 col-sm-6">
@@ -396,21 +415,18 @@
 	        			<h3 class="nino-colHeading">Team</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Praewa Jidpakdee</h3>
 	        						<div class="date">5710400572</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chanidapa Nitipittayapakrit</h3>
 	        						<div class="date">5710404306</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Panward Khumdang</h3>
 	        						<div class="date">5710404454</div>
@@ -424,21 +440,18 @@
 	        			<h3 class="nino-colHeading">.</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chayapol Poltha</h3>
 	        						<div class="date">5710404314</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chatchawat Pitanpitayarat</h3>
 	        						<div class="date">5710400521</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Ekachai Srivanna</h3>
 	        						<div class="date">5710451606</div>
@@ -451,14 +464,6 @@
 			<div class="nino-copyright">Copyright &copy; 2016 <a target="_blank" href="http://www.ninodezign.com/" title="Ninodezign.com - Top quality open source resources for web developer and web designer">Ninodezign.com</a>. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
         </div>
     </footer><!--/#footer-->
-
-    <!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-	</form>
-	<!--/#nino-searchForm-->
 
     <!-- Scroll to top
     ================================================== -->

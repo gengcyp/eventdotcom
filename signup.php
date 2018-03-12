@@ -6,28 +6,30 @@
 <body>
 	<?php  
 
-		include 'DBconnect.php';
+		include 'header.php';
 		// data come in as [] use key
 		$data = $_POST;
 
 		// connect DB
-		$connection = new DBconnect(
-			'eventdotcom',
-		 	'tk', 'Working24');
+		// $connection = new DBconnect(
+		// 	'eventdotcom',
+		//  	'tk', 'Working24');
 
 		// column of the users table that we donna insert to
-		$column = "(type, fname, lname, address, phoneno, email, pwd, uname, ustatus, confirmcode)";
+		$column = "(type, fname, lname, address, phoneno, email, pwd, uname, ustatus, confirmcode, gender, birthday)";
 		// value get from data as a form
 		$confirmcode = rand();
 
-		echo $confirmcode;
+		
 
-		$value = "("."'".$data['type']."',". "'".$data['fname']."',". "'".$data['lname']."'," ."'".$data['address']."',". "'".$data['phoneno']."'," ."'".$data['email']."'," ."'".password_hash($data['pwd'], PASSWORD_DEFAULT)."',"."'".$data['uname']."',".'1,'.$confirmcode.")";
+		$value = "("."'".$data['type']."',". "'".$data['fname']."',". "'".$data['lname']."'," ."'".$data['address']."',". "'".$data['phoneno']."'," ."'".$data['email']."'," ."'".password_hash($data['pwd'], PASSWORD_DEFAULT)."',"."'".$data['uname']."',".'1,'.$confirmcode.",". "'".$data['gender']."',". "'".$data['bday']."')";
+
 
 		// insert into users table
+		// echo $value;
 		$signup = $connection->insert('users', $column, $value);
 
-		echo $signup;
+		// echo $signup;
 
 	 	if ($signup == 1){
 
@@ -45,6 +47,8 @@
 	 		echo "SUCCESSFUL SIGNUP PLEASE CONFIRM YOUR EMAIL";
 	 	}
 	?>
+
+	<a href="login.php"><button>LOG IN</button></a>
 
 </body>
 </html>
