@@ -61,7 +61,6 @@
 						</div>
 				';
 			}
-			// <img style="width: 325px; height: 250px;" src="'. $row['profilepic'] .'" alt="">
 			else if($countStartRow == 3){
 				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
 				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
@@ -232,9 +231,6 @@
 
 						foreach($instrucQuery as $row){
 
-							// if($row["started"] > date("Y-m-d H:i:s")){
-								// echo "now";
-							
 								if($row["profilepic"] === "profile-pic"){
 									$pictureHeadShow = "images/story/img-2.jpg";
 								}
@@ -257,11 +253,6 @@
 										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
 									</div>
 						<?php 	} 
-
-							// }
-							// else if($row["started"] < date("Y-m-d H:i:s")){
-							// 	// echo "ผ่านมาแล้ว";
-							// }
 						}
 					?>
 				</div>
@@ -352,7 +343,6 @@
     ================================================== -->
     <section id="nino-searching">
     	<div class="container">
-    		<!-- <div layout="row"> -->
 				<form action="" method="post">
 					<div>
 						Type filter : 
@@ -378,7 +368,6 @@
 				<div>
 					<?php echo $results ; ?>
 				</div>
-    		<!-- </div> -->
     	</div>
     </section><!--/#nino-searching-->
 
@@ -411,7 +400,15 @@
 	        				Project in Web Technology.
 	        			</p>
 
-						<a href="scanqrcode.php"><img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt=""></a>
+						<div class="scanqrcode">
+							<?php 
+								if($user_type === 'organizer'){
+							?>
+									<a href="scanqrcode.php"><img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt=""></a>
+							<?php
+								}
+							?>
+						</div>
         			</div>
         		</div>
         		<div class="col-md-4 col-sm-6">
@@ -419,21 +416,18 @@
 	        			<h3 class="nino-colHeading">Team</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Praewa Jidpakdee</h3>
 	        						<div class="date">5710400572</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chanidapa Nitipittayapakrit</h3>
 	        						<div class="date">5710404306</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Panward Khumdang</h3>
 	        						<div class="date">5710404454</div>
@@ -447,21 +441,18 @@
 	        			<h3 class="nino-colHeading">.</h3>
 	        			<ul class="listArticles">
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-4.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chayapol Poltha</h3>
 	        						<div class="date">5710404314</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-5.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Chatchawat Pitanpitayarat</h3>
 	        						<div class="date">5710400521</div>
 	        					</div>
 	        				</li>
 	        				<li layout="row" class="verticalCenter">
-	        					<!-- <a class="articleThumb fsr" href="#"><img src="images/our-blog/img-6.jpg" alt=""></a> -->
 	        					<div class="info">
 	        						<h3 class="articleTitle">Ekachai Srivanna</h3>
 	        						<div class="date">5710451606</div>
@@ -474,14 +465,6 @@
 			<div class="nino-copyright">Copyright &copy; 2016 <a target="_blank" href="http://www.ninodezign.com/" title="Ninodezign.com - Top quality open source resources for web developer and web designer">Ninodezign.com</a>. All Rights Reserved. <br/> MoGo free PSD template by <a href="https://www.behance.net/laaqiq">Laaqiq</a></div>
         </div>
     </footer><!--/#footer-->
-
-    <!-- Search Form - Display when click magnify icon in menu
-    ================================================== -->
-    <form action="" id="nino-searchForm">
-    	<input type="text" placeholder="Search..." class="form-control nino-searchInput">
-    	<i class="mdi mdi-close nino-close"></i>
-	</form>
-	<!--/#nino-searchForm-->
 
     <!-- Scroll to top
     ================================================== -->

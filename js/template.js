@@ -8,9 +8,9 @@ jQuery(function($) {
 		$("#nino-header-search").hide();
 	});
 
-	$("header .nino-search").click(function(){
-		$("#nino-header-search").toggle();
-	});
+	// $("header .nino-search").click(function(){
+	// 	$("#nino-header-search").toggle();
+	// });
 
 	/* =============== SHOW / HIDE GOOGLE MAP =============== */
 	$("#nino-map .nino-sectionHeading").click(function(){
