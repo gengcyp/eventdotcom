@@ -137,11 +137,14 @@
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
 
 				 		if (i==0){
-				 			$('#allCEvents').append('<tr><td>MyCode</td><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
+				 			$('#allCEvents').append('<tr><td>MyCode</td><td>EventID</td><td>Name Of Event</td><td>Description</td><td>Payment</td></tr>');
 				 		}
 
-				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
-				 	}
+				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid'>Upload Payment</button></a></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
+				 		if (cevents[i]['reservationstatus'] == 1){
+				 			$('#paid').attr('disabled', 'disabled');
+				 		} 
+					}
 				 	
 				 }
 

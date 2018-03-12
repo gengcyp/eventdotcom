@@ -180,6 +180,9 @@
 			if ("<?php echo $status ;?>" == "YES"){
 				window.location.href = "index.php";
 			}
+			else if ("<?php echo $status ;?>" == "ADMIN"){
+				window.location.href = "admin/UserManage.php";
+			}
 		});
 
 		// show element that mouse over & hide other element
