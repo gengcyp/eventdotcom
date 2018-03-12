@@ -12,17 +12,20 @@ include "header.php";
 $eid = $_GET['id']; //NEED EVENT ID FROM LAST PAGE **************************************************
 
 //GET USER ID FROM SESSION *****************************
-  if (in_array("uid",$_SESSION)){
-    $uid = $_SESSION['uid'];
-  }else{
-    $uid = 0;
-  } 
+if (checkSession()){
+  $uid = $_SESSION['uid'];
+}
 date_default_timezone_set("Asia/Bangkok");
 $dt = date("YmdHis",time());
 $tempdt = $dt;
-$newreservation = '("'.$uid.'","'.$eid.'","'.$dt.'")';
-$connection->insert("reservations",'(userid,eventcode,reservetime)',$newreservation);
-$thisreservation = $connection->select("reservationid",'reservations',"WHERE reservetime="."'".$tempdt."'");
+
+$tempev = $connection->select("reservationid",'reservations',"WHERE userid="."'".$uid."'"." AND eventcode="."'".$eid."'");
+if (sizeof($tempev) == 0){
+  $newreservation = '("'.$uid.'","'.$eid.'","'.$dt.'")';
+  $connection->insert("reservations",'(userid,eventcode,reservetime)',$newreservation);  
+}
+
+$thisreservation = $connection->select("reservationid",'reservations',"WHERE userid="."'".$uid."'"." AND eventcode="."'".$eid."'");
 ?>
 <head>
   <meta charset="utf-8">
