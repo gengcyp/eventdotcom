@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2018 at 08:51 PM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Generation Time: Mar 12, 2018 at 06:35 AM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -40,8 +40,9 @@ CREATE TABLE `attendees` (
 --
 
 CREATE TABLE `detailpictures` (
-  `eventid` int(11) NOT NULL,
-  `picture` varchar(20) NOT NULL
+  `id` int(11) NOT NULL,
+  `eventid` varchar(11) DEFAULT NULL,
+  `picture` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -162,7 +163,7 @@ ALTER TABLE `attendees`
 -- Indexes for table `detailpictures`
 --
 ALTER TABLE `detailpictures`
-  ADD PRIMARY KEY (`eventid`,`picture`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `eventdetail`
