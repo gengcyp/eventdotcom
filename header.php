@@ -95,10 +95,20 @@
 	<!-- Header
     ================================================== -->
 	<header id="nino-header">
+		<div id="google_translate_element"> 
+		</div> 
+		<script type="text/javascript"> 
+			function googleTranslateElementInit() { 
+				new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); 
+			} 
+		</script> 
+		<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 		<div id="nino-headerInner">
 			<nav id="nino-navbar" class="navbar navbar-default" role="navigation">
+				
 				<div class="container">
-
+					
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nino-navbar-collapse">

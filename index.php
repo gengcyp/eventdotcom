@@ -54,7 +54,7 @@
 							<img src="' . $pictureShow . '" alt="picevent" class="image">
 						
 							<div class="middle">
-								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
+								<a href="event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
 							<p class="nameEvent">'. $row["eventname"] .'</p>
 							<p>' . $newformatStart . ' - ' . $newformatFinish . '</p>
@@ -71,7 +71,7 @@
 							<img src="' . $pictureShow . '" alt="picevent" class="image">
 						
 							<div class="middle">
-								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
+								<a href="event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
 							<p class="nameEvent">'. $row["eventname"] .'</p>
 							<p>' . $newformatStart . ' - ' . $newformatStart . '</p>
@@ -88,7 +88,7 @@
 						<div class="container-event">
 							<img src="' . $pictureShow . '" alt="picevent" class="image">
 							<div class="middle">
-								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
+								<a href="event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
 							<p class="nameEvent">'. $row["eventname"] .'</p>
 							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
@@ -211,7 +211,7 @@
 				</div><!-- /.container-fluid -->
 			</nav>
 
-			<div id="google_translate_element"> 
+			<div style="position: absolute; left: 100px; z-index: 1;" id="google_translate_element"> 
 			</div> 
 			<script type="text/javascript"> 
 				function googleTranslateElementInit() { 
@@ -242,14 +242,14 @@
 								if($countEventHead == 1){
 							?>
 									<div class="item active">
-										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
 									</div>	
 						<?php
 								}
 								else if($countEventHead >=2 && $countEventHead < 5){
 						?>
 									<div class="item">
-										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
 									</div>
 						<?php 	} 
 						}
@@ -283,9 +283,20 @@
 		</div>
 	</header><!--/#header-->
 
+
 	<!-- Event entertainment
     ================================================== -->
 	<section class="nino-testimonial" id="nino-entertainment">
+		<?php 
+			if($user_type === 'organizer'){
+		?>
+			<div class="create-event">
+				<a href="newevent.php"><button class="btn btn-success">create event</button></a>
+			</div>
+		<?php
+			}
+		?>
+		
 		<div class="container">
 			<h2 class="nino-sectionHeading">
 				<span class="nino-subHeading">Mode</span>
@@ -295,7 +306,7 @@
     	<div class="container">
     		<div class="nino-testimonialSlider">
 				<ul>
-					<?php echo showEvent("entertain") ?>
+					<?php echo showEvent("entertainm") ?>
 				</ul>
 			</div>
     	</div>
@@ -332,7 +343,7 @@
     	<div class="container">
     		<div class="nino-testimonialSlider">
 				<ul>
-					<?php echo showEvent("others") ?>
+					<?php echo showEvent("other") ?>
 				</ul>
 			</div>
     	</div>

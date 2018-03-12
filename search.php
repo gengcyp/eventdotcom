@@ -28,7 +28,7 @@
 
         $findSearch = $connection->select('*','eventdetail','');
         if($filter == "name_event"){
-            $searchMatch = "name";
+            $searchMatch = "eventname";
         }
         else if($filter == "name_organizer"){
             $findSearch = $connection->select('*','eventdetail','inner join users on Users.userid = Eventdetail.eventown ;');

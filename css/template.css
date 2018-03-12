@@ -520,7 +520,14 @@ section {
 	background: #f8f8f8;
 	padding: 60px 0;
 }
-
+.nino-testimonial .create-event{
+	position: absolute;
+	right: 180px;
+	z-index: 1;
+}
+.nino-testimonial .create-event a:hover{
+	background: white;
+}
 .nino-testimonial .unslider-arrow {
 	font-size: 40px;
 	color: #ccc;
@@ -1020,8 +1027,9 @@ div.pp_default .pp_social {
 }
 
 #google_translate_element{
-	position: relative;
-	left: 100px;
+	position: absolute;
+	left: 0px;
+	z-index: 1;
 }
 
 .container-event .nameEvent{
