@@ -5,10 +5,18 @@ include 'positiongmap.php';
 
 <script>
 //check session
-// if (){   //session ok
-// }else {  //no permission to edit this event
-//   header('Location: event.php?id='+<?php //echo $id ?>);
-// }
+<?php
+if ($_SESSION==NULL){
+	$uid = $_SESSION['uid'];
+}else{
+	$uid = 0;
+}
+ ?>
+if ("<?php echo $uid; ?>"=="<?php echo $own; ?>"){   //session ok
+}else {  //no permission to edit this event
+	  window.location.href = "event.php?id="+"<?php echo $id ?>";
+}
+
 
 //show button update event
 	$("#editevent").show();

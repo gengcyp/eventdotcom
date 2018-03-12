@@ -1,6 +1,7 @@
 
 <?php
 include 'formevent.php';
+
 $lat = 13.7618086;
 $lon = 100.5075252;
 include 'positiongmap.php';
@@ -9,8 +10,8 @@ include 'positiongmap.php';
 
 
 //check session
-if (<?php echo $user_type ?>=="organizer"){
-	
+if ("<?php echo $user_type ?>"=="organizer"){
+
 }else{
 	window.location.href = "index.php";
 }

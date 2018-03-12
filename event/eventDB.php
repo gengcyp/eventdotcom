@@ -4,6 +4,11 @@ $user = 'root';
 $pw = '';
 $dbname = 'eventdotcom';
 
+//paht of this page
+$path =  explode("/",$_SERVER['REQUEST_URI']);
+$page = explode("?",$path[count($path)-1])[0];
+
+
 //setup timezone
 date_default_timezone_set("Asia/Bangkok");
 $dt = date("YmdHis",time());
@@ -28,11 +33,12 @@ if(isset($_POST['insert'])){
 		"'.$_POST["df"]	." ".$_POST["tf"]		.'",
 		"'.$_POST["type"]		.'",
 		"'.$_POST["feedback"]	.'",
-		'.$dt.'
+		'.$dt.',
+		"'.$_SESSION['uid']	.'"
 		)';
-		$result = $db->insert('eventdetail','(name,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate)',$val);
+		$result = $db->insert('eventdetail','(name,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
 
-		// header("Location:event.php?id=".$result);
+		echo "insert<br>";
 }
 //edit event ---------------------------------------------
 //check button submit in editevent.php
@@ -54,8 +60,8 @@ if(isset($_POST['edit'])){
 		';
 		$result = $db->update('eventdetail',$val,"WHERE eventid=".$_GET['id']);
 
-		// header("Location:event.php?id=".$_GET['id']);
 
+		echo "edit";
 }
 
 
@@ -86,21 +92,25 @@ if (isset($_GET['id'])){
 		$finished= $event[0]["finished"];//
 		$type =  $event[0]["type"];
 		$feedback =  $event[0]["feedback"];
+		$own = $event[0]["eventown"];
 
 	}else{ // id not found
-		pageNotFound();
+		goToHomepage();
 	}
 }else { // not set id in path
-	// goToHomepage();
-	echo 'error';
-}
-
-function pageNotFound(){
-	echo "page not found";
+	if ($page != "newevent.php"){
+		goToHomepage();
+	}
 }
 function goToHomepage(){
 	header('Location: index.php');
 }
-
-
+function findReserveUser($db,$eid,$uid){
+		$event = $db->select("*",'reservations',"WHERE eventcode=".$eid." AND userid=".$uid);
+		if ($event != NULL){
+			echo "reserve";
+		}else{
+			echo "not";
+		}
+}
 ?>

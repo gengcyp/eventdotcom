@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-
+  <?php include 'header.php';
+        include 'eventDB.php';
+        ?>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +20,7 @@
     </style>
 </head>
 <body>
-  <?php include 'header.php' ?>
+
   <div class="py-5">
     <div class="container">
       <h1 style="text-align: center" id="title"></h1>
