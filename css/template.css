@@ -155,7 +155,7 @@ img.img-full-width {
 	display: inline-block;
 	color: #fff;
 	text-transform: uppercase;
-	padding: 10px 20px;
+	/* padding: 10px 20px; */
 	text-align: center;
 	border: 2px solid #fff;
 	font-size: 12px;
@@ -253,6 +253,9 @@ img.img-full-width {
 	position: relative;
 	z-index: 5;
 }
+#google_translate_element{
+	
+}
 /* =============== MAIN SLIDER =============== */
 #nino-slider {
 	padding: 40px 0 0;
@@ -263,6 +266,9 @@ img.img-full-width {
 #nino-slider .carousel-inner > .item {
 	text-align: center;
 	color: #fff;
+}
+#nino-slider .carousel-inner > .item a img{
+	margin: 0 auto;
 }
 #nino-slider .carousel-indicators {
 	width: 100%;
@@ -322,13 +328,26 @@ img.img-full-width {
 	font-weight: 700;
 	font-size: 20px;
 }
+#nino-navbar .navbar-nav > a{
+	color: #fff;
+	font-weight: 500;
+	text-transform: uppercase;
+	padding: 15px 5px 5px;
+	margin: 0 12px;
+}
 #nino-navbar .navbar-nav > li > a {
 	color: #fff;
 	font-weight: 500;
 	text-transform: uppercase;
 	border-bottom: 3px solid transparent;
 	padding: 15px 5px 5px;
+	padding-bottom: 5px;
 	margin: 0 12px;
+}
+#nino-navbar .navbar-nav > li > a:hover{
+	color: #fce38a;
+	border-color: #fce38a;
+	background: none;
 }
 #nino-navbar .navbar-nav > li > a:hover,
 #nino-navbar .navbar-nav > .active > a,
@@ -477,7 +496,27 @@ section {
 	line-height: 100%;
 	margin-bottom: 10px;
 }
-
+/* =============== SECTION SEARCHING =============== */
+#nino-searching {
+	padding: 60px;
+	background: #95e1d3;
+	font-family: 'Montserrat', sans-serif;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+#nino-searching input[type="text"]{
+	margin: 3px;
+	padding: 3px 10px 3px 10px;
+	color: rgb(80, 80, 80);
+}
+#nino-searching input[type="date"]{
+	width: 100%;
+}
+#nino-searching img{
+	height: 40%;
+	width: 40%;	
+}
 
 /* =============== SECTION TESTIMONIAL =============== */
 .nino-testimonial {
@@ -1094,3 +1133,18 @@ div.pp_default .pp_social {
 .container-event:hover .middle {
   opacity: 1;
 }
+
+#google_translate_element{
+	position: relative;
+	left: 100px;
+}
+
+.container-event .nameEvent{
+	text-align: center;
+	font-size: 20px;
+}
+.container-event p{
+	text-align: center;
+	color: black;
+}
+

@@ -25,12 +25,11 @@
 		$countStartRow = 0;
 		$outputShowEvent = '';
 
-		// $instrucQuery = $connection->select('*', 'events', 'inner join eventdetail on Events.eventid = Eventdetail.eventid where Eventdetail.type = "'. $type_event .'";');
-		$instrucQuery = $connection->select('*', 'eventdetail', 'where type = "'. $type_event .'";');
+		$instrucQuery = $connection->select('*', 'eventdetail', 'where type = "'. $type_event .'" AND Eventdetail.started>=CURDATE()');
 		
-
 		foreach($instrucQuery as $row){
 			$countStartRow += 1;
+
 			if($row["profilepic"] === "profile-pic"){
 				$pictureShow = "images/story/img-2.jpg";
 			}
@@ -39,9 +38,14 @@
 			}
 
 			if($countStartRow == 1){
-				
-				$newformatStart = date('M d,Y h:i a',strtotime($row['started']));
-				$newformatFinish = date('M d,Y h:i a',strtotime($row['finished']));
+
+				$s_date = (string)$row['started'];
+				$start_date = date_create($s_date);
+        		$newformatStart = date_format($start_date,"M d,Y h:i a");
+
+				$f_date = (string)$row['finished'];
+				$finish_date = date_create($f_date);
+        		$newformatFinish = date_format($finish_date,"M d,Y h:i a");
 
 				$outputShowEvent .= '
 				<li>
@@ -52,7 +56,8 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $newformatStart . ' - ' . $newformatFinish . '</p>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
+							<p>' . $newformatStart . ' - ' . $newformatFinish . '</p>
 						</div>
 				';
 			}
@@ -69,7 +74,8 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
-							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
+							<p>' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 					</div>
 				</li>
@@ -85,6 +91,7 @@
 							<div class="middle">
 								<a href="event/event.php?id=' . $row["eventid"] . '"><button class="btn btn-success">Buy ticket</button></a>  
 							</div>
+							<p class="nameEvent">'. $row["eventname"] .'</p>
 							<p style="color: black">' . $newformatStart . ' - ' . $newformatStart . '</p>
 						</div>
 				';			
@@ -165,7 +172,7 @@
 	<link rel="stylesheet" type="text/css" href="css/unslider.css" />
 	<link rel="stylesheet" type="text/css" href="css/template.css" />
 
-</head>
+</head> 
 
 <body data-target="#nino-navbar" data-spy="scroll">
 
@@ -199,11 +206,6 @@
 							</ul>
 							
 							<ul class="nino-iconsGroup nav navbar-nav">
-								<!-- <li><div class="search-panel">
-									<form action="" id="nino-header-search">
-										<input type="search" placeholder="Search..." id="masthead-search-search"/>
-									</form>
-								</div></li> -->
 								<li><a href="#nino-searching" class="nino-search"><i class="mdi mdi-magnify nino-icon"></i></a></li>
 							</ul>
 
@@ -211,37 +213,55 @@
 				</div><!-- /.container-fluid -->
 			</nav>
 
+			<div id="google_translate_element"> 
+			</div> 
+			<script type="text/javascript"> 
+				function googleTranslateElementInit() { 
+				new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); 
+			} 
+			</script> 
+			<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 			<section id="nino-slider" class="carousel slide container" data-ride="carousel">
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
 					<?php 
 						$countEventHead = 0;
-						$instrucQuery = $connection->select('*', 'eventdetail', ' order by started');								
-						
-						foreach($instrucQuery as $row){
-							if($row["profilepic"] === "profile-pic"){
-								$pictureHeadShow = "images/story/img-2.jpg";
-							}
-							else{
-								$pictureHeadShow = $row["profilepic"];
-							}
-				
-							$countEventHead += 1;
+						$instrucQuery = $connection->select('*', 'eventdetail', ' order by started AND Eventdetail.started>=CURDATE()');								
 
-							if($countEventHead == 1){
+						foreach($instrucQuery as $row){
+
+							// if($row["started"] > date("Y-m-d H:i:s")){
+								// echo "now";
+							
+								if($row["profilepic"] === "profile-pic"){
+									$pictureHeadShow = "images/story/img-2.jpg";
+								}
+								else{
+									$pictureHeadShow = $row["profilepic"];
+								}
+					
+								$countEventHead += 1;
+
+								if($countEventHead == 1){
+							?>
+									<div class="item active">
+										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+									</div>	
+						<?php
+								}
+								else if($countEventHead >=2 && $countEventHead < 5){
 						?>
-								<div class="item active">
-									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
-								</div>	
-					<?php
-							}
-							else if($countEventHead >=2 && $countEventHead < 5){
-					?>
-								<div class="item">
-									<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
-								</div>
-					<?php 	} 
+									<div class="item">
+										<a href="event/event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+									</div>
+						<?php 	} 
+
+							// }
+							// else if($row["started"] < date("Y-m-d H:i:s")){
+							// 	// echo "ผ่านมาแล้ว";
+							// }
 						}
 					?>
 				</div>
@@ -334,26 +354,29 @@
     	<div class="container">
     		<!-- <div layout="row"> -->
 				<form action="" method="post">
-					
 					<div>
-					Type filter : 
-						<input type="radio" name="filter" value="name_event" checked="checked">name event
+						Type filter : 
 						&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="radio" name="filter" value="name_organizer">organizer
-						<input type="radio" name="filter" value="name_place">place
-						<input type="radio" name="filter" value="date_search">date
+						<input type="radio" name="filter" value="name_event" <?php if (isset($filter) && $filter=="name_event") echo "checked";?>>&nbsp;name event
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="filter" value="name_organizer" <?php if (isset($filter) && $filter=="name_organizer") echo "checked";?>>&nbsp;organizer
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="filter" value="name_place" <?php if (isset($filter) && $filter=="name_place") echo "checked";?>>&nbsp;place
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<!-- <input type="radio" name="filter" value="date_search" >&nbsp;date -->
 					</div>
 					<div>
 						Search 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="text" name="searchtext">
 						<input type="submit" name="search" href="#nino-searching" class="btn btn-danger" value="search">
-						<input type="date">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 					<p>Your search is : <?php echo $searchtext; ?></p>
 				</form>
 
 				<div>
-					<?php echo $results ?>
+					<?php echo $results ; ?>
 				</div>
     		<!-- </div> -->
     	</div>
@@ -383,12 +406,12 @@
         			<div class="colInfo">
 	        			<div class="footerLogo">
 	        				<a href="#" >Develop by CodeHere</a>
-	        			</div>
+	        			</div>.
 	        			<p>
 	        				Project in Web Technology.
 	        			</p>
 
-						<img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt="">
+						<a href="scanqrcode.php"><img style="width: 200px; height: 200px" src="images/qrcode/scanqrcode.png" alt=""></a>
         			</div>
         		</div>
         		<div class="col-md-4 col-sm-6">
