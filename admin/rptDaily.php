@@ -13,6 +13,8 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/js/bootstrap-datepicker/css/datepicker.css" />
+    <link rel="stylesheet" type="text/css" href="assets/js/bootstrap-daterangepicker/daterangepicker.css" />
         
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -25,43 +27,43 @@
     <![endif]-->
 
     <?php
-     include 'DBconnect.php';
+    include 'DBconnect.php';
+    // include 'reportPDF.php';
+   
     $connection  = new DBconnect();
-    $result = $connection->select('*','users','');
-    $delete = "";
+    $lstorg = $connection->select('*','users','WHERE users.type = "organizer" order by fname');
+    $lstloc = $connection->select('distinct location','eventdetail',' order by location');
+    $lstatt = $connection->select('distinct attendeeslimit','eventdetail',' order by attendeeslimit');
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if(isset($_POST["submit"])){
-          echo "<script type='text/javascript'>alert('Success.');</script>";
-          echo $_POST['id'];
-          $uid = $_POST['id'];
-          $delete=$connection->delete('users','WHERE users.userid='.'"'.$uid.'"');
-          echo $delete;
-        }
-      }
-    
-    echo "<script type='text/javascript'>alert($delete);</script>";  
-    ?>
 
+    // echo $lstorg[0];
+
+
+
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+
+    // if(isset($_POST["submit"])){
+    //   global $db;
+    //     // $db = new DBMS();
+    //     // if($_POST["pw"] != $_POST["rpw"]){
+    //     //     echo "<script type='text/javascript'>alert('Pw not match.');</script>";
+    //     // }
+    //     // else{
+    //         echo "adddd";
+    //         echo "<script type='text/javascript'>alert('KKKKK.');</script>";
+    //         $db->addUser($_POST["id"],$_POST["role"] ,$_POST["fname"], $_POST["lname"], $_POST["addr"], $_POST["phoneno"],$_POST["password"]);
+    //         echo "<script type='text/javascript'>alert('Success.');</script>";
+    //     // }
+    // }
+     ?> 
   </head>
 
   <body>
-
-  <script type="text/javascript">
-    var x
-  function deleteRow(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    x = document.getElementById("myTable").rows[i].cells[0];
-    // alert(x.innerHTML);
-
-    document.getElementById("myTable").deleteRow(i);
-    }
-
-    function getuid(){
-      alert(x.innerHTML);
-      return x.innerHTML;
-    }
-  </script>
 
   <section id="container" >
       <!-- **********************************************************************************************************************************************************
@@ -73,7 +75,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>Eventdotcom Admin</b></a>
+            <a href="index.html" class="logo"><b>DASHGUM FREE</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -227,30 +229,30 @@
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
       <!--sidebar start-->
-      <aside>
+       <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">Marcel Newman</h5>
+                  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                  <h5 class="centered">Marcel Newman</h5>
                   <li class="sub-menu">
-                      <a class="active" href="javascript:;" >
+                      <a  href="javascript:;" >
                           <i class="fa fa-th"></i>
                           <span>Users</span>
                       </a>
                       <ul class="sub">
-                          <li class="active"><a  href="userManage.php">User Management <?php echo $delete; ?></a></li>
+                          <li ><a  href="userManage.php">User Management</a></li>
                           <li><a  href="addUser.php">Create User</a></li>
                       </ul>
                   </li>
                   <li class="sub-menu">
-                      <a href="javascript:;" >
+                      <a class="active" href="javascript:;" >
                           <i class=" fa fa-bar-chart-o"></i>
-                          <span>Peports</span>
+                          <span>Reports</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="morris.html">รายงานการจัดอีเวนท์</a></li>
+                          <li class="active"><a  href="rptDaily.php">รายงานการจัดอีเว้นท์และการอบรมประจำวัน</a></li>
                           <!-- <li><a  href="chartjs.html">Chartjs</a></li> -->
                       </ul>
                   </li>
@@ -267,76 +269,124 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-          	<h2><i class="fa fa-angle-right"></i> Users Management</h2>
-				    <div class="form-group">
-                <h3><label class="col-sm-3 col-sm-1 control-label">Search</label></h3>
-                <div class="col-sm-7">
-                    <input type="text"  class="form-control" name="lname" placeholder="Lastname">
-                </div>
-            </div>
-            <br>
-              <div class="row mt">
-                  <div class="col-md-12">
-                      <div class="content-panel">
+          	<h3><i class="fa fa-angle-right"></i> รายงานการจัดอีเว้นท์และการอบรม</h3>
+          	
+          	<!-- BASIC FORM ELELEMNTS -->
+          	<div class="row mt">
+          		<div class="col-lg-12">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> รายงานการจัดอีเว้นท์และการอบรมประจำวัน</h4>
+                      <form class="form-horizontal style-form" method="POST" action="testpdf.php">        
+    
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">วันที่จัดงาน</label>
+                              <div class="col-sm-4">
+                                  <input class="form-control" type="date" name="edate" >
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">ผู้จัดงาน</label>
+                              <div class="col-sm-4">
+                                    <select class="form-control" name = "forg">
+                                       <option value =""></option>
+                                      <?php foreach ($lstorg as $row){ ?>
+                                        <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
+                                      <?php } ?>
+                                     </select>
+                              </div>
+
+                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
+                              <div class="col-sm-4">
+                                    <select class="form-control" name = "torg">
+                                       <option value =""></option>
+                                      <?php foreach ($lstorg as $row){ ?>
+                                        <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
+                                      <?php } ?>
+                                     </select>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">สถานที่จัดงาน</label>
+                              <div class="col-sm-4">
+
+                                    <select class="form-control" name = "floc">
+                                          <option value =""></option>
+                                      <?php foreach ($lstloc as $row){   
+                                        ?>
+                                        <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
+                                      <?php } ?>
+                                     </select>
+                              </div>
+
+                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
+                              <div class="col-sm-4">
+                                    <select class="form-control" name = "tloc">
+                                           <option value =""></option>
+                                      <?php foreach ($lstloc as $row){   
+                                        ?>
+                                        <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
+                                      <?php } ?>
+                                     
+                                     </select>
+                              </div>
+                          </div>
+
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">จำวนวผู้เข้าชม</label>
+                                   <div class="col-sm-4">
+                                    <select class="form-control" name = "fatt">
+                                             <option value =""></option>
+                                      <?php foreach ($lstatt as $row){   
+                                        ?>
+                                        <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
+                                      <?php } ?>
+                                     </select>
+                              </div>
+
+                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
+                              <div class="col-sm-4">
+                                    <select class="form-control" name = "tatt">
+                                             <option value =""></option>
+                                      <?php foreach ($lstatt as $row){   
+                                      ?>
+                                        <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
+                                      <?php } ?>
+                                     </select>
+                              </div>
+                          </div>
+
                           
-	                  	  	  <h4><i class="fa fa-angle-right"></i> Users</h4>
-	                  	  	  <hr>
-                              <!-- <thead> -->
+                          <center><p>
+                            <button  class="btn btn-primary btn-lg" type="submit" name="submit">Create Report</button>&nbsp;&nbsp;&nbsp;
+                            <button  class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
+                          </p></center>
 
-                               <form method = "POST" 
-                                  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                                  <table class="table table-striped table-advance table-hover" id = "myTable">
-                                  <tr>
-                                      <th> ID</th>
-                                      <th><i class="fa fa-bullhorn"></i> Firstname</th>
-                                      <th class="hidden-phone"></i> Lastname</th>
-                                      <th> Phone Number</th>
-                                      <th><i ></i> Role</th>
-                                      <th></th>
-                                  </tr>
-                                  <!-- </thead> -->
-                                  <tbody>
-                                   
-                                    <?php
-                                      foreach ($result as $row) {
-                                        # php code...
-                                        echo"<tr>
-                                            <td id = 'uid' name='uid'><input hidden=true name='id' value=".$row['userid'].">".$row['userid']."</td>
-                                            <td>" .$row['fname']."</td><td>".$row['lname']."</td>
-                                            <td>".$row['phoneno']."</td><td>".$row['type']."</td>".
-                                            '<td>
-                                       
-                                              <button class="btn btn-primary btn-xs"><i class="fa fa-pencil" ></i>
-                                              </button>
-                                            
-                                              <button class="btn btn-danger btn-xs" type="submit" name="submit" onclick="deleteRow(this)" ><i class="fa fa-trash-o "></i>
-                                              </button>
-                                          
-                                      </td></tr>';
-                                      }
-                                  ?>
-                              
-                              </tbody>
-                            </table>
-                          </form>
-                      </div><!-- /content-panel -->
-                  </div><!-- /col-md-12 -->
-              </div><!-- /row -->
 
+    
+                      </form>
+                  </div>
+          		</div><!-- col-lg-12-->      	
+          	</div><!-- /row --> 
+     
+    
+          
+						
+						
+						
+						
+					
+          		
+         
+          	
+          	
 		</section><! --/wrapper -->
       </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
       <!--footer start-->
-     <!--  <footer class="site-footer">
-          <div class="text-center">
-              2014 - Alvarez.is
-              <a href="basic_table.html#" class="go-top">
-                  <i class="fa fa-angle-up"></i>
-              </a>
-          </div>
-      </footer> -->
-      <!--footer end-->
+           <!--footer end-->
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -351,6 +401,25 @@
     <script src="assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+	<!--custom switch-->
+	<script src="assets/js/bootstrap-switch.js"></script>
+	
+	<!--custom tagsinput-->
+	<script src="assets/js/jquery.tagsinput.js"></script>
+	
+	<!--custom checkbox & radio-->
+	
+	<script type="text/javascript" src="assets/js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-daterangepicker/daterangepicker.js"></script>
+	
+	<script type="text/javascript" src="assets/js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+	
+	
+	<script src="assets/js/form-component.js"></script>    
+    
     
   <script>
       //custom select box

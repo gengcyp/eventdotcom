@@ -13,6 +13,8 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="assets/js/bootstrap-datepicker/css/datepicker.css" />
+    <link rel="stylesheet" type="text/css" href="assets/js/bootstrap-daterangepicker/daterangepicker.css" />
         
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -25,43 +27,63 @@
     <![endif]-->
 
     <?php
-     include 'DBconnect.php';
-    $connection  = new DBconnect();
-    $result = $connection->select('*','users','');
-    $delete = "";
+      include 'DBconnect.php';
+      
+       $id = $_POST['id'];
+      $fnameErr = $addrErr = $emailErr = $phonenoErr = $usernameErr= $pwdErr = $typeErr ='' ;
+      $fname = $lname = $addr = $phoneno = $email = $username= $pwd = $type = '';
+      $first = $last= $address = $phone = $mail = $uname = $pass = $role = '';      
+   
+      $connection  = new DBconnect();
+
+      $user = $connection->select('*','users','where users.userid='.'"'.$id.'"');
+      
+      foreach ($user as $row) {
+        # code...
+        $first = $row['fname'];
+        $last = $row['lname'];
+        $address = $row['address'];
+        $phone = $row['phoneno'];
+        $mail = $row['email'];
+        $uname = $row['uname'];
+        $pass = $row['pwd'];
+        $role = $row['type'];
+      }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if(isset($_POST["submit"])){
-          echo "<script type='text/javascript'>alert('Success.');</script>";
-          echo $_POST['id'];
-          $uid = $_POST['id'];
-          $delete=$connection->delete('users','WHERE users.userid='.'"'.$uid.'"');
-          echo $delete;
-        }
-      }
-    
-    echo "<script type='text/javascript'>alert($delete);</script>";  
-    ?>
+      if(isset($_POST["submit"])){
+        echo "<script type='text/javascript'>alert('aaa'.$id);</script>";  
+        $data = $_POST;
+        $value = "fname="."'".$data['fname']."',"."lname="."'".$data['lname']."',"."address="."'".$data['addr']."',"."phoneno="."'".$data['phoneno']."',"."email="."'".$data['email']."'";
+        $clause = "where userid="."'".$id."'";
+        $edit=$connection->update('users',$value,$clause);
+        
 
+        
+      }
+
+
+
+    }
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+
+    function setid($pid,$var){
+      if($pid != ''){
+        $var = $pid;
+      }else{
+        $var = $var;
+      }
+    }
+
+     ?> 
   </head>
 
   <body>
-
-  <script type="text/javascript">
-    var x
-  function deleteRow(r) {
-    var i = r.parentNode.parentNode.rowIndex;
-    x = document.getElementById("myTable").rows[i].cells[0];
-    // alert(x.innerHTML);
-
-    document.getElementById("myTable").deleteRow(i);
-    }
-
-    function getuid(){
-      alert(x.innerHTML);
-      return x.innerHTML;
-    }
-  </script>
 
   <section id="container" >
       <!-- **********************************************************************************************************************************************************
@@ -73,7 +95,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>Eventdotcom Admin</b></a>
+            <a href="index.html" class="logo"><b>DASHGUM FREE</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -227,21 +249,21 @@
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
       <!--sidebar start-->
-      <aside>
+       <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">Marcel Newman</h5>
+                  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                  <h5 class="centered">Marcel Newman</h5>
                   <li class="sub-menu">
                       <a class="active" href="javascript:;" >
                           <i class="fa fa-th"></i>
                           <span>Users</span>
                       </a>
                       <ul class="sub">
-                          <li class="active"><a  href="userManage.php">User Management <?php echo $delete; ?></a></li>
-                          <li><a  href="addUser.php">Create User</a></li>
+                          <li ><a  href="userManage.php">User Management</a></li>
+                          <li class="active"><a  href="addUser.php">Edit user information</a></li>
                       </ul>
                   </li>
                   <li class="sub-menu">
@@ -267,76 +289,130 @@
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-          	<h2><i class="fa fa-angle-right"></i> Users Management</h2>
-				    <div class="form-group">
-                <h3><label class="col-sm-3 col-sm-1 control-label">Search</label></h3>
-                <div class="col-sm-7">
-                    <input type="text"  class="form-control" name="lname" placeholder="Lastname">
-                </div>
-            </div>
-            <br>
-              <div class="row mt">
-                  <div class="col-md-12">
-                      <div class="content-panel">
-                          
-	                  	  	  <h4><i class="fa fa-angle-right"></i> Users</h4>
-	                  	  	  <hr>
-                              <!-- <thead> -->
-
-                               <form method = "POST" 
-                                  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                                  <table class="table table-striped table-advance table-hover" id = "myTable">
-                                  <tr>
-                                      <th> ID</th>
-                                      <th><i class="fa fa-bullhorn"></i> Firstname</th>
-                                      <th class="hidden-phone"></i> Lastname</th>
-                                      <th> Phone Number</th>
-                                      <th><i ></i> Role</th>
-                                      <th></th>
-                                  </tr>
-                                  <!-- </thead> -->
-                                  <tbody>
-                                   
-                                    <?php
-                                      foreach ($result as $row) {
-                                        # php code...
-                                        echo"<tr>
-                                            <td id = 'uid' name='uid'><input hidden=true name='id' value=".$row['userid'].">".$row['userid']."</td>
-                                            <td>" .$row['fname']."</td><td>".$row['lname']."</td>
-                                            <td>".$row['phoneno']."</td><td>".$row['type']."</td>".
-                                            '<td>
-                                       
-                                              <button class="btn btn-primary btn-xs"><i class="fa fa-pencil" ></i>
-                                              </button>
-                                            
-                                              <button class="btn btn-danger btn-xs" type="submit" name="submit" onclick="deleteRow(this)" ><i class="fa fa-trash-o "></i>
-                                              </button>
-                                          
-                                      </td></tr>';
-                                      }
-                                  ?>
+          	<h3><i class="fa fa-angle-right"></i> Edit User Information</h3>
+          	
+          	<!-- BASIC FORM ELELEMNTS -->
+          	<div class="row mt">
+          		<div class="col-lg-12">
+                  <div class="form-panel">
+                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> User Information</h4>
+                      <form class="form-horizontal style-form" method="POST" 
+                      action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                          <div class="form-group" style="display:none">
+                              <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="id" value = "<?php echo $id; ?>">
+                              </div>
                               
-                              </tbody>
-                            </table>
-                          </form>
-                      </div><!-- /content-panel -->
-                  </div><!-- /col-md-12 -->
-              </div><!-- /row -->
+                          </div>
+                  
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="fname" value = "<?php echo $first; ?>">
+                              </div>
+                              <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $fnameErr; ?></span>
+                          </div>
 
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Lastname</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="lname" value = "<?php echo $last ; ?>">
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Address</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="addr" value = "<?php echo $address; ?>">
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $addrErr; ?></span>
+                          </div>
+
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Phone Number</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="phoneno" value = "<?php echo $phone; ?>">
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $phonenoErr; ?></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">E-Mail</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="email" value="<?php echo $mail; ?>">
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $emailErr; ?></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Username</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="username" value="<?php echo $uname; ?>" disabled>
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $usernameErr; ?></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Password</label>
+                              <div class="col-sm-10">
+                                  <input type="password" class="form-control" name="password" value = "<?php echo $pass?>" disabled>
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $pwdErr; ?></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-3 control-label">Role</label>
+                              <label>
+                                <input type="radio" name="role" id="radio1" value="admin" checked="<?php if($role == 'admin'){echo 'checked';} ?>" disabled>Admin
+                              </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               <label>
+                                <input type="radio" name="role" id="radio2" value="organizer" checked="<?php if($role == 'organizer'){echo 'checked';} ?>" disabled>Organizer
+                              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               <label>
+                                <input type="radio" name="role" id="radio3" value="attendant" checked="<?php if($role == 'attendant'){echo 'checked';} ?>" disabled>Attendant
+                              </label>
+                              <br>
+
+                              <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $typeErr; ?></span>
+                          </div>
+                          <br>
+                          <center><p>
+                            <button  class="btn btn-primary btn-lg" type="submit" name="submit">Save Changes</button>&nbsp;&nbsp;&nbsp;
+                            <button  class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
+                          </p></center>
+
+
+    
+                      </form>
+                  </div>
+          		</div><!-- col-lg-12-->      	
+          	</div><!-- /row --> 
+     
+    
+          
+						
+						
+						
+						
+					
+          		
+         
+          	
+          	
 		</section><! --/wrapper -->
       </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
       <!--footer start-->
-     <!--  <footer class="site-footer">
-          <div class="text-center">
-              2014 - Alvarez.is
-              <a href="basic_table.html#" class="go-top">
-                  <i class="fa fa-angle-up"></i>
-              </a>
-          </div>
-      </footer> -->
-      <!--footer end-->
+           <!--footer end-->
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -351,6 +427,25 @@
     <script src="assets/js/common-scripts.js"></script>
 
     <!--script for this page-->
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+	<!--custom switch-->
+	<script src="assets/js/bootstrap-switch.js"></script>
+	
+	<!--custom tagsinput-->
+	<script src="assets/js/jquery.tagsinput.js"></script>
+	
+	<!--custom checkbox & radio-->
+	
+	<script type="text/javascript" src="assets/js/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap-daterangepicker/daterangepicker.js"></script>
+	
+	<script type="text/javascript" src="assets/js/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+	
+	
+	<script src="assets/js/form-component.js"></script>    
+    
     
   <script>
       //custom select box

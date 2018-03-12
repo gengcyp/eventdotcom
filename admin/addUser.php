@@ -27,19 +27,137 @@
     <![endif]-->
 
     <?php
-    require 'assets/php/dbms.php';
-    $db = new DBMS();
-    if(isset($_POST["submit"])){
-        // $db = new DBMS();
-        // if($_POST["pw"] != $_POST["rpw"]){
-        //     echo "<script type='text/javascript'>alert('Pw not match.');</script>";
-        // }
-        // else{
-            echo "<script type='text/javascript'>alert('KKKKK.');</script>";
-            $db->addUser($_POST["id"],$_POST["role"] ,$_POST["fname"], $_POST["lname"], $_POST["addr"], $_POST["phoneno"],$_POST["password"]);
-            echo "<script type='text/javascript'>alert('Success.');</script>";
-        // }
+    include 'DBconnect.php';
+   
+    // $connection  = new DBconnect();
+
+    $fnameErr = $addrErr = $emailErr = $phonenoErr = $usernameErr= $pwdErr = $typeErr ='' ;
+    $fname = $lname = $addr = $phoneno = $email = $username= $pwd = $type = '';
+
+    $check = 1;
+    // echo "<script type='text/javascript'>alert('Success1.');</script>";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+      // echo "<script type='text/javascript'>alert('Success2.');</script>";
+
+
+       // get users firstname
+      if(empty($_POST["fname"])){
+        $fnameErr = "Firstname is required";
+           echo"<script type='text/javascript'>alert($fnameErr);</script>";
+
+      }else{
+        $fname = test_input($_POST["fname"]);
+        $lname = test_input($_POST["lname"]);
+         echo "<script type='text/javascript'>alert($fname);</script>";
+        if (!preg_match("/^[a-zA-Z ]*$/",$fname)) {
+          $fnameErr = "Only letters and white space allowed"; 
+          
+        }
+      }
+
+      //get addresss
+      if(empty($_POST["addr"])){
+        $addrErr = "Address is required";
+      }else{
+        $addr = test_input($_POST["addr"]);
+      }
+
+      //get Email
+      if (empty($_POST["email"])) {
+        $emailErr = "Email is required";
+        
+      } else {
+        $email = test_input($_POST["email"]);
+        // check if e-mail address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $emailErr = "Invalid email format"; 
+          
+        }
+      }
+
+      //get phoneno
+      if(empty($_POST["phoneno"])){
+        $phonenoErr = "Phone Number is required";
+        
+      }else{
+        $phoneno = test_input($_POST["phoneno"]);
+        if (preg_match("/^[a-zA-Z ]*$/", $phoneno)) {
+          $phonenoErr = "Only numbers allowed"; 
+       
+        }
+      }
+
+      //get username
+
+      if(empty($_POST["username"])){
+        $usernameErr= "Username is required";
+      }else{
+        $username = test_input($_POST["username"]);
+      }
+      // get password
+      if(empty($_POST["password"])){
+        $pwdErr = "Password is required";
+      }else{
+        $pwd = test_input($_POST["password"]);
+      }
+
+      //get user type 
+      if(empty($_POST["role"])){
+        $typeErr= "Role is required";
+       
+      }else{
+        $type = test_input($_POST["role"]);
+      }
+
+      echo "<script type='text/javascript'>alert($fname);</script>";
+      echo "<script type='text/javascript'>alert($addr);</script>";
+      echo "<script type='text/javascript'>alert($email);</script>";
+
+      // if ($fnameErr != '' && $addr != '' && $email !='' && $phoneno !='' && $username != ''&& $pwd != '' && $typeErr != '') {
+      if(isset($_POST["submit"])){
+        $data = $_POST;
+         $connection  = new DBconnect();
+
+        echo "<script type='text/javascript'>alert('Add.');</script>";
+        $column = "(type, fname, lname, address, phoneno, email, pwd, uname, ustatus)";
+        echo "<script type='text/javascript'>alert($column);</script>";
+
+        $value = "("."'".$data['role']."',". "'".$data['fname']."',". "'".$data['lname']."'," ."'".$data['addr']."',". "'".$data['phoneno']."'," ."'".$data['email']."'," ."'".$data['password']."',"."'".$data['username']."',".'0'.")";
+       
+         echo "<script type='text/javascript'>alert($value);</script>";
+
+        $signup = $connection->insert('users', $column, $value);
+        echo "<script type='text/javascript'>alert('Success2.');</script>";
+      }
+
+
+
     }
+
+    
+
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+
+    // if(isset($_POST["submit"])){
+    //   global $db;
+    //     // $db = new DBMS();
+    //     // if($_POST["pw"] != $_POST["rpw"]){
+    //     //     echo "<script type='text/javascript'>alert('Pw not match.');</script>";
+    //     // }
+    //     // else{
+    //         echo "adddd";
+    //         echo "<script type='text/javascript'>alert('KKKKK.');</script>";
+    //         $db->addUser($_POST["id"],$_POST["role"] ,$_POST["fname"], $_POST["lname"], $_POST["addr"], $_POST["phoneno"],$_POST["password"]);
+    //         echo "<script type='text/javascript'>alert('Success.');</script>";
+    //     // }
+    // }
      ?> 
   </head>
 
@@ -209,82 +327,31 @@
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
       <!--sidebar start-->
-      <aside>
+       <aside>
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu" id="nav-accordion">
               
-              	  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-              	  <h5 class="centered">Marcel Newman</h5>
-              	  	
-                  <li class="mt">
-                      <a href="index.html">
-                          <i class="fa fa-dashboard"></i>
-                          <span>Dashboard</span>
-                      </a>
-                  </li>
-
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-desktop"></i>
-                          <span>UI Elements</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="general.html">General</a></li>
-                          <li><a  href="buttons.html">Buttons</a></li>
-                          <li><a  href="panels.html">Panels</a></li>
-                      </ul>
-                  </li>
-
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-cogs"></i>
-                          <span>Components</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="calendar.html">Calendar</a></li>
-                          <li><a  href="gallery.html">Gallery</a></li>
-                          <li><a  href="todo_list.html">Todo List</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-book"></i>
-                          <span>Extra Pages</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="blank.html">Blank Page</a></li>
-                          <li><a  href="login.html">Login</a></li>
-                          <li><a  href="lock_screen.html">Lock Screen</a></li>
-                      </ul>
-                  </li>
+                  <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a></p>
+                  <h5 class="centered">Marcel Newman</h5>
                   <li class="sub-menu">
                       <a class="active" href="javascript:;" >
-                          <i class="fa fa-tasks"></i>
-                          <span>Forms</span>
-                      </a>
-                      <ul class="sub">
-                          <li class="active"><a  href="form_component.html">Form Components</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" >
                           <i class="fa fa-th"></i>
-                          <span>Data Tables</span>
+                          <span>Users</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="basic_table.html">Basic Table</a></li>
-                          <li><a  href="responsive_table.html">Responsive Table</a></li>
+                          <li ><a  href="userManage.php">User Management</a></li>
+                          <li class="active"><a  href="addUser.php">Create User</a></li>
                       </ul>
                   </li>
                   <li class="sub-menu">
                       <a href="javascript:;" >
                           <i class=" fa fa-bar-chart-o"></i>
-                          <span>Charts</span>
+                          <span>Peports</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="morris.html">Morris</a></li>
-                          <li><a  href="chartjs.html">Chartjs</a></li>
+                          <li><a  href="morris.html">รายงานการจัดอีเวนท์</a></li>
+                          <!-- <li><a  href="chartjs.html">Chartjs</a></li> -->
                       </ul>
                   </li>
 
@@ -307,20 +374,17 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> User Information</h4>
-                      <form class="form-horizontal style-form" method="POST">
+                      <form class="form-horizontal style-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                         
                          
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">ID</label>
-                              <div class="col-sm-10">
-                                  <input class="form-control" id="id" type="text" name="id" disabled placeholder=<?php echo $db->getLastID()+1 ?> >
-                              </div>
-                          </div>
+               
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="fname"placeholder="Firstname">
+                                  <input type="text"  class="form-control" name="fname" placeholder="Firstname">
                               </div>
+                              <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $fnameErr; ?></span>
                           </div>
 
                           <div class="form-group">
@@ -335,6 +399,8 @@
                               <div class="col-sm-10">
                                   <input type="text"  class="form-control" name="addr" placeholder="Address">
                               </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $addrErr; ?></span>
                           </div>
 
                            <div class="form-group">
@@ -342,6 +408,8 @@
                               <div class="col-sm-10">
                                   <input type="text"  class="form-control" name="phoneno" placeholder="Phone Number">
                               </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $phonenoErr; ?></span>
                           </div>
 
                           <div class="form-group">
@@ -349,30 +417,48 @@
                               <div class="col-sm-10">
                                   <input type="text"  class="form-control" name="email" placeholder="email@example.com">
                               </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $emailErr; ?></span>
                           </div>
+
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Username</label>
+                              <div class="col-sm-10">
+                                  <input type="text"  class="form-control" name="username" placeholder="username">
+                              </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $usernameErr; ?></span>
+                          </div>
+
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Password</label>
                               <div class="col-sm-10">
                                   <input type="password"  class="form-control" placeholder="password" name="password">
                               </div>
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $pwdErr; ?></span>
                           </div>
 
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Role</label>
+                              <label class="col-sm-2 col-sm-3 control-label">Role</label>
                               <label>
                                 <input type="radio" name="role" id="radio1" value="admin" >Admin
-                              </label> &nbsp;&nbsp;&nbsp;
+                              </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                <label>
                                 <input type="radio" name="role" id="radio2" value="organizer" >Organizer
-                              </label>&nbsp;&nbsp;&nbsp;
+                              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                <label>
                                 <input type="radio" name="role" id="radio3" value="attendant" >Attendant
                               </label>
+                              <br>
+
+                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $typeErr; ?></span>
                           </div>
                           <br>
                           <center><p>
-                            <button type="button" class="btn btn-primary btn-lg" type="submit" name="submit">Create Account</button>&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
+                            <button  class="btn btn-primary btn-lg" type="submit" name="submit">Create Account</button>&nbsp;&nbsp;&nbsp;
+                            <button  class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
                           </p></center>
 
 
@@ -380,7 +466,7 @@
                       </form>
                   </div>
           		</div><!-- col-lg-12-->      	
-          	</div><!-- /row -->
+          	</div><!-- /row --> 
      
     
           
