@@ -224,5 +224,38 @@
 	    background-color: #ccc;
 	}
 
+	/* #allCEvents, #allHEvents{
+		margin-top: 20px;
+		border: 2px solid #f7eac4;
+	} */
+
+
+	#allCEvents , #allHEvents{
+		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	#allCEvents td, #allCEvents th, #allHEvents td, #allHEvents th {
+		border: 1px solid #ddd;
+		padding: 8px;
+	}
+
+	#allCEvents tr:nth-child(even), #allHEvents tr:nth-child(even){
+		background-color: #f2f2f2;
+	}
+
+	#allCEvents tr:hover, #allHEvents tr:hover {
+		background-color: #ddd;
+		}
+
+	#allCEvents th, #allHEvents th{
+		padding-top: 12px;
+		padding-bottom: 12px;
+		text-align: left;
+		background-color: #4CAF50;
+		color: white;
+	}
+
 </style>
 </html>
