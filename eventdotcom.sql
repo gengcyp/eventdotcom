@@ -188,6 +188,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `detailpictures`
+--
+ALTER TABLE `detailpictures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `eventdetail`
 --
 ALTER TABLE `eventdetail`
