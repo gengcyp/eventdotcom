@@ -1,5 +1,5 @@
 <?php
-	session_start();  
+	// session_start();  
 ?>
 
 <!DOCTYPE html>
@@ -7,11 +7,8 @@
 
 <!-- check login -->
 <?php  
-	include 'DBconnect.php';
-	// connect to DB
-	$connection = new DBconnect(
-		'eventdotcom',
-		 'tk', 'Working24');
+	include 'header.php';
+
 	// $login_statement = $connection->prepare('Select * From users' );
 	$result = "";
 	$selected = "";
@@ -139,6 +136,7 @@
 										Phone No.: <input type="text" name="phoneno">
 									</td>
 									<td>
+										<br>
 										E-mail: <input type="text" name="email">
 									</td>
 								</tr>
