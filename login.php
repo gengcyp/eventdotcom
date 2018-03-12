@@ -120,6 +120,17 @@
 								</tr>
 								<tr>
 									<td>
+										<label>Gender: </label><br>
+										<input type="radio" name="gender" value="male">Male
+										<input type="radio" name="gender" value="female">Female
+									</td>
+									<td>
+										<label>Birthday</label>
+										<input type="date" name="bday">
+									</td>
+								</tr>
+								<tr>
+									<td>
 										Address: <input type="text" name="address">
 									</td>
 								</tr>
