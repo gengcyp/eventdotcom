@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2018 at 06:35 AM
+-- Generation Time: Mar 12, 2018 at 07:05 PM
 -- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- PHP Version: 7.2.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -101,6 +101,58 @@ INSERT INTO `eventdetail` (`eventid`, `eventname`, `description`, `profilepic`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `reply`
+--
+
+CREATE TABLE `reply` (
+  `ReplyID` int(5) UNSIGNED ZEROFILL NOT NULL,
+  `EventID` int(11) UNSIGNED ZEROFILL NOT NULL,
+  `CreateDate` datetime NOT NULL,
+  `Details` text NOT NULL,
+  `UserID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reply`
+--
+
+INSERT INTO `reply` (`ReplyID`, `EventID`, `CreateDate`, `Details`, `UserID`) VALUES
+(00001, 00000000016, '2018-03-13 00:42:13', 'hi', 0),
+(00002, 00000000016, '2018-03-13 00:42:17', 'Ok', 0),
+(00003, 00000000016, '2018-03-13 00:42:21', 'Ok', 0),
+(00004, 00000000016, '2018-03-13 00:42:57', 'ol', 0),
+(00005, 00000000016, '2018-03-13 00:42:58', 'ol', 0),
+(00006, 00000000016, '2018-03-13 00:42:59', 'ol', 0),
+(00007, 00000000016, '2018-03-13 00:42:59', 'ol', 0),
+(00008, 00000000016, '2018-03-13 00:42:59', 'ol', 0),
+(00009, 00000000016, '2018-03-13 00:42:59', 'ol', 0),
+(00010, 00000000016, '2018-03-13 00:46:33', 'asd', 0),
+(00011, 00000000016, '2018-03-13 00:47:26', 'bhj', 0),
+(00012, 00000000016, '2018-03-13 00:51:04', 'bhj', 0),
+(00013, 00000000016, '2018-03-13 00:51:07', 'bhj', 0),
+(00014, 00000000016, '2018-03-13 00:51:08', 'bhj', 0),
+(00015, 00000000016, '2018-03-13 00:51:08', 'bhj', 0),
+(00016, 00000000016, '2018-03-13 00:51:08', 'bhj', 0),
+(00017, 00000000016, '2018-03-13 00:51:08', 'bhj', 0),
+(00018, 00000000016, '2018-03-13 00:53:11', 'bhj', 0),
+(00019, 00000000016, '2018-03-13 00:53:20', 'bhj', 0),
+(00020, 00000000016, '2018-03-13 00:53:20', 'bhj', 0),
+(00021, 00000000016, '2018-03-13 00:53:21', 'bhj', 0),
+(00022, 00000000016, '2018-03-13 00:53:21', 'bhj', 0),
+(00023, 00000000016, '2018-03-13 00:53:21', 'bhj', 0),
+(00024, 00000000016, '2018-03-13 00:53:21', 'bhj', 0),
+(00025, 00000000016, '2018-03-13 00:53:21', 'bhj', 0),
+(00026, 00000000016, '2018-03-13 00:53:22', 'bhj', 0),
+(00027, 00000000016, '2018-03-13 00:53:22', 'bhj', 0),
+(00028, 00000000016, '2018-03-13 00:53:22', 'bhj', 0),
+(00029, 00000000016, '2018-03-13 00:53:22', 'bhj', 0),
+(00030, 00000000016, '2018-03-13 00:57:18', 'yeah', 0),
+(00031, 00000000016, '2018-03-13 00:57:28', 'yeah', 0),
+(00032, 00000000016, '2018-03-13 00:57:34', 'yeah', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reservations`
 --
 
@@ -172,6 +224,12 @@ ALTER TABLE `eventdetail`
   ADD PRIMARY KEY (`eventid`);
 
 --
+-- Indexes for table `reply`
+--
+ALTER TABLE `reply`
+  ADD PRIMARY KEY (`ReplyID`);
+
+--
 -- Indexes for table `reservations`
 --
 ALTER TABLE `reservations`
@@ -198,6 +256,12 @@ ALTER TABLE `detailpictures`
 --
 ALTER TABLE `eventdetail`
   MODIFY `eventid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `reply`
+--
+ALTER TABLE `reply`
+  MODIFY `ReplyID` int(5) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `reservations`
