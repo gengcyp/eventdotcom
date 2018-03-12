@@ -2,9 +2,12 @@
 <?php
 include 'header.php';
 include 'eventDB.php';
-include 'showmap.php';
+// include 'showmap.php';
+include 'positiongmap.php';
 
 ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="theme_editevent.css" type="text/css">
 <script type="text/javascript">
 	//session
 	//check this user is event owner
@@ -16,7 +19,7 @@ include 'showmap.php';
 	}
 	 ?>
 	if ("<?php echo $uid; ?>"=="<?php echo $own ?>"){   //session ok
-		//***show edit button
+		$("#edit").show();
 	}else {  //this user is not event own
 
 	}
@@ -28,7 +31,7 @@ include 'showmap.php';
 	}else	if (r == "reserve"){		//this user is reserved
 		//***hide reserve button
 	}else if (r=="not"){				//this user isn't reserved
-		//***show reserve button
+		$("#reserve").show();
 	}
 
 </script>
@@ -39,30 +42,47 @@ include 'showmap.php';
 	<style>
 		 #map {
 			height: 400px;
-			width: 100%;
+			align: "center";
 		 }
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<img id=profile height="300" width="300" src="<?php echo $profilepic ?>"></img>
+	<!-- <img id=profile height="300" width="300" src="<?php echo $profilepic ?>"></img> -->
 	<h1 id=name style="text-align:center"> <?php echo $name; ?></h1>
 	<img id=profilepic> </img>
 	<?php
 		$pic = loadSlidePic($db,$id);
-		$caption = array();
-		include 'slidepic.php' ?>
+		// $caption = array();
+		include 'slidepic.php' ?><br>
 	<p id=location style="text-align:center">
 		<img src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/location-alt-24.png"></img>
 		<?php echo $location; ?>
 	</p>
 	<div id="map"></div>
-	<p id=type> </p>
+	<script type="text/javascript">
+	//show or hide map
+	// if ((latitude == 0) && (longitude == 0)){
+	// 	$('#map').hide();
+	// }
+	</script>
 	<p id=desc> <?php echo $desc; ?></p>
-	<p id=price> Price <?php echo $price; ?> Baht</p>
-	<p id=limit> Limit <?php echo $limit; ?></p>
-	<p id=precon> Precondition Event <br><?php //echo $showprecon; ?> </p>
-	<p id=feedback style="display:none"> </p>
+	<?php
+	if ($price!=0){
+		echo '<h2>Price '.$price.' Baht</h2><br>';
+	}else{
+		echo '<h2>Free Event!!</h2><br>';
+	}
+	if ($limit!=0){
+		echo '<h2>Limit '.$limit.' </h2><br>';
+	}else{
+		echo '<h2></h2><br>';
+	}
+	if ($precon>0){
+		echo 'Precondition Event<br>'.$precon;
+	}?>
+	<a  class="btn btn-outline-primary" id="edit" style="display:none" link="editevent.php?id=<?php echo $_GET['id'] ?>">Edit</a>
+	<a  class="btn btn-outline-primary" id="reserve" style="display:none">Reserve</a>
 
 </body>
 </html>

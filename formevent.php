@@ -137,4 +137,3 @@
 </body>
 
 </html>
-<?php include 'uploadmain.php' ?>

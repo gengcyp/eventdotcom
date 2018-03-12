@@ -36,9 +36,8 @@ if(isset($_POST['insert'])){
 		'.$dt.',
 		"'.$_SESSION['uid']	.'"
 		)';
-
 		$lastid = $db->insertGetLast('eventdetail','(eventname,description,profilepic,location,latitude,longitude,attendeeslimit,price,preconditionid,started,finished,type,feedback,createddate,eventown)',$val);
-
+		header("Location: uploadmain.php?id=".$lastid);
 		// echo $lastid;
 }
 //edit event ---------------------------------------------
