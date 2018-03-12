@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 	<?php  
-		include 'DBconnect.php';
-		include 'checker.php';
+		// include 'DBconnect.php';
+		// include 'checker.php';
+		include 'header.php';
 
-		$connection = new DBconnect(
-					'eventdotcom',
-					 'tk', 'Working24'); 
+		// $connection = new DBconnect(
+		// 			'eventdotcom',
+		// 			 'tk', 'Working24'); 
 
 		$attn = [0];
 
@@ -59,4 +60,9 @@
 		});
 	</script>
 </body>
+<style>
+	td{
+		width: 250px;
+	}
+</style>
 </html>

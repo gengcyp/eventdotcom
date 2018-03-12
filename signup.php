@@ -6,14 +6,14 @@
 <body>
 	<?php  
 
-		include 'DBconnect.php';
+		include 'header.php';
 		// data come in as [] use key
 		$data = $_POST;
 
 		// connect DB
-		$connection = new DBconnect(
-			'eventdotcom',
-		 	'tk', 'Working24');
+		// $connection = new DBconnect(
+		// 	'eventdotcom',
+		//  	'tk', 'Working24');
 
 		// column of the users table that we donna insert to
 		$column = "(type, fname, lname, address, phoneno, email, pwd, uname, ustatus, confirmcode, gender, birthday)";

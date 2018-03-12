@@ -1,14 +1,14 @@
-<?php
-	// session_start();  
-?>
-
 <!DOCTYPE html>
 <meta charset="utf-8">
 
 <!-- check login -->
 <?php  
+	// include 'DBconnect.php';
 	include 'header.php';
-
+	// connect to DB
+	// $connection = new DBconnect(
+	// 	'eventdotcom',
+	// 	 'tk', 'Working24');
 	// $login_statement = $connection->prepare('Select * From users' );
 	$result = "";
 	$selected = "";
@@ -136,7 +136,6 @@
 										Phone No.: <input type="text" name="phoneno">
 									</td>
 									<td>
-										<br>
 										E-mail: <input type="text" name="email">
 									</td>
 								</tr>

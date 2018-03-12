@@ -7,9 +7,14 @@
 </head>
 <body>
 	<?php
+		// include 'DBconnect.php';
+		// include 'checker.php';
 		include 'header.php';
 		include 'reportCertificate.php';
 		// connect DB
+		// $connection = new DBconnect(
+		// 			'eventdotcom',
+		// 			 'tk', 'Working24'); 
 
 		// select my event from db
 		// status from session that user has been log in or not
@@ -187,8 +192,8 @@
 
 </body>
 <style>
-	.h-events{
-		border: 5px solid red;
+	td{
+		width: 250px;
 	}
 	/* Style the tab */
 	.tab {
