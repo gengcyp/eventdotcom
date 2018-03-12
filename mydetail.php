@@ -9,6 +9,7 @@
 	<?php
 		include 'DBconnect.php';
 		include 'checker.php';
+		include 'reportCertificate.php';
 		// connect DB
 		$connection = new DBconnect(
 					'eventdotcom',
@@ -18,10 +19,25 @@
 		// status from session that user has been log in or not
 		$status = "NO";
 		// select detail from data base
-		$cevents = "";
-		$hevents = "";
+		$cevents = [0];
+		$hevents = [0];
 
-		$myinfo = "";
+		$myinfo = [0];
+
+		// give certification
+		// check that certi was submit
+		if (isset($_POST['subcer'])){
+			// give certificate to everyone that in this event
+			// get event id
+			$cer_eid = $_POST['ceid'];
+
+			// change status of certificate
+			$connection->update("reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid ", "certificate=1", "WHERE eventcode='".$cer_eid."'");
+
+			if ($connection){
+				echo '<script type="text/javascript">alert("Successful gave certificate to eventid' . $cer_eid . '")</script>';
+			}
+		}
 
 		// check user that had been login 
 		// if someone login get an id
@@ -30,10 +46,20 @@
 			$status = "YES";
 			// get login user
 			$myinfo = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
-			// get event that in current duration
-			$cevents = $connection->select('*', 'eventdetail INNER JOIN events ON eventdetail.eventid=events.eventid ', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND events.started>=CURDATE()");
-			// get event that already pass
-			$hevents = $connection->select('*', 'eventdetail INNER JOIN events ON eventdetail.eventid=events.eventid ', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND events.started<CURDATE()");
+
+			// check type of user
+			if ($myinfo[0]['type'] == 'organizer'){
+				// get event that in current duration
+				$cevents = $connection->select('*', 'eventdetail', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND eventdetail.finished>=CURDATE()");
+				// get event that already pass
+				$hevents = $connection->select('*', 'eventdetail INNER JOIN reservations ON eventdetail.eventid=reservations.eventcode', "WHERE eventdetail.eventown=".'"'.$user.'"'. "AND eventdetail.finished<CURDATE()");
+			}
+			else if ($myinfo[0]['type'] == 'attendant'){
+				// get event that in current duration
+				$cevents = $connection->select('*', 'reservations INNER JOIN eventdetail ON eventdetail.eventid=reservations.eventcode INNER JOIN users ON users.userid=eventdetail.eventown ', "WHERE reservations.userid=".'"'.$user.'"'. "AND eventdetail.started>=CURDATE()");
+				// get event that already pass
+				$hevents = $connection->select('*', 'reservations INNER JOIN eventdetail ON eventdetail.eventid=reservations.eventcode INNER JOIN users ON users.userid=eventdetail.eventown ', "WHERE reservations.userid=".'"'.$user.'"'. "AND eventdetail.started<CURDATE()");				
+			}
 		}
 		else{
 			$status = "NO";
@@ -85,7 +111,7 @@
 				$('#myevent').hide();
 			}
 			else {
-				// $('#defaultOpen').click();
+
 				 // get myevents
 				 var cevents = <?php echo json_encode($cevents); ?>;
 				 var hevents = <?php echo json_encode($hevents); ?>;
@@ -94,13 +120,34 @@
 				 // current events
 				 for (var i = 0; i < cevents.length; i++) {
 
-				 	$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i][0]+ ", Name of Event: " + cevents[i][1] + ", Description: " + cevents[i][2] +"</div>");
+				 	// case eventowner
+				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
+				 		$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i]['eventid']+ ", Name of Event: " + cevents[i]['eventname'] + ", Description: " + cevents[i]['description'] +"&nbsp;&nbsp;<a href='editevent.php?id="+cevents[i]['eventid']+"'><button>Edit</button></a></div>");
+				 	}
+				 	// case attendant user
+				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
+				 		$("#current").append("<div class=c-events id="+i+">"+ "EventID: " + cevents[i]['eventid']+ ", Name of Event: " + cevents[i]['eventname'] + ", Description: " + cevents[i]['description'] +"&nbsp;&nbsp;<a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></div>");
+				 	}
+				 	
 				 }
 
 				 // pass events
 				 for (var i = 0; i < hevents.length; i++) {
 
-				 	$("#history").append("<div class=h-events id="+i+">"+ "EventID: " + hevents[i][0]+ ", Name of Event: " + hevents[i][1] + ", Description: " + hevents[i][2] +"</div>");
+				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
+					 	$("#history").append("<form method='post' action=''><div class=h-events id="+i+">"+ "EventID: " + hevents[i]['eventid']+ ", Name of Event: " + hevents[i]['eventname'] + ", Description: " + hevents[i]['description'] +"&nbsp;&nbsp; <input hidden='true' type='text' name='ceid' value='" + hevents[i]['eventid'] + "'><button type='submit' name='subcer' id='cer'>Certificate</button></div></form>");
+					 	// case already gave certificate
+				 		if (hevents[i]['certificate'] == 1){
+				 			$('#cer').attr('disabled', 'disabled');
+				 		}
+					 }
+				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
+				 		$("#history").append("<form method='post' action=''><div class=c-events id="+i+">"+ "EventID: " + hevents[i]['eventid']+ ", Name of Event: " + hevents[i]['eventname'] + ", Description: " + hevents[i]['description'] +"&nbsp;&nbsp; <input hidden='true' type='text' name='name_attendant' value=" + '<?php echo $myinfo[0]["fname"]. "  " . $myinfo[0]["lname"];?>' + "><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'><button type='submit' name='create_pdf' id='cer'>Get Certificate</button></div></form>");
+
+				 		if (hevents[i]['certificate'] == 0){
+				 			$('#cer').attr('disabled', 'disabled');
+				 		}
+				 	}
 				 }
 			}
 			
