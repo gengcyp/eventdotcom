@@ -59,7 +59,7 @@ if(isset($_POST['edit'])){
 		feedback= "'.$_POST["feedback"]	.'"
 		';
 		$result = $db->update('eventdetail',$val,"WHERE eventid=".$_GET['id']);
-		echo $val;
+		// echo $val;
 
 
 }
