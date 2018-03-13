@@ -13,7 +13,7 @@
 if (count($pic)>0){
   for ($i=0;$i < count($pic);$i++){
     echo '<div class="display-container mySlides">';
-    echo '<img src='.$pic[$i][0].' style="width:100%">';
+    echo '<img src='.$pic[$i][0].' style="width:100%;height:300px">';
     // echo '<div class="large container padding-16 black">
     //   '.$caption[$i].'</div>';
     echo '</div>';
@@ -33,6 +33,7 @@ if (count($pic)>0){
   if (<?php echo count($pic)?> == 0){
     $("#bl").hide();
     $("#br").hide();
+
   }
 var slideIndex = 1;
 showDivs(slideIndex);
@@ -49,7 +50,9 @@ function showDivs(n) {
   for (i = 0; i < x.length; i++) {
      x[i].style.display = "none";
   }
-  x[slideIndex-1].style.display = "block";
+  <?php if (count($pic)>0){
+    echo 'x[slideIndex-1].style.display = "block";';
+  } ?>
 }
 </script>
 
