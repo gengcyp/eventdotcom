@@ -5,7 +5,6 @@
     if(!empty($_POST['scannedQR'])){
         $scannedQR = $_POST['scannedQR'];
         confirmQRcode($scannedQR);
-        // confirmQRcode("reservationid=1 eventid=3");
     }
 
     function confirmQRcode($scannedQR){
@@ -29,13 +28,11 @@
 
             // check eventown
             $organ_id = $me[0]["userid"];
-            $eventown_id = $connection->select("eventown", "eventdetail", "WHERE eventid = ".'"'.$id_event.'"');
-
+            $eventown_id = $connection->select("eventown, userid", "eventdetail", "WHERE eventid = ".'"'.$id_event.'"');
+            
             if($organ_id == $eventown_id[0]["eventown"]){
-               
-                // $date = new DateTime();
-                // $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
-                // echo $date->format('Y-m-d H:i:s') . "\n";
+                
+                echo $eventown_id[0]["userid"];
 
                 date_default_timezone_set("Asia/Bangkok");
                 $checkintime = date("YmdHis",time());
@@ -43,6 +40,7 @@
                 $column = "(reservationid, checkintime)";
                 $values = "("."'".$reservationid."',". "'".$checkintime."'".")";
                 $connection->insert("attendees", $column, $values);
+                echo "<script>alert('Success111')</script>";
             }
         }
     }
