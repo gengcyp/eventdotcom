@@ -1,31 +1,32 @@
 <?php  
 include 'DBconnect01.php';
    
-$year =$_POST["year"];
-$forg = $_POST['forg'];
-$torg = $_POST['torg'];
-$floc = $_POST['floc'];
-$tloc = $_POST['tloc'];
-$fatt = $_POST['fatt'];
-$tatt = $_POST['tatt'];
+$fyear =$_POST["fyear"];
+$tyear =$_POST["tyear"];
+$org = $_POST['org'];
+$loc = $_POST['loc'];
+$att = $_POST['att'];
 
- function fetch_data($pyear, $pforg, $ptorg, $pfloc, $ptloc, $pfatt, $ptatt)  
+ function fetch_data($pfyear, $ptyear, $porg, $ploc,$patt)  
  {  
      $output = '';  
       $connection = new DBconnect();  
       $table = 'eventdetail left outer join users on eventdetail.eventown= users.userid';
-      $clause = "where  year(started)= "."'".$pyear."'".
-      "and (fname >="."'".$pforg."'"."and fname <="."'".$ptorg."'".")".
-      "and (location >="."'".$pfloc."'"."and location <="."'".$ptloc."'".")".
-      "and (attendeeslimit >="."'".$pfatt."'"."and attendeeslimit <="."'".$ptatt."'".")";
+      $clause = "where (year(started) >= "."'".$pfyear."'".
+      "and year(started) <="."'".$ptyear."'".
+      ") and fname like '%"."".$porg.""."%' ".
+      "and location like '%"."".$ploc.""."%'".
+      "and attendeeslimit like '%"."".$patt.""."%'";
 
-      $result =  $connection->select('*',$table,$clause);  
+      $result =  $connection->select('eventname, location, fname, lname, date(started), date(finished) ',$table,$clause);  
       foreach($result as $row)  
       {       
       $output .= '<tr>  
-                          <td>'.$row["eventname"].'</td>   
+                          <td>'.$row["eventname"].'</td>
+                          <td>'.$row["date(started)"].'</td>
+                          <td>'.$row["date(finished)"].'</td>   
                           <td>'.$row["location"].'</td> 
-                          <td>'.$row["fname"].'</td> 
+                          <td>'.$row["fname"]." ".$row["lname"].'</td> 
                        
                      </tr>  
                           ';  
@@ -57,16 +58,18 @@ $tatt = $_POST['tatt'];
                
             <table border="1" cellspacing="0" cellpadding="5">  
                  <tr>  
-                    <th width="55%">Event </th>  
-                    <th width="25%">Location</th> 
-                    <th width="20%">Organizer</th>
+                    <th width="30%">ชื่ออีเวนท์หรือการอบรม </th>  
+                    <th width="15%">วันที่เริ่มต้น</th>
+                    <th width="15%">วันที่สิ้นสุด </th>
+                    <th width="20%">สถานที่</th> 
+                    <th width="20%">ชื่อผู้จัด</th>
                  </tr>  
             ';   
-            $content .= fetch_data($year,$forg,$torg,$floc,$tloc,$fatt,$tatt);  
+            $content .= fetch_data($fyear, $tyear, $org, $loc,$att);  
             $content .= '</table>';  
             $obj_pdf->writeHTML($content);  
             ob_end_clean();
-            $obj_pdf->Output('sample.pdf', 'I');  
+            $obj_pdf->Output('yearly.pdf', 'I');  
        }
     
  ?>  
@@ -82,43 +85,41 @@ $tatt = $_POST['tatt'];
                 <h3 align="center">รายงานการจัดอีเวนท์และการอบรมประจำปี</h3><br/> 
                 <table width = 70% align="center">
                   <tr>
-                    <td><p>ปีที่จัด     <?php echo $year?> </p></td>
+                    <td><p>ปีที่จัด     <?php echo $fyear?> </p></td>
+                    <td><p>ถึง     <?php echo $tyear?> </p></td>
                   </tr>
                   <tr>
-                    <td><p>ผู้จัดงาน    จาก    <?php echo $forg ?></p></td>
-                    <td><p> ถึง <?php echo $torg ?></p></td>
+                    <td><p>ผู้จัดงาน : <?php echo $org ?></p></td>
                   </tr>
                   <tr>
-                    <td><p>สถานที่จัดงาน    จาก    <?php echo $floc ?></p></td>
-                    <td><p> ถึง <?php echo $tloc ?></p></td>
+                    <td><p>สถานที่จัดงาน : <?php echo $loc ?></p></td>
                   </tr>
                   <tr>
-                    <td><p>จำนวนผู้เข้าร่วมงาน    จาก    <?php echo $fatt ?></p></td>
-                    <td><p>ถึง <?php echo $tatt ?></p></td>
+                    <td><p>จำนวนผู้เข้าร่วมงาน : <?php echo $att ?></p></td>
                   </tr>
                 </table> 
        
                 <div class="table-responsive">  
                      <table class="table table-bordered">  
                           <tr>  
-                                <th width="55%">Event </th>  
-                                <th width="25%">Location</th> 
-                                <th width="20%">Organizer</th>  
+                            <th width="30%">ชื่ออีเวนท์หรือการอบรม </th>  
+                            <th width="15%">วันที่เริ่มต้น</th>
+                            <th width="15%">วันที่สิ้นสุด </th>
+                            <th width="20%">สถานที่</th> 
+                            <th width="20%">ชื่อผู้จัด</th>
                           </tr>  
                      <?php  
-                     echo fetch_data($year,$forg,$torg,$floc,$tloc,$fatt,$tatt);  
+                     echo fetch_data($fyear, $tyear, $org, $loc,$att);  
                      ?>  
                      </table>  
                      <br />  
                      <form method="post" >  
                         <div class="form-group" style="display:none">
-                            <input type="text"  class="form-control" name="edate" value = "<?php echo $fdate; ?>"/>
-                            <input type="text"  class="form-control" name="forg" value = "<?php echo $forg; ?>"/>
-                            <input type="text"  class="form-control" name="torg" value = "<?php echo $torg; ?>"/>
-                            <input type="text"  class="form-control" name="floc" value = "<?php echo $floc; ?>"/>
-                            <input type="text"  class="form-control" name="tloc" value = "<?php echo $tloc; ?>"/>
-                            <input type="text"  class="form-control" name="fatt" value = "<?php echo $fatt; ?>"/>
-                            <input type="text"  class="form-control" name="tatt" value = "<?php echo $tatt; ?>"/>         
+                            <input type="text"  class="form-control" name="fyear" value = "<?php echo $fyear; ?>"/>
+                            <input type="text"  class="form-control" name="tyear" value = "<?php echo $tyear; ?>"/>
+                            <input type="text"  class="form-control" name="org" value = "<?php echo $org; ?>"/>
+                            <input type="text"  class="form-control" name="loc" value = "<?php echo $loc; ?>"/>
+                            <input type="text"  class="form-control" name="att" value = "<?php echo $att; ?>"/>      
                         </div>
                           <input type="submit" name="create_pdf" class="btn btn-danger" value="Create PDF" />  
                     </form>  

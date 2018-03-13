@@ -123,30 +123,24 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> รายงานการจัดอีเว้นท์และการอบรมประจำวัน</h4>
-                      <form class="form-horizontal style-form" method="POST" action="daily.php">        
+        <form class="form-horizontal style-form" method="POST" action="daily.php">        
     
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">วันที่จัดงาน</label>
                               <div class="col-sm-4">
-                                  <input class="form-control" type="date" name="edate" >
+                                  <input class="form-control" type="date" name="fdate" value="<?php echo date('Y-m-d'); ?>">
+                              </div>
+                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
+                               <div class="col-sm-4">
+                                  <input class="form-control" type="date" name="tdate" value="<?php echo date('Y-m-d'); ?>" >
                               </div>
                           </div>
 
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">ผู้จัดงาน</label>
                               <div class="col-sm-4">
-                                    <select class="form-control" name = "forg">
-                                       <option value =""></option>
-                                      <?php foreach ($lstorg as $row){ ?>
-                                        <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
-                                      <?php } ?>
-                                     </select>
-                              </div>
-
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "torg">
-                                       <option value =""></option>
+                                    <select class="form-control" name = "org">
+                                       <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstorg as $row){ ?>
                                         <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
                                       <?php } ?>
@@ -158,8 +152,8 @@
                               <label class="col-sm-2 col-sm-2 control-label">สถานที่จัดงาน</label>
                               <div class="col-sm-4">
 
-                                    <select class="form-control" name = "floc">
-                                          <option value =""></option>
+                                    <select class="form-control" name = "loc">
+                                          <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstloc as $row){   
                                         ?>
                                         <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
@@ -167,24 +161,14 @@
                                      </select>
                               </div>
 
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "tloc">
-                                           <option value =""></option>
-                                      <?php foreach ($lstloc as $row){   
-                                        ?>
-                                        <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
-                                      <?php } ?>
-                                     
-                                     </select>
-                              </div>
+                             
                           </div>
 
                            <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">จำวนวผู้เข้าชม</label>
                                    <div class="col-sm-4">
-                                    <select class="form-control" name = "fatt">
-                                             <option value =""></option>
+                                    <select class="form-control" name = "att">
+                                             <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstatt as $row){   
                                         ?>
                                         <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
@@ -192,16 +176,6 @@
                                      </select>
                               </div>
 
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "tatt">
-                                             <option value =""></option>
-                                      <?php foreach ($lstatt as $row){   
-                                      ?>
-                                        <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
-                                      <?php } ?>
-                                     </select>
-                              </div>
                           </div>
 
                           

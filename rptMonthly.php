@@ -124,11 +124,11 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> รายงานการจัดอีเว้นท์และการอบรมประจำเดือน</h4>
-                      <form class="form-horizontal style-form" method="POST" action="monthly.php">  
+     <form class="form-horizontal style-form" method="POST" action="monthly.php">  
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">ปีที่จัดงาน</label>
                               <div class="col-sm-4">
-                                <select class="form-control" name='year' >
+                                <select class="form-control" name='year' value = "<?php echo date('y');?>">
                                     <?php
                                     $xYear=2016; // เก็บค่าปีปัจจุบันไว้ในตัวแปร
                                             echo '<option value="'.$xYear.'">'.$xYear.'</option>'; // ปีปัจจุบัน
@@ -139,9 +139,13 @@
                                 </select>
                               </div>
 
-                              <label class="col-sm-4 col-sm-1 control-label">เดือน</label>
-                              <div class="col-sm-4">
-                                <select class="form-control" name='month'>
+                             
+                              
+                          </div>
+                          <div class="form-group">
+                             <label class="col-sm-2 col-sm-2 control-label">เดือนที่จัด</label>
+                               <div class="col-sm-4">
+                                <select class="form-control" name='fmonth'>
                                       <option value="1">มกราคม</option>
                                       <option value="2">กุมภาพันธ์</option>
                                       <option value="3">มีนาคม</option>
@@ -156,24 +160,32 @@
                                       <option value="12">ธันวาคม</option>
                                 </select>
                               </div>
-                              
-                          </div>
+
+                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
+                              <div class="col-sm-4">
+                                <select class="form-control" name='tmonth'>
+                                      <option value="1">มกราคม</option>
+                                      <option value="2">กุมภาพันธ์</option>
+                                      <option value="3">มีนาคม</option>
+                                      <option value="4">เมษายน</option>
+                                      <option value="5">พฤษภาคม</option>
+                                      <option value="6">มิถุนายน</option>
+                                      <option value="7">กรกฎาคม</option>
+                                      <option value="8">สิงหาคม</option>
+                                      <option value="9">กันยายน</option>
+                                      <option value="10">ตุลาคม</option>
+                                      <option value="11">พฤศจิกายน</option>
+                                      <option value="12">ธันวาคม</option>
+                                </select>
+                              </div>
+                          </div>  
+
 
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">ผู้จัดงาน</label>
                               <div class="col-sm-4">
-                                    <select class="form-control" name = "forg">
-                                       <option value =""></option>
-                                      <?php foreach ($lstorg as $row){ ?>
-                                        <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
-                                      <?php } ?>
-                                     </select>
-                              </div>
-
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "torg">
-                                       <option value =""></option>
+                                    <select class="form-control" name = "org">
+                                       <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstorg as $row){ ?>
                                         <option value="<?php echo $row['fname'] ?>"><?php echo $row['fname']." ".$row['lname']?></option>
                                       <?php } ?>
@@ -185,8 +197,8 @@
                               <label class="col-sm-2 col-sm-2 control-label">สถานที่จัดงาน</label>
                               <div class="col-sm-4">
 
-                                    <select class="form-control" name = "floc">
-                                          <option value =""></option>
+                                    <select class="form-control" name = "loc">
+                                          <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstloc as $row){   
                                        echo $row['location'] ?>
                                         <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
@@ -194,24 +206,14 @@
                                      </select>
                               </div>
 
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "tloc">
-                                           <option value =""></option>
-                                      <?php foreach ($lstloc as $row){   
-                                       echo $row['location'] ?>
-                                        <option value="<?php echo $row['location'] ?>"><?php echo $row['location'] ?></option>
-                                      <?php } ?>
-                                     
-                                     </select>
-                              </div>
+          
                           </div>
 
                            <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">จำวนวผู้เข้าชม</label>
                                    <div class="col-sm-4">
-                                    <select class="form-control" name = "fatt">
-                                             <option value =""></option>
+                                    <select class="form-control" name = "att">
+                                             <option value ="">เลือกทั้งหมด</option>
                                       <?php foreach ($lstatt as $row){   
                                        echo $row['location'] ?>
                                         <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
@@ -219,16 +221,7 @@
                                      </select>
                               </div>
 
-                               <label class="col-sm-4 col-sm-1 control-label">ถึง</label>
-                              <div class="col-sm-4">
-                                    <select class="form-control" name = "tatt">
-                                      <option value =""></option>
-                                      <?php foreach ($lstatt as $row){   
-                                       echo $row['location'] ?>
-                                        <option value="<?php echo $row['attendeeslimit'] ?>"><?php echo $row['attendeeslimit'] ?></option>
-                                      <?php } ?>
-                                    </select>
-                              </div>
+                              
                           </div>
 
                           
