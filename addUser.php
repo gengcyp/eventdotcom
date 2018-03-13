@@ -162,96 +162,96 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> User Information</h4>
-                      <form class="form-horizontal style-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                        <form class="form-horizontal style-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                         
                          
                
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="fname" placeholder="Firstname">
-                              </div>
-                              <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $fnameErr; ?></span>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" name="fname" placeholder="Firstname" required="required">
+                            </div>
+                            <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $fnameErr; ?></span>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Lastname</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="lname" placeholder="Lastname">
-                              </div>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Lastname</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" name="lname" placeholder="Lastname">
+                            </div>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Address</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="addr" placeholder="Address">
-                              </div>
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $addrErr; ?></span>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" name="addr" placeholder="Address" required="required">
+                            </div>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $addrErr; ?></span>
+                        </div>
 
-                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Phone Number</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="phoneno" placeholder="Phone Number">
-                              </div>
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $phonenoErr; ?></span>
-                          </div>
+                         <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Phone Number</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" name="phoneno" placeholder="Phone Number" required="required">
+                            </div>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $phonenoErr; ?></span>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">E-Mail</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="email" placeholder="email@example.com">
-                              </div>
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $emailErr; ?></span>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">E-Mail</label>
+                            <div class="col-sm-10">
+                                <input type="email"  class="form-control" name="email" placeholder="email@example.com" required="required">
+                            </div>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $emailErr; ?></span>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Username</label>
-                              <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="username" placeholder="username">
-                              </div>
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $usernameErr; ?></span>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text"  class="form-control" name="username" placeholder="username" required="required">
+                            </div>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $usernameErr; ?></span>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Password</label>
-                              <div class="col-sm-10">
-                                  <input type="password"  class="form-control" placeholder="password" name="password">
-                              </div>
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $pwdErr; ?></span>
-                          </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-2 control-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password"  class="form-control" placeholder="password" name="password" required="required">
+                            </div>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $pwdErr; ?></span>
+                        </div>
 
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-3 control-label">Role</label>
-                              <label>
-                                <input type="radio" name="role" id="radio1" value="admin" >Admin
-                              </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                               <label>
-                                <input type="radio" name="role" id="radio2" value="organizer" >Organizer
-                              </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                               <label>
-                                <input type="radio" name="role" id="radio3" value="attendant" >Attendant
-                              </label>
-                              <br>
+                        <div class="form-group">
+                            <label class="col-sm-2 col-sm-3 control-label">Role</label>
+                            <label>
+                              <input type="radio" name="role" id="radio1" value="admin" >Admin
+                            </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <label>
+                              <input type="radio" name="role" id="radio2" value="organizer" >Organizer
+                            </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <label>
+                              <input type="radio" name="role" id="radio3" value="attendant" >Attendant
+                            </label>
+                            <br>
 
-                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
-                              <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $typeErr; ?></span>
-                          </div>
-                          <br>
-                          <center><p>
-                            <button  class="btn btn-primary btn-lg" type="submit" name="submit">Create Account</button>&nbsp;&nbsp;&nbsp;
-                            <button  class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
-                          </p></center>
+                             <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
+                            <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $typeErr; ?></span>
+                        </div>
+                        <br>
+                        <center><p>
+                          <button  class="btn btn-primary btn-lg" type="submit" name="submit">Create Account</button>&nbsp;&nbsp;&nbsp;
+                          <button  class="btn btn-default btn-lg" type="reset" name="reset">Cancle</button>
+                        </p></center>
 
 
-    
-                      </form>
+  
+                    </form>
                   </div>
           		</div><!-- col-lg-12-->      	
           	</div><!-- /row --> 

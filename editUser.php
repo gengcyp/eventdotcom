@@ -200,12 +200,13 @@
           		<div class="col-lg-12">
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> User Information</h4>
-                      <form class="form-horizontal style-form" method="POST" 
+                        <form class="form-horizontal style-form" method="POST" 
                       action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
                           <div class="form-group" style="display:none">
                               <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="id" value = "<?php echo $id; ?>">
+                                  <input type="text"  class="form-control" name="id" value = "<?php echo $id; ?>" >
                               </div>
                               
                           </div>
@@ -213,7 +214,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Firstname</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="fname" value = "<?php echo $first; ?>">
+                                  <input type="text"  class="form-control" name="fname" value = "<?php echo $first; ?>" required="required">
                               </div>
                               <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
                               <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $fnameErr; ?></span>
@@ -222,14 +223,14 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Lastname</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="lname" value = "<?php echo $last ; ?>">
+                                  <input type="text"  class="form-control" name="lname" value = "<?php echo $last ; ?>" required="required">
                               </div>
                           </div>
 
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Address</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="addr" value = "<?php echo $address; ?>">
+                                  <input type="text"  class="form-control" name="addr" value = "<?php echo $address; ?>" required="required">
                               </div>
                                <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
                               <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $addrErr; ?></span>
@@ -238,7 +239,7 @@
                            <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Phone Number</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="phoneno" value = "<?php echo $phone; ?>">
+                                  <input type="text"  class="form-control" name="phoneno" value = "<?php echo $phone; ?>" required="required">
                               </div>
                                <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
                               <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $phonenoErr; ?></span>
@@ -247,7 +248,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">E-Mail</label>
                               <div class="col-sm-10">
-                                  <input type="text"  class="form-control" name="email" value="<?php echo $mail; ?>">
+                                  <input type="email"  class="form-control" name="email" value="<?php echo $mail; ?>" required="required">
                               </div>
                                <span class="col-sm-2 col-sm-2 col-sm-10 "></span>
                               <span class="col-sm-10 error" style="color: rgb(255,0,0);"><?php echo $emailErr; ?></span>

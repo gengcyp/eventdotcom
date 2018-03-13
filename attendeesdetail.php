@@ -17,7 +17,14 @@
 				$user = $_SESSION['uid'];
 				// check user that login is the owner
 				// get data of attendees
-				$attn = $connection->select('*','reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', "WHERE reservations.eventcode=".'"'.$eid.'"');	
+				$attn = $connection->select('*','reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', "WHERE reservations.eventcode=".'"'.$eid.'"');
+				
+				for ($i = 0; $i < sizeof($attn); $i++){
+					// echo "OOO";
+					$s_date = (string)$attn[$i]['reservetime'];
+					$f_date = date_create($s_date);
+					$attn[$i]['reservetime'] = date_format($f_date, 'M d,Y h:i:a');
+				}
 			
 			}
 		}

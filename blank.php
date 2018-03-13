@@ -69,7 +69,7 @@ $thisreservation = $connection->select("reservationid",'reservations',"WHERE use
 <h2>Upload image(s) of your transaction</h2>
 <form enctype="multipart/form-data" action="" method="post">
 First Field is Compulsory. Only JPEG,PNG,JPG Type Image Uploaded. Image Size Should Be Less Than 1MB.<br>
-<div id="filediv"><input name="file[]" type="file" id="file"/></div>
+<div id="filediv"><input name="file[]" type="file" id="file"/></div>  
 <input type="button" id="add_more" class="upload" value="Add More Images"/><br><br><br>
 <input type="submit" value="Upload Transaction" name="submit" id="upload" class="upload"/>
 </form>

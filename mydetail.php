@@ -63,7 +63,7 @@
 			}
 			else if ($myinfo[0]['type'] == 'attendant'){
 				// get event that in current duration
-				$cevents = $connection->select('*', 'reservations INNER JOIN eventdetail ON eventdetail.eventid=reservations.eventcode INNER JOIN users ON users.userid=eventdetail.eventown ', "WHERE reservations.userid=".'"'.$user.'"'. "AND eventdetail.started>=CURDATE()");
+				$cevents = $connection->select('*', 'reservations INNER JOIN eventdetail ON eventdetail.eventid=reservations.eventcode INNER JOIN users ON users.userid=eventdetail.eventown ', "WHERE reservations.userid=".'"'.$user.'"'. "AND eventdetail.started>=CURDATE() AND reservations.reservestatus!=2");
 				// get event that already pass
 				$hevents = $connection->select('*', 'reservations INNER JOIN eventdetail ON eventdetail.eventid=reservations.eventcode INNER JOIN users ON users.userid=eventdetail.eventown ', "WHERE reservations.userid=".'"'.$user.'"'. "AND eventdetail.started<CURDATE()");				
 			}

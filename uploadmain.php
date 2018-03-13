@@ -104,11 +104,12 @@ if (isset($_POST['submit'])){
     $j = $j + 1;      // Increment the number of uploaded images according to the files in array.
     if (move_uploaded_file($_FILES['file']['tmp_name'][$i], $target_path)) {
       // If file moved to uploads folder.
-      echo $j. ').<span id="noerror">Image uploaded successfully!.</span><br/><br/>';
+      //echo $j. ').<span id="noerror">Image uploaded successfully!.</span><br/><br/>';
+      //upload picpan id="noerror">Image uploaded successfully!.</span><br/><br/>';
       //upload pic
       uploadAlbum($db,$_GET['id'],$target_path);
   } else {     //  If File Was Not Moved.
-    echo $j. ').<span id="error">please try again!.</span><br/><br/>';
+    //echo $j. ').<span id="error">please try again!.</span><br/><br/>';
   }
 }
 }

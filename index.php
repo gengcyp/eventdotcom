@@ -243,14 +243,14 @@
 								if($countEventHead == 1){
 							?>
 									<div class="item active">
-										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img style="width: 375px; height: 300px;"src="<?php echo $pictureHeadShow ?>"></a>
 									</div>	
 						<?php
 								}
 								else if($countEventHead >=2 && $countEventHead < 5){
 						?>
 									<div class="item">
-										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img src="<?php echo $pictureHeadShow ?>"></a>
+										<a href="event.php?id=<?php echo $row["eventid"] ?>" class="headerSlidePic"><img style="width: 375px; height: 300px;" src="<?php echo $pictureHeadShow ?>"></a>
 									</div>
 						<?php 	} 
 						}

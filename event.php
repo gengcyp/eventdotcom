@@ -2,8 +2,8 @@
 <?php
 include 'header.php';
 include 'eventDB.php';
-// include 'showmap.php';
-include 'positiongmap.php';
+include 'showmap.php';
+// include 'positiongmap.php';
 
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
@@ -18,20 +18,19 @@ include 'positiongmap.php';
 		$uid = 0;
 	}
 	 ?>
-	if ("<?php echo $uid; ?>"=="<?php echo $own ?>"){   //session ok
-		$("#edit").show();
-	}else {  //this user is not event own
+	// if ("<?php// echo $uid; ?>"=="<?php //echo $own ?>"){   //session ok
+	// 	$("#edit").show();
+	// }else {  //this user is not event own
 
-	}
+	// }
 	//check this user is reserve event
-	var r = "<?php findReserveUser($db,$id,$uid); ?>";
-
+	var r = "<?php //findReserveUser($db,$id,$uid); ?>";
 	if ("<?php echo $user_type ?>"=="organizer"){//organizer user
-		//***hide reserve button
+		$(".reserve").hide();
 	}else	if (r == "reserve"){		//this user is reserved
-		//***hide reserve button
+		$(".reserve").hide();
 	}else if (r=="not"){				//this user isn't reserved
-		$("#reserve").show();
+		
 	}
 
 </script>
@@ -42,7 +41,6 @@ include 'positiongmap.php';
 	<style>
 		 #map {
 			height: 400px;
-			align: "center";
 		 }
 		 body{
 			 text-align: center;
@@ -70,10 +68,10 @@ include 'positiongmap.php';
 		$pic = loadSlidePic($db,$id);
 		// $caption = array();
 		include 'slidepic.php' ?><br>
-	<p id=location style="text-align:center">
+	<h2 id=location style="text-align:center">
 		<img src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/location-alt-24.png"></img>
 		<?php echo $location; ?>
-	</p>
+		</h2>
 	<div id="map"></div>
 	<script type="text/javascript">
 	//show or hide map
@@ -100,11 +98,9 @@ include 'positiongmap.php';
 			echo 'Precondition Event<br>'.$precon;
 		}?>
 	</div>
-	<a  class="btn btn-outline-primary" id="edit" style="display:none" link="editevent.php?id=<?php echo $_GET['id'] ?>">Edit</a>
-	<a  class="btn btn-outline-primary" id="reserve" style="display:none">Reserve</a>
 	
 
-	<a href='blank.php?id=<?php echo $_GET['id']; ?>'><button id='paid'>Join event</button></a>
-	<a href="comment.php?id=<?php echo $_GET['id']; ?>"><button>go to webboard</button></a>
+	<a href='blank.php?id=<?php echo $_GET['id']; ?>'><button class="btn btn-success reserve" id='paid' style="font-size:30px; border-radius:10px; margin-right: 10px; ">Join event</button></a>
+	<a href="comment.php?id=<?php echo $_GET['id']; ?>"><button class="btn btn-success" style="font-size:30px; border-radius:10px; ">go to webboard</button></a>
 </body>
 </html>

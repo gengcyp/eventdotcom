@@ -24,12 +24,16 @@ if (count($pic)>0){
 
 ?>
 <!-- ***hide if not found pic -->
-<button class="button display-left black" onclick="plusDivs(-1)">&#10094;</button>
-<button class="button display-right black" onclick="plusDivs(1)">&#10095;</button>
+<button class="button display-left black" id="bl" onclick="plusDivs(-1)">&#10094;</button>
+<button class="button display-right black" id="br" onclick="plusDivs(1)">&#10095;</button>
 
 </div>
 
 <script>
+  if (<?php echo count($pic)?> == 0){
+    $("#bl").hide();
+    $("#br").hide();
+  }
 var slideIndex = 1;
 showDivs(slideIndex);
 

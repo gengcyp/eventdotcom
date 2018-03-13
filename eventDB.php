@@ -77,7 +77,16 @@ if (isset($_GET['id'])){
 	if (!empty($event)){
 		$name = $event[0]["eventname"];
 		$desc = $event[0]["description"];
-		$profilepic = $event[0]["profilepic"];
+
+		if($event[0]["profilepic"] === "profile-pic"){
+			$pictureHeadShow = "images/story/img-2.jpg";
+		}
+		else{
+			$pictureHeadShow = $event[0]["profilepic"];
+		}
+
+		$profilepic = $pictureHeadShow;
+		// $profilepic = $event[0]["profilepic"];
 		$location = $event[0]["location"];
 		$lat =  $event[0]["latitude"];
 		$lon = $event[0]["longitude"];
