@@ -4,6 +4,7 @@
 		// include 'DBconnect.php';
 		// include 'checker.php';
 		include 'header.php';
+		include 'reportPdf.php';
 		// $connection = new DBconnect(
 		// 			'eventdotcom',
 		// 			 'tk', 'Working24'); 
@@ -17,14 +18,16 @@
 				$user = $_SESSION['uid'];
 				// check user that login is the owner
 				// get data of attendees
-				$attn = $connection->select('*','reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', "WHERE reservations.eventcode=".'"'.$eid.'"');
+				$attn = $connection->select('users.userid, users.fname, users.lname, users.gender, users.phoneno, reservations.reservetime','reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid INNER JOIN users ON reservations.userid=users.userid', "WHERE reservations.eventcode=".'"'.$eid.'"');
 				
 				for ($i = 0; $i < sizeof($attn); $i++){
-					// echo "OOO";
+					// change date format
 					$s_date = (string)$attn[$i]['reservetime'];
 					$f_date = date_create($s_date);
 					$attn[$i]['reservetime'] = date_format($f_date, 'M d,Y h:i:a');
 				}
+
+				$writeheader = ['UserID', 'First Name', 'Last Name', 'Gender', 'Phone No.', 'Reserve Time'];
 			
 			}
 		}
@@ -36,12 +39,19 @@
 </head>
 <body>
 	<div id='details'>
+
+        <form method="post">
+        	<input hidden="true" id="pdf" type="text" name="sql" value="">
+            <input type="submit" name="create_pdf" class="btn btn-danger" value="Create PDF" />
+        </form>
+		<table id="users"></table>
 		<table id="users"></table>
 	</div>
 
 	<script>
 		$(document).ready(function(){
 			var attns = <?php echo json_encode($attn); ?>;
+			var show = "";
 			if(attns[0] == 0){
 				$('#details').html("<h3>Nobody attended to this Event.</h3>");
 			}
@@ -49,12 +59,17 @@
 				 for (var i = 0; i < attns.length; i++) {
 				 	// header
 				 	if (i==0){
-				 		$('#users').append('<tr><td>UserID</td><td>Name Of User</td><td>Phone No.</td><td>Reserve Time</td></tr>');
+				 		$('#users').append('<tr><td>UserID</td><td>Name Of User</td><td>Gender</td><td>Phone No.</td><td>Reserve Time</td></tr>');
 				 	}
 				 	// show all attendees
-				 	$("#users").append("<tr><td>" + attns[i]['userid']+ "</td><td>" + attns[i]['fname'] + "  " + attns[i]['lname'] + "</td><td>" + attns[i]['phoneno']+"</td><td>" + attns[i]['reservetime']+"</td></tr>");
+				 	$("#users").append("<tr><td>" + attns[i]['userid']+ "</td><td>" + attns[i]['fname'] + "  " + attns[i]['lname'] + "</td><td>" + attns[i]['gender']+"</td><td>" + attns[i]['phoneno']+"</td><td>" + attns[i]['reservetime']+"</td></tr>");
+
+				 	show += "<tr><td>" + attns[i]['userid']+ "</td><td>" + attns[i]['fname'] + "  " + attns[i]['lname'] + "</td><td>" + attns[i]['gender']+"</td><td>" + attns[i]['phoneno']+"</td><td>" + attns[i]['reservetime']+"</td></tr>";
 				 	
 				 }
+
+				 $('#pdf').val(show);
+
 			}
 		});
 	</script>

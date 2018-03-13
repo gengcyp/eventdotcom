@@ -150,10 +150,12 @@
 				 		if (i==0){
 				 			$('#allCEvents').append('<tr><td>MyCode</td><td>EventID</td><td>Name Of Event</td><td>Description</td><td>Payment</td></tr>');
 				 		}
-				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div id='code"+i+"'>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid'>Upload Payment</button></a></td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + cevents[i]['eventid'] + "'><button action='' type='submit' name='cancel' id='cancel'>Cancel</button></form></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
+				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div id='code"+i+"'>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid"+i+"'>Upload Payment</button></a></td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + cevents[i]['eventid'] + "'><button action='' type='submit' name='cancel' id='cancel"+i+"'>Cancel</button></form></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
 				 		if (cevents[i]['reservestatus'] == 0 || cevents[i]['reservestatus'] == 1 || cevents[i]['reservestatus'] == 2){
-				 			$('#paid').attr('disabled', 'disabled');
-							$('#cancel').attr('disabled', 'disabled');
+				 			// $('#paid'+i).attr('disabled', 'disabled');
+				 			$('#paid'+i).hide();
+							// $('#cancel'+i).attr('disabled', 'disabled');
+							$('#cancel'+i).hide();
 						 } 
 						if (cevents[i]['reservestatus'] == 5 || cevents[i]['reservestatus'] == 0){
 							$('#code'+i+'').hide();
@@ -168,17 +170,19 @@
 				 		$('#allHEvents').append('<tr><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
 				 	}
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
-					 	$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button><button action='' type='submit' name='subcer' id='cer'>Certificate</button></form></td></tr>");
+					 	$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button><button action='' type='submit' name='subcer' id='cer"+i+"'>Certificate</button></form></td></tr>");
 					 	// case already gave certificate
 				 		if (hevents[i]['certificate'] == 1){
-				 			$('#cer').attr('disabled', 'disabled');
+				 			// $('#cer'+i).attr('disabled', 'disabled');
+				 			$('#cer'+i).hide();
 				 		}
 					 }
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
 				 		$atname = '<?php echo $myinfo[0]["fname"]. "  " . $myinfo[0]["lname"];?>';
-				 		$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' action=''><input hidden='true' type='text' name='name_attendant' value='" + $atname + "'><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'><button type='submit' name='create_pdf' id='cer'>Get Certificate</button></form></td></tr>");
+				 		$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' action=''><input hidden='true' type='text' name='name_attendant' value='" + $atname + "'><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'><button type='submit' name='create_pdf' id='cer"+i+"'>Get Certificate</button></form></td></tr>");
 				 		if (hevents[i]['certificate'] == 0){
-				 			$('#cer').attr('disabled', 'disabled');
+				 			// $('#cer'+i).attr('disabled', 'disabled');
+				 			$('#cer'+i).hide();
 				 		}
 				 	}
 				 }

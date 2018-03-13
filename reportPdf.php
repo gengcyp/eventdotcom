@@ -9,15 +9,15 @@
       //    ''
       //  );
 
-      $output .= '<tr>';
+      $output .= $listheader;
 
-      foreach ($listheader as &$value) {
-        $output .= '<th>' . $value .'</th>';
-      }
+      // foreach ($listheader as &$value) {
+      //   $output .= '<th>' . $value .'</th>';
+      // }
       
-      $output .= '</tr>';
+      // $output .= '</tr>';
 
-      foreach($connection->query('SELECT * FROM users') as $row) {
+      foreach($connection->query($instruQuery) as $row) {
         $output .= '<tr>';
         foreach ($listheader as &$value) {
             $output .= '<td>'.$row[$value].'</td>';
@@ -53,37 +53,15 @@
       </style>';
       $content .= '
         <h3 align="center">Report</h3><br /><br />
-        <table border="1" cellspacing="0" cellpadding="5"> 
+        <table border="1" cellspacing="0" cellpadding="5">
+        <tr><th>UserID</th><th>Name Of User</th><th>Gender</th><th>Phone No.</th><th>Reserve Time</th></tr> 
       ';
-      $content .= fetch_data($my_array = array("type","fname"),'SELECT * FROM users');
-      $content .= '</table>';
+      // $content .= fetch_data($_POST['ar'],$_POST['sql']);
+      $content .= $_POST['sql'].'</table>';
       $obj_pdf->writeHTML($content);
       ob_end_clean();
       $obj_pdf->Output('report.pdf', 'I');
  }
  ?>
- <!DOCTYPE html>
- <html>
-      <head>
-           <title>Report</title>
-           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-      </head>
-      <body>
-           <br /><br />
-           <div class="container" style="width:700px;">
-                <!-- <h3 align="center">Report</h3><br/>
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                     <?php
-                        echo fetch_data($my_array = array("type","fname"),'SELECT * FROM users');
-                     ?>
-                     <br />
-                  </table> -->
-                  <form method="post">
-                    <input type="submit" name="create_pdf" class="btn btn-danger" value="Create PDF" />
-                  </form>
-                <!-- </div> -->
-           </div>
-      </body>
- </html>
+
 <!-- admin -->
