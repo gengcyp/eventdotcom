@@ -52,13 +52,14 @@ if(isset($_POST['edit'])){
 		longitude= "'.$_POST["lng"]		.'",
 		attendeeslimit ='.$_POST["limit"]		.',
 		price= '.$_POST["price"]		.',
-		preconditionid= '.$_POST["precon"]		.',
+		preconditionid= '.($_POST["precon"]+0)		.',
 		started= "'.$_POST["ds"]	." ".$_POST["ts"]		.'",
 		finished= "'.$_POST["df"]	." ".$_POST["tf"]		.'",
 		type= "'.$_POST["type"]		.'",
 		feedback= "'.$_POST["feedback"]	.'"
 		';
 		$result = $db->update('eventdetail',$val,"WHERE eventid=".$_GET['id']);
+		echo $val;
 
 
 }
