@@ -44,12 +44,27 @@ include 'positiongmap.php';
 			height: 400px;
 			align: "center";
 		 }
+		 body{
+			 text-align: center;
+			  
+		 }
+		 .detail{
+			 font-size: 20px;
+		 }
+		 .describe{
+			 margin: 50px 300px 50px 300px;
+			 border: 1px solid white;
+			 font-size: 15px;
+		 }
+		 .btn btn-outline-primary{
+			 background: black;
+		 }
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<!-- <img id=profile height="300" width="300" src="<?php echo $profilepic ?>"></img> -->
-	<h1 id=name style="text-align:center"> <?php echo $name; ?></h1>
+	<img id=profile height="250" width="325" src="<?php echo $profilepic ?>"></img>
+	<h1 id=name style="text-align:center padding: 10px;"> <?php echo $name; ?></h1>
 	<img id=profilepic> </img>
 	<?php
 		$pic = loadSlidePic($db,$id);
@@ -66,23 +81,30 @@ include 'positiongmap.php';
 	// 	$('#map').hide();
 	// }
 	</script>
-	<p id=desc> <?php echo $desc; ?></p>
-	<?php
-	if ($price!=0){
-		echo '<h2>Price '.$price.' Baht</h2><br>';
-	}else{
-		echo '<h2>Free Event!!</h2><br>';
-	}
-	if ($limit!=0){
-		echo '<h2>Limit '.$limit.' </h2><br>';
-	}else{
-		echo '<h2></h2><br>';
-	}
-	if ($precon>0){
-		echo 'Precondition Event<br>'.$precon;
-	}?>
+	<div class="detail">
+		<div class="describe">
+			<p id=desc> <?php echo $desc; ?></p>
+		</div>
+		<?php
+		if ($price!=0){
+			echo '<h2>Price '.$price.' Baht</h2><br>';
+		}else{
+			echo '<h2>Free Event!!</h2><br>';
+		}
+		if ($limit!=0){
+			echo '<h2>Limit '.$limit.' </h2><br>';
+		}else{
+			echo '<h2></h2><br>';
+		}
+		if ($precon>0){
+			echo 'Precondition Event<br>'.$precon;
+		}?>
+	</div>
 	<a  class="btn btn-outline-primary" id="edit" style="display:none" link="editevent.php?id=<?php echo $_GET['id'] ?>">Edit</a>
 	<a  class="btn btn-outline-primary" id="reserve" style="display:none">Reserve</a>
-	<a href="comment.php"><button>go to webboard</button></a>
+	
+
+	<a href='blank.php?id=<?php echo $_GET['id']; ?>'><button id='paid'>Join event</button></a>
+	<a href="comment.php?id=<?php echo $_GET['id']; ?>"><button>go to webboard</button></a>
 </body>
 </html>

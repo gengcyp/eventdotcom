@@ -200,6 +200,7 @@
 								<li class="active"><a href="#nino-header">Home <span class="sr-only">(current)</span></a></li>
 								<li><a href="#nino-entertainment">Entertainment</a></li>
 								<li><a href="#nino-music">Music</a></li>
+								<li><a href="#nino-others">Others</a></li>
 								<?php echo userLogin($user_type)?>
 							</ul>
 							

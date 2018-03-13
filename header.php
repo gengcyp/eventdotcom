@@ -1,7 +1,10 @@
 <?php
 	
 	include 'DBconnect.php';
-    include 'checker.php';
+	include 'checker.php';
+	// $dbname = 'eventdotcom'
+	// $user = 'root';
+	// $pass = '';
     
 	$connection = new DBconnect('eventdotcom','root','');
 

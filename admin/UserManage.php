@@ -32,7 +32,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if(isset($_POST["submit"])){
-          echo "<script type='text/javascript'>alert('Success.');</script>";
+        //   echo "<script type='text/javascript'>alert('Success.');</script>";
           echo $_POST['id'];
           $uid = $_POST['id'];
           $delete=$connection->delete('users','WHERE users.userid='.'"'.$uid.'"');
@@ -217,7 +217,7 @@
             </div>
             <div class="top-menu">
             	<ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="login.html">Logout</a></li>
+                    <li><a class="logout" href="logout.php">Logout</a></li>
             	</ul>
             </div>
         </header>

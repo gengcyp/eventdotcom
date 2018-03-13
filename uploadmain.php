@@ -84,7 +84,7 @@ $(document).ready(function() {
 			<br><input type="submit" value="Upload Transaction" name="submit" id="upload" class="upload"/>
 		</form>
 	<?php //include "uploadpic.php"; ?>
-  <a class="btn btn-outline-primary" id="" src="event.php?id=<?php echo $_GET['id']?>">Go To Event</a>
+  <a class="btn btn-outline-primary" id="" href="event.php?id=<?php echo $_GET['id']?>">Go To Event</a>
 	</div>
 
 </body>

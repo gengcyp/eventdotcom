@@ -3,11 +3,11 @@
  {
       
       $output = '';
-      $connection = new PDO(
-         'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
-         'chanidapa',
-         '1234'
-       );
+      // $connection = new PDO(
+      //    'mysql:host=localhost:3306;dbname=eventdotcom;charset=utf8mb4',
+      //    'root',
+      //    ''
+      //  );
 
       $output .= '<tr>';
 
@@ -71,18 +71,18 @@
       <body>
            <br /><br />
            <div class="container" style="width:700px;">
-                <h3 align="center">Report</h3><br/>
+                <!-- <h3 align="center">Report</h3><br/>
                 <div class="table-responsive">
                   <table class="table table-bordered">
                      <?php
                         echo fetch_data($my_array = array("type","fname"),'SELECT * FROM users');
                      ?>
                      <br />
-                  </table>
+                  </table> -->
                   <form method="post">
                     <input type="submit" name="create_pdf" class="btn btn-danger" value="Create PDF" />
                   </form>
-                </div>
+                <!-- </div> -->
            </div>
       </body>
  </html>

@@ -9,7 +9,7 @@ $status = "";
 // }
 
 
-if (isset($_POST['submit'])){
+if (isset($_POST['insert'])){
   $j = 0;     // Variable for indexing uploaded image.
   $base_path = "uploads/";
   echo $base_path;

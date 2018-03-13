@@ -22,7 +22,7 @@
 				autoBrightnessValue: 120,
 				resultFunction: function(text, imgSrc) {
 					si.attr('src', imgSrc);
-					sQ.text(text);
+					sQ.text("CHECK IN SUCCESSFUL.");
 					$.ajax({
 						url: "scanqrcode.php",
 						type: "POST",

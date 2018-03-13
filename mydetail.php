@@ -15,41 +15,33 @@
 		// $connection = new DBconnect(
 		// 			'eventdotcom',
 		// 			 'tk', 'Working24'); 
-
 		// select my event from db
 		// status from session that user has been log in or not
 		$status = "NO";
 		// select detail from data base
 		$cevents = [0];
 		$hevents = [0];
-
 		$myinfo = [0];
-
 		// give certification
 		// check that certi was submit
 		if (isset($_POST['subcer'])){
 			// give certificate to everyone that in this event
 			// get event id
 			$cer_eid = $_POST['eid'];
-
 			// change status of certificate
 			$connection->update("reservations INNER JOIN attendees ON reservations.reservationid=attendees.reservationid ", "certificate=1", "WHERE eventcode='".$cer_eid."'");
-
 			if ($connection){
 				echo '<script type="text/javascript">alert("Successful gave certificate to eventid' . $cer_eid . '")</script>';
 			}
 		}
-
 		if (isset($_POST['cancel'])){
 			$eid = $_POST['eid'];
-
 			$connection->update("reservations", "reservestatus=2", "WHERE eventcode='".$eid."'");	
 			
 			if ($connection){
 				echo '<script type="text/javascript">alert("Cancel Event Successful' . $eid . '")</script>';
 			}		
 		}
-
 		// check user that had been login 
 		// if someone login get an id
 		if (checkSession()){
@@ -57,7 +49,6 @@
 			$status = "YES";
 			// get login user
 			$myinfo = $connection->select('*', 'users', 'WHERE users.userid='.'"'.$user.'"');
-
 			// check type of user
 			if ($myinfo[0]['type'] == 'organizer'){
 				// get event that in current duration
@@ -76,7 +67,6 @@
 			$status = "NO";
 		}
 		
-
 	?>
 
 	<div id='no-log' hidden="true">
@@ -117,7 +107,6 @@
 	<script>
 		$(document).ready(function(){
 			// body...
-
 			if ("<?php echo $status ;?>" == "NO") {
 				$('#no-log').show();
 				// $('#myevent').html("PLEASE LOG IN !");
@@ -126,48 +115,47 @@
 				$('#myevent').hide();
 			}
 			else {
-
+				if ('<?php echo $myinfo[0]['type']?>' == 'admin'){
+					window.location.href = "UserManage.php";
+				}
 				 // get myevents
 				 var cevents = <?php echo json_encode($cevents); ?>;
 				 var hevents = <?php echo json_encode($hevents); ?>;
-
 				 // show all myevents
 				 // current events
 				 for (var i = 0; i < cevents.length; i++) {
-
 				 	// case eventowner
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
 				 		// header
 				 		if (i==0){
 				 			$('#allCEvents').append('<tr><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
 				 		}
-				 		$("#allCEvents").append("<tr><td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='editevent.php?id="+cevents[i]['eventid']+"'><button>Edit</button></a></td></tr>");
+				 		$("#allCEvents").append("<tr><td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='editevent.php?id="+cevents[i]['eventid']+"'><button>Edit</button></a></td><td><a href='transactionmanagement.php?id="+cevents[i]['eventid']+"'><button>Approve</button></a></td></tr>");
 				 	}
 				 	// case attendant user
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
-
 				 		if (i==0){
 				 			$('#allCEvents').append('<tr><td>MyCode</td><td>EventID</td><td>Name Of Event</td><td>Description</td><td>Payment</td></tr>');
 				 		}
-
-				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid'>Upload Payment</button></a></td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + cevents[i]['eventid'] + "'><button action='' type='submit' name='cancel' id='cancel'>Cancel</button></form></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
-				 		if (cevents[i]['reservestatus'] == 1 || cevents[i]['reservestatus'] == 2){
+				 		$("#allCEvents").append("<tr><td><a href='https://chart.apis.google.com/chart?cht=qr&chs=230x230&choe=UTF-8&chl=reservationid%3D"+ cevents[i]['reservationid'] + "%20eventid%3D" + cevents[i]['eventid'] +"'><div id='code"+i+"'>My Code</div></a>" + "<td>" + cevents[i]['eventid']+ "</td><td>" + cevents[i]['eventname'] + "</td><td>" + cevents[i]['description'] +"</td><td><a href='blank.php?id="+cevents[i]['eventid']+"'><button id='paid'>Upload Payment</button></a></td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + cevents[i]['eventid'] + "'><button action='' type='submit' name='cancel' id='cancel'>Cancel</button></form></td><td><a href='event.php?id="+cevents[i]['eventid']+"'><button>More Detail</button></a></td></tr>");
+				 		if (cevents[i]['reservestatus'] == 0 || cevents[i]['reservestatus'] == 1 || cevents[i]['reservestatus'] == 2){
 				 			$('#paid').attr('disabled', 'disabled');
 							$('#cancel').attr('disabled', 'disabled');
-				 		} 
+						 } 
+						if (cevents[i]['reservestatus'] == 5 || cevents[i]['reservestatus'] == 0){
+							console.log("LLLL");
+							$('#code'+i+'').hide();
+						}
 					}
 				 	
 				 }
-
 				 // pass events
 				 for (var i = 0; i < hevents.length; i++) {
 				 	// header
 				 	if (i==0){
 				 		$('#allHEvents').append('<tr><td>EventID</td><td>Name Of Event</td><td>Description</td></tr>');
 				 	}
-
 				 	if ('<?php echo $myinfo[0]['type']?>' == 'organizer'){
-
 					 	$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' ><input hidden='true' type='text' name='eid' value='" + hevents[i]['eventid'] + "'><button formaction='attendeesdetail.php' type='submit' name='seeAttn'>See Attendees</button><button action='' type='submit' name='subcer' id='cer'>Certificate</button></form></td></tr>");
 					 	// case already gave certificate
 				 		if (hevents[i]['certificate'] == 1){
@@ -177,23 +165,19 @@
 				 	else if ('<?php echo $myinfo[0]['type']?>' == 'attendant'){
 				 		$atname = '<?php echo $myinfo[0]["fname"]. "  " . $myinfo[0]["lname"];?>';
 				 		$("#allHEvents").append("<tr><td>" + hevents[i]['eventid']+ "</td><td>" + hevents[i]['eventname'] + "</td><td>" + hevents[i]['description'] +"</td><td><form method='post' action=''><input hidden='true' type='text' name='name_attendant' value='" + $atname + "'><input hidden='true' type='text' name='name_event' value='" + hevents[i]['eventname'] + "'><input hidden='true' type='text' name='name_organizer' value='" + hevents[i]['uname'] + "'><button type='submit' name='create_pdf' id='cer'>Get Certificate</button></form></td></tr>");
-
 				 		if (hevents[i]['certificate'] == 0){
 				 			$('#cer').attr('disabled', 'disabled');
 				 		}
 				 	}
 				 }
 			}
-
 		});
-
 		function openTab(evt, tabbed){
 		    // var i, tabcontent, tablinks;
 		    // tabcontent = document.getElementsByClassName("tabcontent");
 		    $('.tabcontent').each(function(){
 		    	$(this).hide();
 		    });
-
 		    let tablinks = document.getElementsByClassName("tablinks");
 		    for (i = 0; i < tablinks.length; i++) {
 		        tablinks[i].className = tablinks[i].className.replace(" active", "");
@@ -202,7 +186,6 @@
 		    // document.getElementById(cityName).style.display = "block";
 		    evt.currentTarget.className += " active";
 		}
-
 	</script>
 
 </body>
@@ -216,7 +199,6 @@
 	    border: 1px solid #ccc;
 	    background-color: #f1f1f1;
 	}
-
 	/* Style the buttons inside the tab */
 	.tab button {
 	    background-color: inherit;
@@ -228,42 +210,33 @@
 	    transition: 0.3s;
 	    font-size: 17px;
 	}
-
 	/* Change background color of buttons on hover */
 	.tab button:hover {
 	    background-color: #ddd;
 	}
-
 	/* Create an active/current tablink class */
 	.tab button.active {
 	    background-color: #ccc;
 	}
-
 	/* #allCEvents, #allHEvents{
 		margin-top: 20px;
 		border: 2px solid #f7eac4;
 	} */
-
-
 	#allCEvents , #allHEvents{
 		font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 		border-collapse: collapse;
 		width: 100%;
 	}
-
 	#allCEvents td, #allCEvents th, #allHEvents td, #allHEvents th {
 		border: 1px solid #ddd;
 		padding: 8px;
 	}
-
 	#allCEvents tr:nth-child(even), #allHEvents tr:nth-child(even){
 		background-color: #f2f2f2;
 	}
-
 	#allCEvents tr:hover, #allHEvents tr:hover {
 		background-color: #ddd;
 		}
-
 	#allCEvents th, #allHEvents th{
 		padding-top: 12px;
 		padding-bottom: 12px;
@@ -271,11 +244,9 @@
 		background-color: #4CAF50;
 		color: white;
 	}
-
 	.tabcontent > button{
 		position: absolute;
 		z-index: 1;
 	}
-
 </style>
 </html>

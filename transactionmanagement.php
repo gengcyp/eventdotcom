@@ -12,12 +12,11 @@ include "header.php";
 // $eid = 0; // NEED EVENT ID FROM LAST PAGE ******************************************************************
 $eid = $_GET['id'];
 // USER ID FROM SESSION ***************
- if (in_array("uid",$_SESSION)){
-   $uid = $_SESSION['uid'];
- }else{
-   $uid = 0;
- } 
-if ($uid != $eid){
+if (checkSession()){
+  $uid = $_SESSION['uid'];
+}
+$tempev = $connection->select("eventown",'eventdetail',"WHERE eventid="."'".$eid."'");
+if ($uid != $tempev[0][0]){
 header('Location: http://www.example.com/');
 }
 
@@ -36,7 +35,7 @@ header('Location: http://www.example.com/');
         <div class="col-md-12">
           <h1 class="">Transaction List</h1>
           <p>Event Name : <?php 
-          $event = $connection->select("name",'eventdetail',"WHERE eventid=".$eid);
+          $event = $connection->select("eventname",'eventdetail',"WHERE eventid=".$eid);
           echo $event[0][0];
           ?></p>
 

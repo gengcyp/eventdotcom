@@ -70,7 +70,7 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>EVENTDOTCOM ADMIN</b></a>
+            <a href="index.php" class="logo"><b>EVENTDOTCOM ADMIN</b></a>
             <!--logo end-->
             <div class="nav notify-row" id="top_menu">
                 <!--  notification start -->
@@ -130,12 +130,12 @@
       <section id="main-content">
           <section class="wrapper">
             <h2><i class="fa fa-angle-right"></i> Users Management</h2>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <h3><label class="col-sm-3 col-sm-1 control-label">Search</label></h3>
                 <div class="col-sm-7">
                     <input type="text"  class="form-control" name="lname" placeholder="Lastname">
                 </div>
-            </div>
+            </div> -->
             <br>
               <div class="row mt">
                   <div class="col-md-12">

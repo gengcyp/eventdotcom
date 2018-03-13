@@ -11,15 +11,15 @@ $ext = explode('.', basename($_FILES['file']['name'][$i]));   // Explode file na
 $file_extension = end($ext); // Store extensions in the variable.
 $target_path = $base_path ."Event_".$eid."_". md5(uniqid()) . "." . $ext[count($ext) - 1];     // Set the target path with a new name of image.
 $j = $j + 1;      // Increment the number of uploaded images according to the files in array.
-if (($_FILES["file"]["size"][$i] < 200000)     // Approx. 100kb files can be uploaded.
+if (($_FILES["file"]["size"][$i] < 1000000)     // Approx. 100kb files can be uploaded.
 && in_array($file_extension, $validextensions)) {
 if (move_uploaded_file($_FILES['file']['tmp_name'][$i], $target_path)) {
 // If file moved to uploads folder.
 echo $j. ').<span id="noerror">Image uploaded successfully!.</span><br/><br/>';
-$result  = $db->update("reservations", "reservestatus = 0","reservationid =".$thisreservation);
-$thisreservation = $db->select("reservationid",'reservations',"WHERE reservetime=".$tempdt);
+$result  = $connection->update("reservations", "reservestatus=0","WHERE reservationid =".$thisreservation[0][0]);
+// $thisreservation = $connection->select("reservationid",'reservations',"WHERE reservetime=".$tempdt);
 $transactionpicture = '("'.$thisreservation[0][0].'","'.$target_path.'")';
-$db->insert("reservationtransaction",'(reserveid,imagepath)',$transactionpicture);
+$connection->insert("reservationtransaction",'(reserveid,imagepath)',$transactionpicture);
 } else {     //  If File Was Not Moved.
 echo $j. ').<span id="error">please try again!.</span><br/><br/>';
 }
