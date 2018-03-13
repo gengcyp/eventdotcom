@@ -42,6 +42,11 @@
 				echo '<script type="text/javascript">alert("Cancel Event Successful' . $eid . '")</script>';
 			}		
 		}
+		if (isset($_POST['esave'])){
+
+			// update to database
+			$connection->update("users", "fname="."'".$_POST['fname']."',"."lname="."'".$_POST['lname']."',"."email="."'".$_POST['email']."',"."phoneno="."'".$_POST['phoneno']."'", "WHERE userid='".$_POST['uid']."'");	
+		}
 		// check user that had been login 
 		// if someone login get an id
 		if (checkSession()){
@@ -83,19 +88,27 @@
 	</div>			
 	<div id="info" class="tabcontent">
 		<h3>MY INFO</h3>
-		<div>
-			<label>First Name: </label>
-			<textfield><?php echo $myinfo[0]['fname']; ?></textfield>
-			<label>Last Name: </label>
-			<textbox><?php echo $myinfo[0]['lname']; ?></textbox>
-		</div>
-		<br>
-		<div>
-			<label>E-Mail: </label>
-			<textfield><?php echo $myinfo[0]['email']; ?></textfield>
-			<label>Phone NO: </label>
-			<textbox><?php echo $myinfo[0]['phoneno']; ?></textbox>			
-		</div>
+		<form id="infoform" method="post" action="">
+			<div>
+				<input hidden="true" type="text" name="uid" value='<?php echo $myinfo[0]['userid']; ?>'>
+				<label>First Name: </label>
+				<input disabled="disabled" name="fname" type="text" value='<?php echo $myinfo[0]['fname']; ?>' placeholder='<?php echo $myinfo[0]['fname']; ?>'>
+				<label>Last Name: </label>
+				<input disabled="disabled" name="lname" type="text" value='<?php echo $myinfo[0]['lname']; ?>' placeholder='<?php echo $myinfo[0]['lname']; ?>'>
+			</div>
+			<br>
+			<div>
+				<label>E-Mail: </label>
+				<input disabled="disabled" name="email" type="text" value='<?php echo $myinfo[0]['email']; ?>' placeholder='<?php echo $myinfo[0]['email']; ?>'>
+				<label>Phone NO: </label>
+				<input disabled="disabled" name="phoneno" type="text" value='<?php echo $myinfo[0]['phoneno']; ?>' placeholder='<?php echo $myinfo[0]['phoneno']; ?>'>			
+			</div>
+			<br>
+			<button hidden="true" id='save' type="submit" name="esave">Save</button>			
+		</form>
+		<button id='edit'>Edit</button>
+
+
 	</div>
 	<div id='current' class="tabcontent" hidden="true">
 		<table id='allCEvents'></table>
@@ -143,7 +156,6 @@
 							$('#cancel').attr('disabled', 'disabled');
 						 } 
 						if (cevents[i]['reservestatus'] == 5 || cevents[i]['reservestatus'] == 0){
-							console.log("LLLL");
 							$('#code'+i+'').hide();
 						}
 					}
@@ -172,6 +184,16 @@
 				 }
 			}
 		});
+
+		$('#edit').click(function(){
+			console.log('asd');
+			$('#infoform :input').each(function(){
+				$(this).removeAttr('disabled');
+			});
+			$('#edit').hide();
+			$('#save').show();
+		});
+
 		function openTab(evt, tabbed){
 		    // var i, tabcontent, tablinks;
 		    // tabcontent = document.getElementsByClassName("tabcontent");
