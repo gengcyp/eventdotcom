@@ -3,7 +3,7 @@
 var latitude = parseFloat("<?php echo $lat; ?>"+0);
 var longitude = parseFloat("<?php echo $lon; ?>"+0);
 var place = {lat: latitude, lng: longitude};
-show or hide map
+//show or hide map
 if ((latitude == 0) && (longitude==0)){
   $('#map').hide();
 }
